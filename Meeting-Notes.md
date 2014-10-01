@@ -10,14 +10,14 @@ Template for meeting formats
 
 
 ### Meeting: 2014/9/24
-*Eventually thesis readings will be necessary. A few relevant theses:
+* Eventually thesis readings will be necessary. A few relevant theses:
   * John Wagner's thesis -- CADIS
   * Scott Turner's thesis -- LIFT method
 
 
 ### Meeting: 2014/9/10
-*Aim for review paper by the end of the semester
-*First four papers to read:
+* Aim for review paper by the end of the semester
+* First four papers to read:
   *Cooper and Larsen
   *CADIS and FW CADIS
   *Avatar
