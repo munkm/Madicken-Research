@@ -3,7 +3,7 @@
 
 ***
 
-### update: 2014/10/01
+### Update: 2014/10/01
 
 **Lit Review Work:**
 * Read through AVATAR paper, took notes (I'll add a link to this later)
