@@ -6,7 +6,18 @@
 ***
 
 ### Meeting: 2014/10/11
-Template for meeting formats
+Main Notes:
+* Plan for next week seems appropriate. 
+* Lit review notes will be in LaTex
+* Future meetings will be at 2:30 for now, since right after the neutronics group meeting left both parties a bit hangry. 
+* Of interest: there are two main 'camps' that address finding global solutions in MC. The LIFT method takes the zero variance approach, but other methods try to evenly distribute the particles. 
+  * FW CADIS is sort of a hybrid of both methods. 
+
+Other Suggestions:
+* change home.md to readme.md so it is automatically rendered.
+* on readme.md add a link to personal Zotero page
+* GHPages branch will automatically render pages, but it needs to be uploaded as a .pdf. If you want rendered versions of things, you can put the pdfs in this branch and they will be available on your github webpage. 
+  * maybe this can be a good way to test out makefiles, since I can have the .pdfs update every time i update the .tex documents.  
 
 
 ### Meeting: 2014/9/24
@@ -18,7 +29,7 @@ Template for meeting formats
 ### Meeting: 2014/9/10
 * Aim for review paper by the end of the semester
 * First four papers to read:
-  *Cooper and Larsen
-  *CADIS and FW CADIS
-  *Avatar
+  * Cooper and Larsen
+  * CADIS and FW CADIS
+  * Avatar
   * ORNL TM rev 12, Consistent Adjoint-driven
