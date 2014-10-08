@@ -1,7 +1,25 @@
 ### Update List
-* [Update: 2014/10/1](#update-20141001)
+* [Update: 2014/10/08](#update-20141008)
+* [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/10/08
+
+**Goals from last week:**
+* **No** Finish ORNL report. (Done reading, but still going back and taking notes.)
+* **Done** Skim associated papers that I downloaded that were referenced in Larsen & Cooper and FW CADIS papers
+* **Done** Respond to prof. Greenspan's comments on my master's report.
+* **Started** Outline neutronics-specific paper for rover project
+
+**Lit Review Work:**
+* I'm still working on the .tex document outlines for each paper I've read. 
+
+**Goals for Next Week:**
+* Finish ORNL report. 
+* Read 2 more papers from shared dropbox folder. What are your thoughts on these three (?):
+  * Gol'din
+  * Miften and Larsen
+  * E.T. Jaynes (if I can get to it!) 
 
 ### Update: 2014/10/01
 
