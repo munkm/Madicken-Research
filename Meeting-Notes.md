@@ -1,9 +1,24 @@
 ### Meeting List
+* [Meeting: 2014/10/15](#meeting-20141015)
 * [Meeting: 2014/10/1](#meeting-20141001)
 * [Meeting: 2014/09/24](#meeting-20140924)
 * [Meeting: 2014/09/10](#meeting-20140910)
 
 ***
+
+### Meeting: 2014/10/15
+Main Notes: 
+ANS meeting:
+* Math & Comp Program Sunday 1-2, 2-4 exec. 
+* Reactor Physics Program Sunday 2-4, 4-6 exec.
+* Need committee meeting (After presidents reception)
+  * Gives financial need based scholarships
+  * Programs that help try to promote diversity in nuclear engineering. 
+* Young members group Monday 11:30-1.
+
+Other things:
+* In terms of background stuff, start with rachel's thesis background, and then go to exhinilation methods. 
+* Read one of the Larsen papers printed in binder. 
 
 ### Meeting: 2014/10/01
 Main Notes:
