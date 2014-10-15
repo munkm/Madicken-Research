@@ -1,8 +1,32 @@
 ### Update List
+* [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/10/15
+
+**Goals from last week:**
+* **No, still working on LateX writeup** Finish ORNL report.
+* **Done** Read 2 more papers from shared dropbox folder. What are your thoughts on these three (?):
+  * **Read** Gol'din
+  * **Read** Miften and Larsen
+    * Supplemented these with summary section II.G from M.L. Adams and E.W. Larsen book you provided
+  * **Not Read** E.T. Jaynes (if I can get to it!) 
+
+**Lit Review Work:**
+* Acquired Hendricks (1982) **Read**
+* Acquired Booth (1982) **Read**
+
+**Other Things:**
+* Sumbitted abstract and registered for ANS winter meeting
+* Room paid for by Prof. Vujic, Air travel paid by ANS
+* I have been going back through the math theory stuff we talked about last week. Thank you for providing these.  
+
+**Goals for Next Week**
+* Personally, I would like to focus on some of the math background. What are your thoughts on this? 
+* Paper suggestions? 
+
 ### Update: 2014/10/08
 
 **Goals from last week:**
