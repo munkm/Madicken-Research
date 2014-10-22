@@ -1,9 +1,25 @@
 ### Update List
+* [Update: 2014/10/22](#update-20141022)
 * [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/10/22
+**Goals from last week:**
+* **Done** Starting on math backrgound
+* **Not Done** Papers (although we never really decided this was a goal anyways)
+
+**Other things:**
+* I started reviewing some linear algebra and methods stuff. 
+* I have a midterm this week, so I've mostly been focusing on that. 
+* Should I start thinking of conferences to go to? 
+
+**Goals for next week:**
+* Continue on reviewing math methods
+* Get stuff written up in LaTeX
+
+
 ### Update: 2014/10/15
 
 **Goals from last week:**
