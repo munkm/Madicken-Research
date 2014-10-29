@@ -1,10 +1,32 @@
 ### Update List
+* [Update: 2014/10/29](#update-20141029)
 * [Update: 2014/10/22](#update-20141022)
 * [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/10/29
+**Goals from last week:**
+* **Started** Continue on reviewing math methods
+* **Started** Get stuff written up in LaTeX
+
+**Other things:**
+* When I get rover paper written up, where/how should I submit it
+  * Is it better to submit papers to conferences? How do I balance publications in peer-revieiwed journals with conferences? 
+  * Feeling a little lost in where I'm going right now
+* Tried to do a big push this week to get some rover stuff out of the way.
+  * Outlined neutronics paper for rover project
+    * Focus of this paper is the reasons we made design-specific decisions neutronically
+  * Sent all data to my colleagues.  
+
+**Goals for next week:**
+* Make poster for ANS
+* Actually get LaTeX writeups on github page
+* Start doing some C++ tutorials
+* Go back to reading papers
+* Finish giant HW assignment for my class. 
+
 ### Update: 2014/10/22
 **Goals from last week:**
 * **Done** Starting on math backrgound
