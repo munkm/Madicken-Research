@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2014/11/24](#update-20141124)
 * [Update: 2014/10/29](#update-20141029)
 * [Update: 2014/10/22](#update-20141022)
 * [Update: 2014/10/15](#update-20141015)
@@ -6,6 +7,21 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/11/24
+**Updates from last week:**
+* The group meeting went really well. Professor Greenspan had a lot to say about what we've done so far, and was very happy to provide some resources based on past work that he has done. 
+  * I'm actually including several of these in the background and 'future work' sections of the paper that we're writing.
+  * Paper is being written in LaTeX. woo! (my original outline was not) 
+  * I plan on getting you a draft of the neutronics-specific report that we're sending to ESA in the next two weeks. Are you okay being on the report **and** the paper (both neutronics-specific)? 
+* Talked to Leah on the Mars Rover work for the firt time in a few weeks. We now have all of our data completed, so it's just writing at this point.
+  * After ANS I ran a few different fissionable materials, like we talked about, and have results on the criticality as a funciton of mass for several materials.
+* Went back to the hybrid methods lit review. Got to read two papers this week. 
+
+**Upcoming week**
+* Continue with mars rover neutronics report
+* Read a few more papers for the lit review. 
+* Continue reading Importance: The Adjoint
+
 ### Update: 2014/10/29
 **Goals from last week:**
 * **Started** Continue on reviewing math methods
