@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2014/12/03](#update-20141203)
 * [Update: 2014/11/24](#update-20141124)
 * [Update: 2014/10/29](#update-20141029)
 * [Update: 2014/10/22](#update-20141022)
@@ -7,6 +8,25 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/12/03
+**Goals from Last week:**
+* **done, but not as much as I'd like** Continue with mars rover neutronics report
+* **Not done** Read a few more papers for the lit review. 
+* **Done** Continue reading Importance: The Adjoint
+* **Done** Add .tex files to github repo and make PDFs linkable from my research page
+  * I've only uploaded a few so far, but I am happy with the linking and how things turned out. More will be merged later this week. 
+  * My plan is to have a full document compiling all the notes with a proper bibtex document added too. Does this seem like a good plan? 
+
+**Upcoming week:**
+* I have a paper for my policy class due and a homework due for the same class. 
+  * I plan on focusing on these for the rest of the week. 
+* I will upload more papers on the weekend (and get a current bibtex file).
+* After the weekend I'd like to read at least two more papers. 
+* Get a good draft of the mars rover work sent out by the end of next week (~12/12).
+
+**Other things:**
+* Should I go to that NSSC open source tools thing? I am not sure it is super relevant to my research area. 
+
 ### Update: 2014/11/24
 **Updates from last week:**
 * The group meeting went really well. Professor Greenspan had a lot to say about what we've done so far, and was very happy to provide some resources based on past work that he has done. 
