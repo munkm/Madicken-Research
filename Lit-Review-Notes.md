@@ -1,6 +1,6 @@
 ### Paper List
 * [Larsen & Cooper](#LarsenCooper)
-* [Forward-Weighted CADIS] (#FWCADIS)
+* [Forward-Weighted CADIS] (/Notes/FW_CADIS.pdf)
 * [AVATAR](#AVATAR)
 
 ***
