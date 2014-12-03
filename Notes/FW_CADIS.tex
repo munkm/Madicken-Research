@@ -1,0 +1,33 @@
+\documentclass{report}
+\usepackage[hmargin=3cm,vmargin=3.5cm]{geometry}
+\usepackage{multirow}
+\usepackage{outlines}
+\begin{document}
+\setcounter{secnumdepth}{0}
+\section{Forward-Weighted CADIS Method for Global Variance Reduction}
+\subsection{Introduction}
+\begin{outline}
+ \1 CADIS = Consisted Adjoint Driven Importance Sampling
+ \1 Adjoint function can be used as a measure of importance of a particle to some objective function. 
+   \2 Very effective for localized quantities
+   \2 Not good for global distributions. 
+ \1 Many methods use deterministic adjoint functions for MC VR. 
+   \2 CADIS method
+ \1 Global Solutions
+   \2 Cannot use adjoint function
+   \2 Cooper and Larsen used inverted Forward Flux as importance function
+     \3 Had some benefit. 
+     \3 Evenly distributes particles throughout system, does not represent the expected contribution throughout the system. 
+       \4 When applied to a large realistic application, is not effective
+\end{outline}
+\subsection{Theory}
+\begin{outline}
+  \1 FW-Cadis method
+    \2 Forward information used to define response to be used in deterministic adjoint calculation
+      \3 Then generate adjoint importance function for achieving uniform particle density throughout the system. 
+    \2 Possible to optimize for global quantities
+      \3 Flux, dose rate distribtuion
+    \2 Also possible to optimize for semi-global responses depending on how adding is defined. 
+       \3 Multiple localized detectors/spectra
+\end{outline}
+\end{document}
