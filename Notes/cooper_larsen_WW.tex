@@ -1,0 +1,57 @@
+\documentclass{report}
+\usepackage[hmargin=3cm,vmargin=3.5cm]{geometry}
+\usepackage{multirow}
+\usepackage{outlines}
+\begin{document}
+\title{Automated Weight Windows for Global MC \\
+         Transport Calculations}
+\author{Cooper & Larsen}
+\date{\today}
+% \maketitle
+\setcounter{secnumdepth}{0}
+\section{Automated Weight Windows for Global MC Transport Calculations}
+\subsection{Abstract}
+\begin{outline}
+ \1 Method provides flux solution over entire system (not just at detectors)
+ \1 Uses weight window
+    \2 Distributes MC particles uniformly throughout system
+      \3 All subregions are adequately sampled
+      \3 Particle weights are controlled, even far from the source. 
+    \2 Constructed from forward transport solution
+      \3 More appropriate for global problems. 
+      \3 Does not use adjoint. 
+    \2 Can be used with Eddington factors from deterministic solutions to update weight windows for MC. 
+\end{outline}
+\subsection{Introduction}
+\begin{outline}
+  \1 Previous methodology for VR was applied to local flux solutions with detectors. 
+  \1 Problems with global flux solution
+    \2 Only have survival biasing as a form of VR
+      \3 Large statistical errors occur away from source regions. 
+      \3 long run times
+  \1 New method
+    \2 Is general, can be applied to neutrons, photons, charged-particles
+    \2 Especially adept for neutrons with deep penetration (where flux varies by OOM)
+      \3 Classically done with survival biasing and weights, but ends up with large variances. 
+    \2 Utilizes forward transport problem generated weight window
+      \3 Not adjoint. 
+      \3 Distributes the MC particles uniformly throughout the system. 
+      \3 Improves the point wise FOM. 
+      \3 Generated with diffusion solution
+        \4 Diffusion is faster than other deterministic methods
+        \4 MC is slow, and errors in MC can bias weights away from interesting areas. 
+        \4 Not Sn or PN, as accuracy is not required to generate WWs, they are expensive, and Sn are susceptible to ray effects. 
+    \2 Quasi-diffusion method
+      \3 Used to improve accuracy of initial diffusion WW. 
+        \4 MC process can be used to obtain estimates of Eddington factors—> can be used in quasi-diffusion method to improve flux estimates—> improves WW. 
+      \3 Better accuracy than traditional diffusion, but faster than Sn or Pn. 
+    \2 Two types of Weight Windows 
+      \3 Isotropic
+        \4 Computed only from scalar fluxes
+        \4 Russian Roulette and splitting performed independently of particle direction and flight
+      \3 Angular
+        \4 Employs scatter fluxes and currents
+        \4 Russian Roulette and splitting performed based of particle direction and flight
+        \4 Implemented in MCNP using AVATAR method. 
+\end{outline}
+\end{document}
