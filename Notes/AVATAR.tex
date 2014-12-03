@@ -1,0 +1,85 @@
+\documentclass{report}
+\usepackage[hmargin=3cm,vmargin=3.5cm]{geometry}
+\usepackage{multirow}
+\usepackage{outlines}
+\begin{document}
+\title{AVATAR- Automatic Variance and Time \\
+         of Analysis Reduction}
+\author{asdf}
+\date{\today}
+% \maketitle
+\setcounter{secnumdepth}{0}
+\section{AVATAR - Automatic Variance and Time of Analysis Reduction}
+\subsection{Abstract}
+\begin{outline}
+  \1 Avatar —> accessed through Justine—> invokes THREEDANT
+  \1 Performs 3-dimensional deterministic adjoint calculation 
+  \1 Mesh independent of MC geometry
+  \1 calculates weight windows
+  \1 Can be done without user manipulation of data
+\end{outline}
+\subsection{Introduction}
+\begin{outline}
+  \1 For problems with complex geometries and with a large problem area, Monte Carlo can be an issue. The desired quantity is OOM smaller than the source. Tally of particles contributing to return signal is small, and unreliable. 
+  \1 Variance Reduction Techniques
+    \2 Weight windows
+      \3 depend on importance functions. 
+      \3 bias the particles towards locations that contribute to the tally.
+      \3 Requires time, experience, and intuition. 
+    \2 Solution of Adjoint
+      \3 is recognized as an importance function for the regular forward calculation of NTE. 
+        \4 Is computationally expensive to calculate exactly. 
+      \3 Less  precise calculation provides importance function that can be used to accelerate MC calculation. 
+        \4 do this with few energy groups and low angular resolutionn
+  \1 AVATAR
+    \2 automatically accelerates MC calculations based on space, energy and angle. 
+    \2  User sets up problem using Justine (the GUI)
+    \2 Justine runs Avatar, 
+      \3 superimposes a weight window mesh 
+      \3 runs THREEDANT in adjoint mode
+      \3 constructs weight windows from adjoint solution
+      \3 runs MCNP
+    \2 User has option to intervene
+\end{outline}
+\subsection{The Adjoint Flux}
+\begin{outline}
+  \1 In adjoint calculation, particles emanate from forward detectors—and transport backwards. 
+  \1 Can be calculated two ways
+    \2 Stochastically with MC
+      \3 provides too much detail and costs just as much as a forward calculation. 
+    \2 Determinstically with discrete ordinates transport or diffusion
+      \3 with low resolution gives importances sufficient to speed up calculation.
+\end{outline}
+\subsection{AVATAR}
+\begin{outline}
+  \1 Mesh Description
+    \2 Can be in rectangular or cylindrical coordinate system
+    \2 Coarse mesh with fine mesh intervals. 
+      \3 Material of each mesh element is material at center of mesh element. 
+  \1 Automatic Mesh Generation
+    \2 Bounding box in each direction divided into coarse elements. 
+      \3 Uniform mesh = dividing boundary box uniformly in each direction
+      \3 “Smart” mesh = subdividing boundary box into smaller boundary boxes that bound each MCNP cell
+        \4 Justine defaults to “smart” mesh. 
+    \2 Coarse mesh may be subdivided uniformly or logarithmically into fine meshes
+      \3 defuaults to uniform, which is also slightly faster. 
+    \2 User can intervene and add or delete mesh lines. 
+  \1 Determinstic Adjoint Calculation 
+    \2 Executed with THREEDANT—performs deterministic discrete-ordinates transport calculation 
+      \3 AVATAR executes a lower resolution calculation with threedant. 
+        \4 quadrature of S4
+        \4 P2 legendre scattering moment expansion
+        \4 three energy groups
+    \2 Produces a scalar adjoint flux and average current for 
+      \3 each mesh element
+      \3 each energy group. 
+  \1 Weight Windows
+    \2 In each mesh element and each group, the scalar adjoint fluxes are inverted to get lower WW boundary. 
+      \3 WW is normalized
+      \3 Regions with high flux = high importance = low weight. 
+  \1 Angle-Dependent Weight Windows
+  \1 Mean Free Path Sampling
+    \2 Particles may arrive in a location where their weights are significantly outside of the local weight window, which increases the variance in particle weights, which increases the tally variance. 
+    \2 Avatar protects against this by applying weight windows at least every mean free path that the particles travel. 
+\end{outline}
+\end{document}
