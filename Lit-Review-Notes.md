@@ -1,6 +1,6 @@
 ### Paper List
 * [Larsen & Cooper](#LarsenCooper)
-* [Forward-Weighted CADIS] (/Notes/FW_CADIS.pdf)
+* [Forward-Weighted CADIS] (http://munkm.github.io/Madicken-Research/Docs/FW_CADIS.pdf)
 * [AVATAR](#AVATAR)
 
 ***
