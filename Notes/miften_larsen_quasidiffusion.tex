@@ -1,0 +1,55 @@
+\documentclass{report}
+\usepackage[hmargin=3cm,vmargin=3.5cm]{geometry}
+\usepackage{multirow}
+\usepackage{outlines}
+\begin{document}
+\title{The Quasi-DIffusion method for solving transport\\
+         problems in planar and spherical geometries}
+\author{Miften and Larsen}
+\date{\today}
+% \maketitle
+\setcounter{secnumdepth}{0}
+\section{The Quasi-Diffusion method for solving transport problems in planar and spherical geometries}
+\subsection{Abstract}
+\begin{outline}
+ \1 Quasidiffusion is used to solve linear transport problems, and converges rapidly with high accuracy
+   \2 using a transport sweep
+   \2 and a diffusion calculation 
+ \1 more complex than Source Iteration (SI) method
+ \1 pros:
+   \2 good for optically thick problems 
+   \2 good for problems with a scattering ratio close to unity
+ \1 cons: 
+   \2 every scalar flux must be positive at each point in the system
+   \2 formulation of diffusion BCs for optimization not obvious
+\end{outline}
+\subsection{Introduction}
+\begin{outline}
+ \1 Quasidiffusion Advantages:
+   \2 allows flexibility in the choices of differencing schemes for transport and diffusion
+   \2 may be effective for multidimensional problems with non rectangular meshes
+ \1 Disadvantages:
+   \2 angular flux iterates must be positive at each point in the system
+     \3 otherwise eddington factors can become negative or infinite
+       \4 results in unstable diffusion
+   \2 optimizing diffusion BCs to optimize accuracy and speed of QD not obvious
+   \2 produces two different solutions separated by truncation error
+     \3 (1) scalar flux from the transport calculation
+     \3 (2) scalar flux from diffusion
+ \1 Optimization of QD
+   \2 Method that ensures positivity of flux solution
+   \2 new diffusion BCs that lead to more accurate solution algorithms
+   \2 Analytic forms of QD equation are discretized using positive differencing schemes
+     \3 asymptotic exponential decay of discrete solution.  = asymptotic exponential decay of the continuous discrete ordinates solution
+     \3 guarantees that angular flux iterate is positive
+\end{outline}
+\subsection{Discussion}
+\begin{outline}
+ \1 QD are more rapidly convergent than SI for all meshes. 
+ \1 No substantial difference in QD and DD-DSA convergence was observed for diffusive problems
+ \1 QD was faster than DSA for coarse meshes
+   \2 if DSA used negative flux fixiups
+ \1 MQD = diffusion coefficient is modified in QD to exact asymptotic transport eigenvalue is preserved
+   \2 is more accurate than DD for coarse grids
+\end{outline}
+\end{document}
