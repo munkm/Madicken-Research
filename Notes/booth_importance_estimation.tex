@@ -1,0 +1,35 @@
+\documentclass{report}
+\usepackage[hmargin=3cm,vmargin=3.5cm]{geometry}
+\usepackage{multirow}
+\usepackage{outlines}
+\begin{document}
+\title{Automatic Importance Estimation in  \\
+         Forward Monte Carlo Calculations}
+\author{Thomas E. Booth}
+\date{\today}
+% \maketitle
+\setcounter{secnumdepth}{0}
+\section{Automatic Importance Estimation in Forward Monte Carlo Calculations}
+\subsection{Introduction}
+\begin{outline}
+ \1 Applying splitting and roulette involves knowledge of the importance function
+ \1 Splitting can be geometric, space- or energy- dependent. 
+ \1 Weight windows have an upper and lower bound for a particles weight and can be used for VR. 
+ \1 parameters specified by user rises significantly with each degree of freedom. 
+ \1 Space and energy (WW) splitting yields two to five times better calculational efficiency than geometry splitting. 
+\end{outline}
+\subsection{Importance Generator Theory}
+\begin{outline}
+ \1 Importance = expected score particle will generate in tally. 
+ \1 Importance = total score due to particles leaving cell/ weight leaving the cell
+ \1 Generator requires adequate sample size leaving the cell. 
+ \1 Zero variance solution = every history contributes the same score
+ \1 WW inversely proportional to variance.
+   \2 WW is chosen so that track weight*expected score (per unit track rate) = constant. 
+\end{outline}
+\subsection{Conclusions}
+\begin{outline}
+ \1 Importance generator is well-optimized after 2 trial runs. 
+ \1 User can see the importance regions of the problem too. 
+\end{outline}
+\end{document}
