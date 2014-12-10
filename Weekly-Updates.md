@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2014/12/10](#update-20141210)
 * [Update: 2014/12/03](#update-20141203)
 * [Update: 2014/11/24](#update-20141124)
 * [Update: 2014/10/29](#update-20141029)
@@ -8,6 +9,20 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/12/10
+**Goals from last week:**
+* **Done** I have a paper for my policy class due and a homework due for the same class.
+  * I plan on focusing on these for the rest of the week.
+* **Done** I will upload more papers on the weekend (and get a current bibtex file).
+* **Done** After the weekend I'd like to read at least two more papers. 
+* **In Progress** Get a good draft of the mars rover work sent out by the end of next week (~12/12).
+
+**Upcoming week:**
+* Continue uploading notes from papers
+* Read three more papers for lit review
+* Study for final
+* Work on draft/revisions of mars rover paper
+
 ### Update: 2014/12/03
 **Goals from Last week:**
 * **done, but not as much as I'd like** Continue with mars rover neutronics report
