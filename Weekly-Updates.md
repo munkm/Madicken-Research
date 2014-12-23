@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2014/12/22](#update-20141222)
 * [Update: 2014/12/10](#update-20141210)
 * [Update: 2014/12/03](#update-20141203)
 * [Update: 2014/11/24](#update-20141124)
@@ -9,6 +10,19 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/12/22
+**Goals from last time:**
+* **Not uploaded, since I'm still fiddling with the master document.** Continue uploading notes from papers
+* **Not done** (I only read two) Read three more papers for lit review
+* **Done** Study for final
+* **Not done** (This took a backseat to studying for my final last week.) Work on draft/revisions of mars rover paper
+
+** Goals for next time:**
+I'd like to go a little lighter on my workload this upcoming stretch, because my parents' house is filled with people and I'm going to have very little privacy to work and/or focus. I'd also like to take a few full days off. Until our next update I'll do the following:  
+* Try to get good draft of mars rover paper finished by M&C deadline. I'm now uncomfortably behind on this, and I need to put it first. 
+* Read one more paper for lit review
+* Get master document of lit review to compile correctly
+
 ### Update: 2014/12/10
 **Goals from last week:**
 * **Done** I have a paper for my policy class due and a homework due for the same class.
