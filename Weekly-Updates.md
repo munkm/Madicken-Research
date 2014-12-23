@@ -14,10 +14,13 @@
 **Goals from last time:**
 * **Not uploaded, since I'm still fiddling with the master document.** Continue uploading notes from papers
 * **Not done** (I only read two) Read three more papers for lit review
+  * The Somasundaram and Palmer paper
+  * Becker and Larsen paper
 * **Done** Study for final
 * **Not done** (This took a backseat to studying for my final last week.) Work on draft/revisions of mars rover paper
 
 **Goals for next time:**
+
 I'd like to go a little lighter on my workload this upcoming stretch, because my parents' house is filled with people and I'm going to have very little privacy to work and/or focus. I'd also like to take a few full days off. Until our next update I'll do the following:  
 * Try to get good draft of mars rover paper finished by M&C deadline. I'm now uncomfortably behind on this, and I need to put it first. 
 * Read one more paper for lit review
