@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2014/12/30](#update-20141230)
 * [Update: 2014/12/22](#update-20141222)
 * [Update: 2014/12/10](#update-20141210)
 * [Update: 2014/12/03](#update-20141203)
@@ -10,6 +11,18 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2014/12/30
+**Goals from last time:**
+* **Done** Get working draft of M&C paper done
+* **Not Done** Read one more paper for lit review. 
+* **Not Done** Get master document of lit review to compile correctly.
+
+**Goals for next week:**
+* Finish M&C first draft
+* Submit paper to M&C conference
+* Read two more papers for lit review
+* Get master document of lit review to compile correctly. 
+
 ### Update: 2014/12/22
 **Goals from last time:**
 * **Not uploaded, since I'm still fiddling with the master document.** Continue uploading notes from papers
