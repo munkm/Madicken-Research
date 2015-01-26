@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2015/01/26](#update-20150126)
 * [Update: 2014/12/30](#update-20141230)
 * [Update: 2014/12/22](#update-20141222)
 * [Update: 2014/12/10](#update-20141210)
@@ -11,6 +12,28 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2015/01/26
+**Goals from last time:**
+* **Done** Finish M&C first draft
+* **Done** Submit paper to M&C conference
+* **Done** Read two more papers for lit review
+* **Not Done** Get master document of lit review to compile correctly.
+
+**Other Updates:**
+* Ordered computer, as you know
+* e-mailed karl and leah the M&C paper. Karl caught some issues in the references section (which I never really looked over, so that is my bad. 
+* Sorting out pay issues with ERSO/HR 
+* Worked more on M&C paper revisions (like updating the plots)
+* Reorganized my calendar to smaller 1-2 hour chunks of focused work
+
+**Questions:**
+* How do we want to organize the Friday discussion?
+  * I would like to focus my work this week towards that meeting and what we will discuss. 
+
+**Goals for Next week:**
+* Read 3-4 papers for next week (~1 per day) 
+* Reviewing some math stuff from linear algebra to enhance my understanding of all of my papers
+
 ### Update: 2014/12/30
 **Goals from last time:**
 * **Done** Get working draft of M&C paper done
