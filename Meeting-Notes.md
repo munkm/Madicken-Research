@@ -1,10 +1,27 @@
 ### Meeting List
+* [Meeting: 2015/06/17](#meeting-20150517)
 * [Meeting: 2014/10/15](#meeting-20141015)
 * [Meeting: 2014/10/1](#meeting-20141001)
 * [Meeting: 2014/09/24](#meeting-20140924)
 * [Meeting: 2014/09/10](#meeting-20140910)
 
 ***
+### Meeting: 2015/06/17
+Things to bring up:
+* What did tom say about scheduling for my quals?
+* Need to remember to push my quals study schedule to here. In general, I'm doing the following:
+  * By Month:
+    * June: Transport & methods background
+    * July: Lit review writeup and review
+    * August: Policy, transport, methods, and reactor physics review
+    * September: Review everything
+  * By Week:
+    * M,W,F mornings: Angular Hybrid Methods project
+    * M,W,F afternoons: Study
+    * T,R mornings: Study
+    * T,R afternoons: Variable (whichever I prefer)
+* Next friday, 6/26, call with ORNL including Rachel. 
+
 
 ### Meeting: 2014/10/15
 Main Notes: 
