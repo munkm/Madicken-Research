@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2015/06/23](#update-20150623)
 * [Update: 2015/01/26](#update-20150126)
 * [Update: 2014/12/30](#update-20141230)
 * [Update: 2014/12/22](#update-20141222)
@@ -12,6 +13,18 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2015/06/23
+**Questions:**
+* Do you think I should submit a paper to ICTT now that we know it will eventually be a journal publication rather than just a two page abstract? Or should we stick with the PHYSOR plan? 
+* Should I make a new (public) repo for my thesis?
+
+**Other Updates:**
+* I made a pretty sizeable dent in studying transport last week
+* I actually started a little early on doing lit review stuff (to be honest, I feel much more comfortable with the material on the topic, so I thought I'd do some of that). 
+    * I'm meeting with the NE librarian tomorrow to try to optimize my use of library resources. 
+    * Also I found an error in the library system when I was trying to request some older documents from the NRLF, so that's when I decided to make a meeting.  
+
+
 ### Update: 2015/01/26
 **Goals from last time:**
 * **Done** Finish M&C first draft
