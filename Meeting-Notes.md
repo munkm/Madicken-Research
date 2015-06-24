@@ -9,6 +9,10 @@
 ### Meeting: 2015/06/17
 Things to bring up:
 * What did tom say about scheduling for my quals?
+  * Answer: He's checking with Kate.
+* Call next Friday
+  * E-mail scott and see if he wants to attend. 
+  * Remind him that Rachel talked to him about it last Thursday.  
 * Need to remember to push my quals study schedule to here. In general, I'm doing the following:
   * By Month:
     * June: Transport & methods background
