@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2015/07/29](#update-20150729)
 * [Update: 2015/06/23](#update-20150623)
 * [Update: 2015/01/26](#update-20150126)
 * [Update: 2014/12/30](#update-20141230)
@@ -13,6 +14,25 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2015/07/29
+**Updates:**
+* I finished a rough copy of the integrating module in python.
+  * Reads in tom's structures HDF5 files outputted from forward and adjoint transport 
+  * performs the weighted integration to produce adjoint scalar fluxes. 
+  * The adjoint scalar fluxes are then printed to a silo file with the associated geometric mesh by energy group. 
+* Working on integrating the method into Denovo and advantg
+
+* The lit review is on pause until I finish the method. Earlier this month I found a lot of relevant papers (thanks for the contributon response one), and I'm pretty happy with the start I've made, even though I don't have a good document written up yet. 
+
+* Quals studying with Richard is going well. We're reviewing CADIS and FW-CADIS this Friday (if time permits). He is a really great person to work with.
+* I'm still working on getting the 4th member for my quals committee. 
+  * John Harte still hasn't confirmed whether he'll be on my committee or not. 
+  * Other people haven't responded. 
+    * Should I be concerned about annoying them if I keep following up? Or should I just not care? 
+  * This reminds me of SpaceX!!!!!!!!!!!
+* I'm reviewing policy together with Nathan. I'd like to ask your advice on our strategy for studying that topic. 
+  * I took classes in both energy policy and national security policy; nathan took classes only in nonproliferation and national security. 
+
 ### Update: 2015/06/23
 **Questions:**
 * Do you think I should submit a paper to ICTT now that we know it will eventually be a journal publication rather than just a two page abstract? Or should we stick with the PHYSOR plan? 
