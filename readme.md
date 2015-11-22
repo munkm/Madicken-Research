@@ -10,5 +10,7 @@ Notes from weekly research meetings can be found [here](./Meeting-Notes.md)
 
 [Weekly Updates](./Weekly-Updates.md) is a place where my work progress each week is tracked and recorded.
 
+[Lab Notebook](./Lab-Notebook.md) details some of my weekly issues more thoroughly. It will be linked in Weekly Updates for specific references. 
+ 
 ![Placekitten Fun]
 (http://placekitten.com/g/700/500) 
