@@ -86,6 +86,8 @@ You can't use gcc 5.2 with the intel compilers.
     
 ####gcc 4.8.2 notes and errors:####
 
+TL;DR summary: I have no idea why gcc 4.8 is giving me these errors yet. 
+
 * After realizing the gcc 5.2 incompatibility, I tried to build gcc 4.8.2. I used the packages listed at http://btorpey.github.io/blog/2015/01/02/building-clang/ but executed everything line by line, as I had with gcc 5.2. 
   * Trying to build exnihilo results in an error that says to rebuild with an -fPIC flag
   
@@ -164,7 +166,10 @@ You can't use gcc 5.2 with the intel compilers.
   * Yong suggested building Exnihilo without intel, and with gcc only. I don't think this will work though, because all of the other libraries we're using (HDF5, etc.) are compiled using the intel compilers. So this error might persist. 
   * I'm waiting on replies from both Seth and Yong before I pursue anything further. 
   
-###### Disc Writing errors ######
+#### Disc Writing errors ####
+
+TL;DR summary: Don't let /tmp/ fill up or you won't be able to build exnihilo. 
+
 * The exnihilo build writes to /tmp/, which has a limit of ~3.9Gb. This fills up easily during the build, so if you're debugging a build (like I have been doing) you can get write errors. That looks a little bit like the following: 
 
       ```
