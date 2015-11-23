@@ -1,7 +1,22 @@
 ### Entry List
 * [Entry: 2015/11/22](#entry-20151122)
+* [Entry: 2015/11/23](#entry-20151123)
 
 ***
+
+### Entry: 2015/11/22
+
+#### Updates on -fPIC ####
+
+I suspected that because the -fPIC suggestion occurrs with `/global/software/sl-6.x86_64/modules/intel/2015.0.090/hdf5/1.8.13-intel-p/lib/libhdf5.a(H5.o): relocation R_X86_64_32 against '.rodata.str1.4' can not be used when making a shared object; recompile with -fPIC`, I thought that the error might be a result of not gcc, but because hdf5 was not compiled with -fPIC. ** I got confirmation with Seth that Everything you link against needs -fPIC: HDF5, OpenMPI, GCC, GMP, Silo, the works. **
+
+I need to recompile all of these TPLs on Savio now. My plan:
+* Modify bootstrap.sh to build all TPLs in one folder: `${GRP_DIR}/TPLs/`, so all of our TPLs can be sourced from the same location. 
+
+
+
+***
+
 ### Entry: 2015/11/22
 
 ####gcc 5.2 notes and errors:####
@@ -86,7 +101,7 @@ You can't use gcc 5.2 with the intel compilers.
     
 ####gcc 4.8.2 notes and errors:####
 
-TL;DR summary: I have no idea why gcc 4.8 is giving me these errors yet. 
+TL;DR summary: I have no idea why gcc 4.8 is giving me these errors. 
 
 * After realizing the gcc 5.2 incompatibility, I tried to build gcc 4.8.2. I used the packages listed at http://btorpey.github.io/blog/2015/01/02/building-clang/ but executed everything line by line, as I had with gcc 5.2. 
   * Trying to build exnihilo results in an error that says to rebuild with an -fPIC flag
@@ -187,7 +202,22 @@ TL;DR summary: Don't let /tmp/ fill up or you won't be able to build exnihilo.
 * To check if /tmp/ is full, Aron suggested this command: `df -H | head -1; df -H | grep "/tmp"`
 
 
-####advantg notes:####
+####Advantg notes:####
 
-* I would like to finally get Exnihilo to build.  
+* Advantg is mirrored at ssh://angband/repos/mirror/advantg.git
+
+* Advantg can access the python modules from Denovo. To do this:
+  * Make sure that your python file is loaded. For example, my file:
+    * `/Exnihilo/packages/Denovo/pykba/integrator.py` is added to the `CMakeLists.txt` file. 
+      ```Shell
+      IF (ENABLE_PYTHON_WRAPPERS)
+      # Bare Python files used for unit testing, script execution
+      SET(PYTHON_MODULES
+        integrator.py
+        kba_runner.py
+        kba_unittest.py
+        )
+      ```
+
+* 
 
