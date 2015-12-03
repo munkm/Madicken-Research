@@ -16,9 +16,11 @@
 
 * After leaving my savio install scripts the same, but only changing the build directory location specified in `/install/rc/savio/base.sh`, I found that only disc write errors occured when I built exnihilo in the ac_nuclear group folder. 
   * I e-mailed yong about this issue:
-    >>Yong, I tried putting the build directory in /global/scratch/munkm and the build completed. I tried putting the build directory in /global/home/groups/ac_nuclear/exnihilo/ and the build aborts due to disc quota exceeded errors. Having this particular software's build files in the ac_nuclear group is important, because we need multiple users to be able to run the tests, not just me. Are we exceeding a folder size limit by building in this directory? 
-    > Yes. This means you have run out of space on
-    /global/home/groups/ac_nuclear. Please refer to the aforementioned online doc, we have a 200GB disk quota for this directory as well and it is currently exhausted (just verified). So your group will need to clean some space from this directory before you can put more data into it. 
+
+>>Yong, I tried putting the build directory in /global/scratch/munkm and the build completed. I tried putting the build directory in /global/home/groups/ac_nuclear/exnihilo/ and the build aborts due to disc quota exceeded errors. Having this particular software's build files in the ac_nuclear group is important, because we need multiple users to be able to run the tests, not just me. Are we exceeding a folder size limit by building in this directory? 
+
+> Yes. This means you have run out of space on /global/home/groups/ac_nuclear. Please refer to the aforementioned online doc, we have a 200GB disk quota for this directory as well and it is currently exhausted (just verified). So your group will need to clean some space from this directory before you can put more data into it. 
+
   * This issue will have to be resolved if we want the build directory to be accessible to more than just one person at a time. 
     * An alternative would be that different users can have their own build directories from which they can run tests. These would be located in /global/scratch/${USER}/exnihilo-build. 
 
