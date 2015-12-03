@@ -1,10 +1,10 @@
 ### Entry List
 ### Entry Links: ###
 
-* [Entry: 2015/11/30](#entry-20151202)
-* [Entry: 2015/11/30](#entry-20151201)
+* [Entry: 2015/12/02](#entry-20151202)
+* [Entry: 2015/12/01](#entry-20151201)
 * [Entry: 2015/11/30](#entry-20151130)
-* [Entry: 2015/11/30](#entry-20151125)
+* [Entry: 2015/11/25](#entry-20151125)
 * [Entry: 2015/11/23](#entry-20151123)
 * [Entry: 2015/11/22](#entry-20151122)
 
@@ -31,7 +31,32 @@
     
 #### Other Correspondance Things: ####
 
-* Another issue that I'm wondering about is 
+* Another issue that I'm wondering about is the discrepancy between the -fPIC error and the hdf5 static/dynamic libraries. A few days ago I wrote in this notebook that when I was trying to build Exnihilo that I ran into an hdf5 linking error, and it suggested that I recompile with -fPIC: `/global/software/sl-6.x86_64/modules/intel/2015.0.090/hdf5/1.8.13-intel-p/lib/libhdf5.a(H5.o): relocation R_X86_64_32 against '.rodata.str1.4' can not be used when making a shared object; recompile with -fPIC`
+
+  * I talked to Seth about this, and I asked if HDF5 needed to be compiled with -fPIC in addition to my new build of gcc:
+>>> Madicken: Does hdf5 also need to be built with the -fPIC flag? The failure happens when it is linking an hdf5 library. 
+>> Seth: Yes. Everything you link against needs -fPIC: HDF5, OpenMPI, GCC, GMP, Silo, the works.
+>> Good catch -- I bet that's what's happening.
+
+after a few more exchanges: 
+>>> Seth: At this point, you're right that Intel is probably not worth the effort. You might get some performance improvement, but since you're going for workability not performance, that doesn't make so much sense.
+>>> So if you have your GCC 5.2 build set up with fPIC, and your TPLs, then I'd say run with that and ditch intel.
+>> Madicken: Before I do this, I just want to make sure: Exnihilo should be able to build with gcc 5.2, right? There aren't incompatibility issues? 
+> Yes, it builds just fine with GCC 5.2. Again, you just have to make sure that everything up the line is built with -fPIC.  I've done this on so many systems now, that's why I wrote the install.sh script and the detailed install directions on our config page :)
+
+* I have confirmation that I need the -fPIC flag turned on in order for Exnihilo to be built. But every time I've asked for confirmation from Krishna or Yong about this flag on any TPL on Savio, I haven't gotten a response. 
+  * I told Yong that I needed -fPIC enabled, and that this was the reason I was going to re-compile all of the TPLs I needed with gcc 5.2 and ditch the intel compilers entirely: 
+  
+>>> I talked to my colleagues at ORNL, and we agreed that because the -fPIC errors were coming up with HDF5, it was probably because the HDF5 compiled with the intel compilers was not compiled with the -fPIC flag enabled. At this point, knowing that I needed to recompile HDF5 (and probably all of the other TPLs necessary for my build), I decided to compile all of my TPLs with gcc5.2, which had the c++11 support I needed, and ditch the Intel compilers entirely. Originally I did not want to re-compile all of these TPLs, which is why I was trying to stay with using the Intel compilers. 
+>> As I mentioned to you in my previous email, you will need to link to
+the dynamic libraries not the static libraries.
+
+Yong does have a point here. My error that I originally sent him was pointing to `libhdf5.a` and not `libhdf5.co`. However, as detailed in my previous section debugging with Tara, the errors associated with the static library do not envoke the `recompile with -fPIC` error message. I have no idea why after several e-mails, I still don't have a response about -fPIC on the Savio modules. But I responded with the following:
+
+>In my new build of hdf5 I have linked to the dynamic libraries, and not the static libraries. I can go back to trying to use the intel-compiled hdf5 and using intel to compile my software if you think that HDF5 and the other TPLs were compiled with the -fPIC flag. 
+> The reason I say this is because in my new build of HDF5, when I had linked against the static libraries accidentally (like I had done earlier with the Intel hdf5), the error messages did not include the -fPIC message that I copied and pasted in an earlier e-mail from the intel-compiled hdf5. Furthermore, the build got to a completely different location with this new version of HDF5. 
+
+Again, I don't really know if there is something else different in my new HDF5 build other than this enabled -fPIC flag, but I do know what the difference between the static and dynamic library linking errors are, now that I went through that with Tara. 
 
 #### Other Notes from Today ####
 
