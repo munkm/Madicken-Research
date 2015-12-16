@@ -1,12 +1,107 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2015/12/15](#entry-20151215)
+* [Entry: 2015/12/04](#entry-20151204)
+* [Entry: 2015/12/03](#entry-20151203)
 * [Entry: 2015/12/02](#entry-20151202)
 * [Entry: 2015/12/01](#entry-20151201)
 * [Entry: 2015/11/30](#entry-20151130)
 * [Entry: 2015/11/25](#entry-20151125)
 * [Entry: 2015/11/23](#entry-20151123)
 * [Entry: 2015/11/22](#entry-20151122)
+
+
+***
+
+### Entry: 2015/12/15
+
+#### Running Tests: ####
+
+The other week, I was having issues running the tests in Denovo. Part of this was because I should have been trying to run the tests using an interactive node (and not the head node) on savio (which doesn't have tab autocompletion, which sucks for directory navigation). 
+After some navigation with Seth and Tara, we found that the mpiexec was defined in the wrong location (i.e. not in the mpi directory i built). 
+
+From `CMakeCache.txt` in `/global/scratch/munkm/exnihilo-20151203/
+```
+//Where can one of the /usr/bin/sbatch, mpiexec or mpirun libraries
+// be found
+MPI_EXEC:FILEPATH=/usr/bin/sbatch
+
+```
+
+At first I thought that Savio's system was defining this path explicitly, but I actually found it defined in a different part of the `/install/codes/Exnihilo/savio/base.cmake` file:
+
+```
+# Set up cross compiling options to run unit tests on device
+SET(SCALE_HOSTNAME Linux CACHE BOOL "")
+SET(SCALE_VERBOSE_CONFIGURE OFF CACHE BOOL "")
+SET(MPI_EXEC "/usr/bin/sbatch" CACHE FILEPATH "")
+
+...
+...
+
+# Compiler settings
+SET(TPL_ENABLE_MPI ON CACHE BOOL "")
+SET(MPI_C_COMPILER "which gcc" CACHE STRING "")
+SET(MPI_CXX_COMPILER "which g++" CACHE STRING "")
+SET(MPI_Fortran_COMPILER "which gfortran" CACHE STRING "")
+SET(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "")
+
+```
+
+Because this is a cmake option, Tara recommended that I rebuild all of Exnihilo. 
+
+***
+
+### Week of 12/07-12/12:
+
+* Spent this week writing. No random updates on Savio or my research. 
+* Update the gantt chart for next week's meeting with Rachel. 
+
+***
+
+### Entry: 2015/12/04
+
+* Today I talked with Bob about potential postdocs at ORNL
+  * In the next year it seems like the primary postdoc position they'll have is in fusion neutronics. I'm not sure if this would be a good path for me to take.
+  * Bob also said they would be adding MS-CADIS into ADVANTG, as well as incorporating ADVANTG into the Exnihilo distribution package. 
+  * Other potential postdoc opportunities with ORNL (based on my own research): [Distinguished Fellowships at ORNL](https://www.ornl.gov/careers/distinguished-fellowships)
+  
+* I also worked with Seth and Tara on trying to debug testing in Denovo. More on that later next week, since I want all of the info in one post. 
+
+***
+
+### Entry: 2015/12/03
+
+* **HIGHLIGHT** I got a full build of Exnihilo in /global/scratch today!!!
+* Still dealing with the space issues that started yesterday. 
+  * I checked ac_nuclear's space allocation with df -h, and as of last night, we were at 201Gb. This was after I deleted all of the old build information. 
+  * When trying to build exnihilo in the $GRP_DIR dir, at the install step I mentioned I had some strange errors during the install step yesterday. That looks like this:
+  
+  ```
+  [100%] Built target Insilico_mocsi
+>>> Installing to /global/home/groups/ac_nuclear/exnihilo/installs/exnihilo_20151202/Exnihilo-noscale ...
+Install the project...
+-- Install configuration: "RelWithDebInfo"
+-- Up-to-date: /global/home/groups/ac_nuclear/exnihilo/installs/exnihilo_20151202/Exnihilo-noscale/./FileNameAliases.txt
+-- Installing: /global/home/groups/ac_nuclear/exnihilo/installs/exnihilo_20151202/Exnihilo-noscale/lib/libgtest.so.6.2
+CMake Error at Trilinos/commonTools/gtest/cmake_install.cmake:48 (file):
+  file INSTALL cannot copy file
+  "/global/scratch/munkm/exnihilo_20151202/Exnihilo-noscale/Trilinos/commonTools/gtest/libgtest.so.6.2"
+  to
+  "/global/home/groups/ac_nuclear/exnihilo/installs/exnihilo_20151202/Exnihilo-noscale/lib/libgtest.so.6.2".
+Call Stack (most recent call first):
+  cmake_install.cmake:41 (include)
+
+
+make: *** [install/fast] Error 1
+ 
+  ```
+
+Building in /global/scratch/${USER}/ is a good temporary solution, but as pointed out in our group meeting today, /scratch/ is not backed up. However, neither is $GRP_DIR, as mentioned in the [savio documentation](http://research-it.berkeley.edu/services/high-performance-computing/user-guide). 
+
+
+* Should I make a quick link to useful Savio links? Probably yes. 
 
 ***
 
@@ -27,8 +122,15 @@
 #### Debugging the Exnihilo Build with Tara: ####
 
 * Tara was nice enough to schedule an impromptu meeting with me to try to debug my Exnihilo build. 
-  * At the end of last night, I had a build reaching ~100%, but 
-    
+  * At the end of last night, I had a build reaching ~100%, but nothing is built in the install directory or the build directory. This is strange. I also found that none of the tests passed, and only the Omnibus tests were built.
+    * Tara told me that the Omnibus tests are built separately from the rest of the tests in Denovo. I needed to turn on the tests in Denovo to fix that. 
+  * I DID, however, find that I was not building the tests in Denovo. To turn them on I added a line in `install/codes/Exnihilo/savio/base.cmake` to: 
+  ```
+  SET(SCALE_ENABLE_TESTS   ON  CACHE BOOL   "")
+  ```
+  * For now I have Silo turned on, Lava turned off, and the libraries for HDF5, BLAS, LPAPACK, and SILO defined explicitly in the same base.cmake file. 
+  
+        
 #### Other Correspondance Things: ####
 
 * Another issue that I'm wondering about is the discrepancy between the -fPIC error and the hdf5 static/dynamic libraries. A few days ago I wrote in this notebook that when I was trying to build Exnihilo that I ran into an hdf5 linking error, and it suggested that I recompile with -fPIC: `/global/software/sl-6.x86_64/modules/intel/2015.0.090/hdf5/1.8.13-intel-p/lib/libhdf5.a(H5.o): relocation R_X86_64_32 against '.rodata.str1.4' can not be used when making a shared object; recompile with -fPIC`
@@ -48,10 +150,11 @@ after a few more exchanges:
   * I told Yong that I needed -fPIC enabled, and that this was the reason I was going to re-compile all of the TPLs I needed with gcc 5.2 and ditch the intel compilers entirely: 
   
 >>> I talked to my colleagues at ORNL, and we agreed that because the -fPIC errors were coming up with HDF5, it was probably because the HDF5 compiled with the intel compilers was not compiled with the -fPIC flag enabled. At this point, knowing that I needed to recompile HDF5 (and probably all of the other TPLs necessary for my build), I decided to compile all of my TPLs with gcc5.2, which had the c++11 support I needed, and ditch the Intel compilers entirely. Originally I did not want to re-compile all of these TPLs, which is why I was trying to stay with using the Intel compilers. 
+
 >> As I mentioned to you in my previous email, you will need to link to
 the dynamic libraries not the static libraries.
 
-Yong does have a point here. My error that I originally sent him was pointing to `libhdf5.a` and not `libhdf5.co`. However, as detailed in my previous section debugging with Tara, the errors associated with the static library do not envoke the `recompile with -fPIC` error message. I have no idea why after several e-mails, I still don't have a response about -fPIC on the Savio modules. But I responded with the following:
+Yong does have a point here. My error that I originally sent him was pointing to `libhdf5.a` and not `libhdf5.co`. However, as detailed in my previous section debugging with Tara, the errors associated with the static library do not invoke the `recompile with -fPIC` error message. I have no idea why after several e-mails, I still don't have a response about -fPIC on the Savio modules. But I responded with the following:
 
 >In my new build of hdf5 I have linked to the dynamic libraries, and not the static libraries. I can go back to trying to use the intel-compiled hdf5 and using intel to compile my software if you think that HDF5 and the other TPLs were compiled with the -fPIC flag. 
 > The reason I say this is because in my new build of HDF5, when I had linked against the static libraries accidentally (like I had done earlier with the Intel hdf5), the error messages did not include the -fPIC message that I copied and pasted in an earlier e-mail from the intel-compiled hdf5. Furthermore, the build got to a completely different location with this new version of HDF5. 
