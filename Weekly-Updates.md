@@ -1,4 +1,7 @@
 ### Update List
+* [Update: 2015/12/15](#update-20151215)
+* [Update: 2015/12/12](#update-20151212)
+* [Update: 2015/12/05](#update-20151205)
 * [Update: 2015/11/22](#update-20151122)
 * [Update: 2015/07/29](#update-20150729)
 * [Update: 2015/06/23](#update-20150623)
@@ -15,6 +18,49 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2015/12/15
+
+* Updated the gantt chart, partially
+* Worked on Research Statement (in the evenings this week)
+* I rebuilt exnihilo with mpiexec explicitly defined
+  * I'm still checking to see if all of the tests run
+* The current build of Exnihilo doesn't include lava
+  * In the future I need to actually build it with lava
+* I'm working on writing up a set of directions for each issue I've dealt with in [Exnihilo Savio](./Exnihilo-Savio.md). This is a lame doc name and feel free to come up with a better one. 
+* Tom replied about being on my committee
+  * Said he is happy to do it, but also suggested Tara for professional development. Thoughts? 
+* I have a call with Tara and Seth on Friday, so I'm going to work on Advantg stuff for the rest of the week.  
+
+### Update: 2015/12/12
+
+* This week I spent writing and working on my research, teaching, and cover letters. 
+  * I'm having some trouble with phrasing of them, so I'll have to work on making it sound like it is in my voice. 
+  * Teaching statement / cover letter are in first draft. Still working on Research Statement.
+* For next week I need to **Update the gantt chart** to be more detailed for the upcoming months.  
+
+
+### Update: 2015/12/05
+
+* Worked with Seth and Tara to get tests passing in new build. 
+  * It seems that the mpiexec is being called from `/usr/bin/sbatch`, rather than `${GRP_DIR}/TPLs/packages`
+  * I need to rebuild exnihilo with this now. 
+* The group dir was changed from ac_nuclear to co_nuclear
+  * This affects my build of exnihilo
+  * It also affects the usability of the TPLs that I built. 
+  * I got Krishna to reinstate the symlink to ac_nuclear to rebuild exnihilo (since I was debugging it). 
+    * When the symlink is deleted, I'll need to rebuild everything. 
+    * This will probably need to be done in Jan 2016
+* I got a (seemingly) complete build in /global/scratch/munkm
+  * The tests don't pass yet. 
+  * There are very few tests actually working. 
+* I can't build in $GRP_DIR/exnihilo/builds
+  * the nuclear group dir is too full right now. 
+  * once we have decided what to do with the space issue, then I will build it there. 
+* Krishna and/or Yong have not responded about whether their TPLs were/are built with the -fPIC flag
+  * See my lab notebook for a more detailed discussion of the -fPIC flag. 
+  * Seth confirmed that all TPLs need to be built with -fPIC for me to build exnihilo
+
+
 ### Update: 2015/11/22
 **Updates:**
 
