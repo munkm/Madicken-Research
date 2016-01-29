@@ -28,11 +28,13 @@ I finished the PHYSOR paper.
   * Learning how to plot the data in VisIT
   * Ensuring that my data was written to .silo files for VisIT properly
   * Writing up analysis section explaining successes and issues with method
+
 I, in the future would like to figure out a few things to make future work easier
   * Learn how to automate VisIT plotting
   * Write a function that qunatifies the degree of anisotropy of the flux in a given cell voxel (maybe max/average ratio or something). 
   * Write scripts to automate plotting of data for test suite
   * Write a script to automate test execution
+
 Other notes:
 * Garrett and I are putting a folder in the caskmodels repo to include the test problems for studying the performance Method I.
   * I think the description of this repo should be updated to be relevant to the angular hybrid methods project, rather than just the caskmodels project. 
@@ -40,6 +42,7 @@ Other notes:
   * Document install process for future users on my research repo
     * Also need to make my research repo publicly accessible
   * Run all of the tests in ADVANTG and denovo to make sure they can run as expected.
+
 Upcoming Deadlines:
   * Detailed outline of dissertation (next week, beginning)
   * Background draft I (next week, end)
