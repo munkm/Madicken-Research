@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2016/02/05](#update-20150205)
 * [Update: 2016/01/29](#update-20150129)
 * [Update: 2015/12/15](#update-20151215)
 * [Update: 2015/12/12](#update-20151212)
@@ -19,6 +20,26 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+### Update: 2016/02/05
+
+* My thesis is in a rough outline form
+  * I will add more detail to sections later; specifically I plan to more heavily outline the method of CADIS-OMEGA next week.
+  * I am going to delay the complete outline of CADIS OMEGA theory until after I finish implementation. 
+* I have been working on the background section of my thesis. 
+  * Most of the variance reduction sections have the content in them that I would like, but I want to make things flow more smoothly before I ask people to review it. 
+  * Right now things are fairly rough; I describe one method, then another method, then another method, with very little transition between each description.
+  * I still need to work on the variance reduction background content + the adjoint background content
+* Thursday meetings:
+  * With Garrett: We went over more problems for Garrett to make into models. Garrett also suggested a few from his reactor experience at Westinghouse
+  * Richard and I met and brainstormed a little bit about future methods -- also methods to quantify the degree of anisotropy in each cell voxel
+
+Tasks for this upcoming week:
+* Complete the method implementation
+* ORNL call on Friday to make sure my testing framework is up to scratch
+* Make tool to plot anisotropy of the flux in VisIT
+* Figure out why the heck changing permissions for LaTeX did not help me having to sudo my builds
+* Group Tools meeting on Friday
+
 ### Update: 2016/01/29
 
 I finished the PHYSOR paper.
