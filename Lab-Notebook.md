@@ -1,6 +1,8 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2015/02/11](#entry-20150211)
+* [Entry: 2015/02/10](#entry-20150210)
 * [Entry: 2015/12/15](#entry-20151215)
 * [Entry: 2015/12/04](#entry-20151204)
 * [Entry: 2015/12/03](#entry-20151203)
@@ -16,10 +18,20 @@
 
 ### Entry: 2015/02/11
 
+#### Things to bring up at meeting: ####
+
+* Weird issue with LATEX in .bashrc file (write18 enabled and only being able to execute with sudo)
+* python shared libraries
+* git repo commit issues (and not being able to rebuild
+* parallel vs. single core hdf5? (is there an option that I should change in source file for that, too? ) 
+* 
+
+
 #### Leftover Issues: ####
-Why did exnihilo have trouble loading hdf5 and other python databases? (Maybe a static/dynamic library thing)
-* need to rebuild exnihilo with static libraries (look in Titan install scripts for some version of BUILD_SHARED_LIB OFF
-* need to figure out the git issue i'm running into:
+
+1. Why did Exnihilo have trouble loading hdf5 and other python databases? (Maybe a static/dynamic library thing)
+2. need to rebuild exnihilo with static libraries (look in Titan install scripts for some version of BUILD_SHARED_LIB OFF) 
+3. need to figure out the git issue i'm running into:
 
 ```
 madmunk@ln003: $ git add rc/savio/base.sh
@@ -40,6 +52,106 @@ madmunk@ln003: $ git status
 #
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
+4. Why did the Python db issue come up? Is the right python being called?
+  * I did some searching, and it looks like we get some interesting stuff going into the actual module folder (in /module/ rather than /modfiles/ for h5py:
+  ```
+  madmunk@ln002:/global/software/sl-6.x86_64/modules/python/2.7.8/h5py/2.5.0/lib/python2.7/site-packages/h5py-2.5.0-py2.7
+-linux-x86_64.egg/h5py $ ls -la
+total 7840
+drwxrwsr-x 4 yqin software    8192 Dec  7 16:23 .
+drwxrwsr-x 4 yqin software    4096 Dec  7 16:23 ..
+
+.... one two skip a few ....
+-rwxr-xr-x 1 yqin software  172740 Dec  7 16:23 h5ac.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5d.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5d.pyc
+-rwxr-xr-x 1 yqin software  349627 Dec  7 16:23 h5d.so
+-rw-rw-r-- 1 yqin software     280 Dec  7 16:23 h5ds.py
+-rw-rw-r-- 1 yqin software     716 Dec  7 16:23 h5ds.pyc
+-rwxr-xr-x 1 yqin software  205466 Dec  7 16:23 h5ds.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5f.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5f.pyc
+-rwxr-xr-x 1 yqin software  360372 Dec  7 16:23 h5f.so
+-rw-rw-r-- 1 yqin software     280 Dec  7 16:23 h5fd.py
+-rw-rw-r-- 1 yqin software     716 Dec  7 16:23 h5fd.pyc
+-rwxr-xr-x 1 yqin software   75535 Dec  7 16:23 h5fd.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5g.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5g.pyc
+-rwxr-xr-x 1 yqin software  502368 Dec  7 16:23 h5g.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5i.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5i.pyc
+-rwxr-xr-x 1 yqin software  178226 Dec  7 16:23 h5i.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5l.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5l.pyc
+-rwxr-xr-x 1 yqin software  272123 Dec  7 16:23 h5l.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5o.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5o.pyc
+-rwxr-xr-x 1 yqin software  340208 Dec  7 16:23 h5o.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5p.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5p.pyc
+-rwxr-xr-x 1 yqin software  723851 Dec  7 16:23 h5p.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5r.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5r.pyc
+-rwxr-xr-x 1 yqin software  182137 Dec  7 16:23 h5r.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5s.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5s.pyc
+-rwxr-xr-x 1 yqin software  369901 Dec  7 16:23 h5s.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5t.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5t.pyc
+-rwxr-xr-x 1 yqin software 1377019 Dec  7 16:23 h5t.so
+-rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5z.py
+-rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5z.pyc
+-rwxr-xr-x 1 yqin software  136013 Dec  7 16:23 h5z.so
+... 
+  ```
+
+
+#### Extra Notes: ####
+
+These messages came up after my successful parallel test run:
+```
+>>> Writing silo file to 1 concurrent files using material volume fractions.
+::: Writing Denovo HDF5 output
+>>> Parallel HDF5 is not enabled; using serial HDF5 with parallel communication.
+```
+
+In `/global/scratch/munkm/exnihilo_20151215/Exnihilo-noscale/Exnihilo/
+packages/Omnibus/driver/test` , running `ctest -V -R OmnibusDriver_tst_kcode_mg_MPI_1` all of the tests failed (even single core runs) because the MPI module couldn't be found: scrolling through, this is what some of the error looked like:
+
+```
+10: ERROR: Could not Plot keff and source convergence
+10: EXCEPTION: Traceback (most recent call last):
+10:   File "/global/scratch/munkm/exnihilo_20151215/Exnihilo-noscale/Exnihilo/packages/Omnibus/frontend/omnibus/postprocess/manager.py", line 140, in process
+10:     pp(self, self.db[db_key])
+10:   File "/global/scratch/munkm/exnihilo_20151215/Exnihilo-noscale/Exnihilo/packages/Omnibus/frontend/omnibus/postprocess/kcode.py", line 331, in __call__
+10:     self.tallies = load_from_manager(manager)
+.
+.
+.
+10:   File "/global/scratch/munkm/exnihilo_20151215/Exnihilo-noscale/Exnihilo/packages/Omnibus/frontend/omnibus/postprocess/kcode.py", line 175, in from_manager
+10:     with h5py.File(path, 'r') as f:
+10:   File "/global/scratch/munkm/exnihilo_20151215/Exnihilo-noscale/Exnihilo/packages/Nemesis/python/exnihilotools/errormodule.py", line 42, in delayed_error_module
+10:     result = import_module(name)
+10:   File "/global/software/sl-6.x86_64/modules/langs/python/2.7.8/lib/python2.7/importlib/__init__.py", line 37, in import_module
+10:     __import__(name)
+10: ImportError: No module named h5py
+.
+.
+.
+10:
+10: FAILED (errors=1)
+10: In tst_kcode_mg.py, overall test result: FAILED
+1/1 Test #10: OmnibusDriver_tst_kcode_mg_MPI_1 ...***Failed  Error regular expression found in output. Regex=[overall test result: FAILED] 11.15 sec
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =  11.20 sec
+
+The following tests FAILED:
+	 10 - OmnibusDriver_tst_kcode_mg_MPI_1 (Failed)
+```
+
+
 
 #### debugging Exnihilo tests today: ####
 logging in to savio:
