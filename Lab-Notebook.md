@@ -14,9 +14,126 @@
 
 ***
 
+### Entry: 2015/02/11
+
+#### Leftover Issues: ####
+Why did exnihilo have trouble loading hdf5 and other python databases? (Maybe a static/dynamic library thing)
+* need to rebuild exnihilo with static libraries (look in Titan install scripts for some version of BUILD_SHARED_LIB OFF
+* need to figure out the git issue i'm running into:
+
+```
+madmunk@ln003: $ git add rc/savio/base.sh
+fatal: Unable to write new index file
+madmunk@ln003:$ git commit -m 'updating savio files to include mpirun and mpiexec paths in TPL directory'
+fatal: unable to write new_index file
+madmunk@ln003: $ git status
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 10 and 2064 different commit(s) each, respectively.
+#
+# Changed but not updated:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   codes/Exnihilo/savio/base.cmake
+#	modified:   rc/savio/base.sh
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+#### debugging Exnihilo tests today: ####
+logging in to savio:
+first execute the following:
+```
+$ source $TPL_DIR/gcc52env.sh
+$ module load cmake
+$ module load python 2.7.8
+$ module load h5py
+```
+
+now you have the correct environmental setup to run Exnihilo
+
+To run the tests on an interactive node, you need to use srun:
+[http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs]
+The most basic srun command you use `srun -u bash -i`
+
+srun by itself doesn't have tab autocompletion or acccess to vim, which is really difficult if you're going way down the rabbit hole. You can do this by changing the srun command to `srun --pty --partition=partition_name --time=02:00:00 bash -i` 
+
+The savio documentation (linked above) recommends looking into srun's documentation to fully understand those differences [https://computing.llnl.gov/linux/slurm/srun.html].
+
+Then, once logged in to the interactive node, I navigated to a test folder where the test executables lie (e.g. `/global/scratch/munkm/exnihilo_20151215/Exnihilo-noscale/Exnihilo/
+packages/Omnibus/denovo_managers/test`) and just executed the executable:
+`./OmnibusDenovo_managers_tstDenovo_ManagerSN.exe`
+
+***
+
+Another issue that I was having on savio was being able to run the parallel jobs. To do this in the interactive node, *at submission* you need to allocate the number of cores you'll be using. You can do this with the flag `--cpus-per-task=2` for 2 nodes. 
+
+Then running the same test as before would explicitly call mpi as:
+`mpirun -np 2 OmnibusDenovo_managers_tstDenovo_ManagerSPN.exe`
+
+***
+
+Running `make test` inside an interactive node isn't recommended; this is because it calls instantiations of srun, which can cause some wonky stuff. If we want to use it, it'd probably better to do it in a slurm submission script.
+
+However, you can call the tests with ctest if you have the correct number of nodes allocated:
+`ctest -V -R OmnibusDriver_tst_cylmesh_MPI_2`
+
+***
+
+./install.sh Exnhililo-noscale needs to be executed if any of the fundamental structure of Exnihilo (like libraries, linking, solver functionality) changes. 
+
+If, instead, you're just adding or modifying a simple helper tool you can navigate to the build folder and execute
+`$ make install`
+or 
+`$ make install/fast`
+
+`$ make test` builds all of the tests (for the directory you're in and lower) and runs them
+
+
+### Entry: 2015/02/10
+
+#### debugging Exnihilo tests today: ####
+module load cmake
+module load python 2.7.8
+module load h5py
+source $TPL_DIR/gcc52env.sh
+srun -u -p savio -t 2:0:0 bash -i
+make test isn't a good idea because it calls an mpirun, which makes srun call mpi (a recursive issue)
+instead do ctest -V -R OmnibusDriver_tst_kcode_mg_MPI_1
+this test fails because it can't find h5 py
+ctest -V -R OmnibusDriver_tst_cylmesh_MPI_2
+instead just call the executable ./OmnibusDenovo_managers_tstDenovo_ManagerSN.exe
+```
+>>> Using default azimuthals_octant=2
+>>> Using default polars_octant=2
+[       OK ] DenovoManagerSNFixedTest.fc_analytic_pt_source (3 ms)
+[----------] 4 tests from DenovoManagerSNFixedTest (168 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 2 test cases ran. (326 ms total)
+[  PASSED  ] 7 tests.
+In ./OmnibusDenovo_managers_tstDenovo_ManagerSN.exe, overall test result: PASSED
+```
+
+instead call mpirun explicitly
+
+mpirun -np 2 OmnibusDenovo_managers_tstDenovo_ManagerSN.exe
+```
+--------------------------------------------------------------------------
+There are not enough slots available in the system to satisfy the 2 slots
+that were requested by the application:
+  OmnibusDenovo_managers_tstDenovo_ManagerSN.exe
+
+Either request fewer slots for your application, or make more slots available
+for use.
+--------------------------------------------------------------------------
+```
+
+
 ### Entry: 2015/12/15
 
-#### Running Tests: ####
+#### Rebuilding Exnihilo: ####
 
 The other week, I was having issues running the tests in Denovo. Part of this was because I should have been trying to run the tests using an interactive node (and not the head node) on savio (which doesn't have tab autocompletion, which sucks for directory navigation). 
 After some navigation with Seth and Tara, we found that the mpiexec was defined in the wrong location (i.e. not in the mpi directory i built). 
@@ -50,6 +167,16 @@ SET(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "")
 ```
 
 Because this is a cmake option, Tara recommended that I rebuild all of Exnihilo. 
+I changed the MPI_EXEC variable to $TPL_DIR/packages/openMPI/bin/, and rebuilt exnihilo. 
+
+
+#### Running Tests: ####
+
+To submit an interactive job to savio, I used this:
+
+srun -u -p savio -t 2:0:0 bash -i
+
+Then, to run one of the tests, I navigated to the build folder and
 
 ***
 
