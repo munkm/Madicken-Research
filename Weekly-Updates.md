@@ -1,4 +1,6 @@
 ### Update List
+* [Update: 2016/02/17](#update-20150217)
+* [Update: 2016/02/12](#update-20150212)
 * [Update: 2016/02/05](#update-20150205)
 * [Update: 2016/01/29](#update-20150129)
 * [Update: 2015/12/15](#update-20151215)
@@ -20,6 +22,108 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+
+### Update 2015/02/17
+
+Things we can get rid of on Savio:
+
+First I looked at the total group folder sizes (after you and Max moved the XS dirs):
+551M    ADVANTG
+609M    ARC
+2.0G    CTF
+196K    EDIS
+469M    LANL
+9.0G    MCC
+1.4G    MCNP
+546M    MOOSE
+18M MocDown
+77M ORIGEN2
+37M PARCS
+42G SCALE6.2b
+3.0G    TPLs
+4.0K    Vera
+68K bin
+1.5M    examples
+4.0G    exnihilo
+12M monteburns
+82G serpent
+41M serpent2
+15M serpent2.1.23-icc15.0.0
+18M serpent2.1.24-icc
+9.7M    serpent2_custom_msr
+14M serpent2_extended_versions
+34M serpent2_msr
+12M serpent2_updates
+47M serpent_fixed
+4.6M    silo
+3.3G software
+
+Of these, I've summarized what I think is deleteable: 
+
+* $GRP_DIR/exnihilo/installs -- Yes. Everything can be deleted. But I would like to wait on the 12/15 until we get a new working build. 
+```
+$ du -sh *
+1.2G    exnihilo_20151203
+1.2G    exnihilo_20151215
+```
+* $GRP_DIR/TPLs/  -- Maybe? This depends on if I can get a working build of Exnihilo with the gcc4.8 compiler that has been added over winter break. Yes, it can be deleted, but I'd like to wait until we can be sure. 
+```
+$ du -sh *
+738M    gcc48src
+4.0K    gcc52env.sh
+833M    gcc52src
+903M    packages
+554M    src
+``` 
+* $GRP_DIR/silo -- No; we need it for ADVANTG
+* $GRP_DIR/ADVANTG -- It depends. Do we want the ADVANTG distribution that you tarred from the disc? 
+```
+539M    C831MNYCP00
+7.9M    builds
+1.6M    installs
+2.2M    src
+```
+* $GRP_DIR/SCALE6.2b -- Yes; skeleton scales can be deleted (this won't make too much of a difference, though) 
+```
+1.6M    Scale
+42G scale6-2b
+0   scale_dev_data
+1.6M    skeletonscale
+``` 
+
+Other things:
+* Go over new way of meeting deadlines
+  * Talk about timing stuff
+* Show bullet journal task management system
+* Weekend thing
+
+### Update: 2016/02/12
+* Lit review additions are taking a bit longer than expected
+  * Added info from papers in the results sections; elaborated more on angular methods (Mon-Weds).  
+* Spent Thursday with savio debugging
+  * Do we want to work on getting dev version of Scale for Marissa's runs?
+  * Committing to master with install files
+
+* Garrett Meeting: Moved due to interview
+* Group Meeting: Missed
+* ORNL call friday:
+  * debugged why I couldn't commit
+    * Seth suggests cherry picking my commits on new branch and then merging that branch. May not be an issue once I am able to commit.
+    * Need to rebuild Savio without shared libraries
+      * The tests that I run on 12/15 build can't find python libraries. Seth thinks this is probably a linking error. 
+    * Tests can be run in parallel on an interactive node, but you must call total number of nodes when srun is enacted (see Lab Notebook)
+  * got new skeleton scale from Seth
+
+* Group Tools:
+  * I volunteered for:
+    *  making a travel page (this week)
+    *  software carpentry page (March)
+    *  getting everybody on BIDS guest list (once doodle poll results are in)
+    *  paperwork/forms page (March)
+    *  making directory strucutre
+  * How do you want these pages organized? All in the group resources repo?
+  * ILibrarian: When do you want my papers added to this? I would prefer to wait until March/April since I have a Zotero library I am very familiar with. 
+
 ### Update: 2016/02/05
 
 * My thesis is in a rough outline form
