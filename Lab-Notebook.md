@@ -1,8 +1,9 @@
 ### Entry List
 ### Entry Links: ###
 
-* [Entry: 2015/02/11](#entry-20150211)
-* [Entry: 2015/02/10](#entry-20150210)
+* [Entry: 2016/02/16](#entry-20160216)
+* [Entry: 2016/02/11](#entry-20160211)
+* [Entry: 2016/02/10](#entry-20160210)
 * [Entry: 2015/12/15](#entry-20151215)
 * [Entry: 2015/12/04](#entry-20151204)
 * [Entry: 2015/12/03](#entry-20151203)
@@ -16,7 +17,77 @@
 
 ***
 
-### Entry: 2015/02/11
+### Entry: 2015/02/16
+
+Things we can get rid of on Savio:
+
+First I looked at the total group folder sizes (after you and Max moved the XS dirs):
+551M    ADVANTG
+609M    ARC
+2.0G    CTF
+196K    EDIS
+469M    LANL
+9.0G    MCC
+1.4G    MCNP
+546M    MOOSE
+18M MocDown
+77M ORIGEN2
+37M PARCS
+42G SCALE6.2b
+3.0G    TPLs
+4.0K    Vera
+68K bin
+1.5M    examples
+4.0G    exnihilo
+12M monteburns
+82G serpent
+41M serpent2
+15M serpent2.1.23-icc15.0.0
+18M serpent2.1.24-icc
+9.7M    serpent2_custom_msr
+14M serpent2_extended_versions
+34M serpent2_msr
+12M serpent2_updates
+47M serpent_fixed
+4.6M    silo
+3.3G software
+
+Of these, I've summarized what I think is deleteable: 
+
+* $GRP_DIR/exnihilo/installs -- Yes. Everything can be deleted. But I would like to wait on the 12/15 until we get a new working build. 
+```
+$ du -sh *
+1.2G    exnihilo_20151203
+1.2G    exnihilo_20151215
+```
+* $GRP_DIR/TPLs/  -- Maybe? This depends on if I can get a working build of Exnihilo with the gcc4.8 compiler that has been added over winter break. Yes, it can be deleted, but I'd like to wait until we can be sure. 
+```
+$ du -sh *
+738M    gcc48src
+4.0K    gcc52env.sh
+833M    gcc52src
+903M    packages
+554M    src
+``` 
+* $GRP_DIR/silo -- No; we need it for ADVANTG
+* $GRP_DIR/ADVANTG -- It depends. Do we want the ADVANTG distribution that you tarred from the disc? 
+```
+539M    C831MNYCP00
+7.9M    builds
+1.6M    installs
+2.2M    src
+```
+* $GRP_DIR/SCALE6.2b -- Yes; skeleton scales can be deleted (this won't make too much of a difference, though) 
+```
+1.6M    Scale
+42G scale6-2b
+0   scale_dev_data
+1.6M    skeletonscale
+``` 
+
+
+
+### Entry: 2016/02/11
 
 #### Things to bring up at meeting: ####
 
@@ -60,8 +131,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 total 7840
 drwxrwsr-x 4 yqin software    8192 Dec  7 16:23 .
 drwxrwsr-x 4 yqin software    4096 Dec  7 16:23 ..
-
+.
 .... one two skip a few ....
+.
+.
 -rwxr-xr-x 1 yqin software  172740 Dec  7 16:23 h5ac.so
 -rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5d.py
 -rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5d.pyc
@@ -76,33 +149,10 @@ drwxrwsr-x 4 yqin software    4096 Dec  7 16:23 ..
 -rw-rw-r-- 1 yqin software     716 Dec  7 16:23 h5fd.pyc
 -rwxr-xr-x 1 yqin software   75535 Dec  7 16:23 h5fd.so
 -rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5g.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5g.pyc
--rwxr-xr-x 1 yqin software  502368 Dec  7 16:23 h5g.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5i.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5i.pyc
--rwxr-xr-x 1 yqin software  178226 Dec  7 16:23 h5i.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5l.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5l.pyc
--rwxr-xr-x 1 yqin software  272123 Dec  7 16:23 h5l.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5o.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5o.pyc
--rwxr-xr-x 1 yqin software  340208 Dec  7 16:23 h5o.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5p.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5p.pyc
--rwxr-xr-x 1 yqin software  723851 Dec  7 16:23 h5p.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5r.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5r.pyc
--rwxr-xr-x 1 yqin software  182137 Dec  7 16:23 h5r.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5s.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5s.pyc
--rwxr-xr-x 1 yqin software  369901 Dec  7 16:23 h5s.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5t.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5t.pyc
--rwxr-xr-x 1 yqin software 1377019 Dec  7 16:23 h5t.so
--rw-rw-r-- 1 yqin software     279 Dec  7 16:23 h5z.py
--rw-rw-r-- 1 yqin software     713 Dec  7 16:23 h5z.pyc
--rwxr-xr-x 1 yqin software  136013 Dec  7 16:23 h5z.so
-... 
+.
+.
+.
+.
   ```
 
 
@@ -203,7 +253,7 @@ or
 `$ make test` builds all of the tests (for the directory you're in and lower) and runs them
 
 
-### Entry: 2015/02/10
+### Entry: 2016/02/10
 
 #### debugging Exnihilo tests today: ####
 module load cmake
