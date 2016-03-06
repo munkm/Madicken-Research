@@ -1,6 +1,7 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2016/03/04](#entry-20160304)
 * [Entry: 2016/02/16](#entry-20160216)
 * [Entry: 2016/02/11](#entry-20160211)
 * [Entry: 2016/02/10](#entry-20160210)
@@ -16,8 +17,212 @@
 
 
 ***
+### Entry: 2016/03/04
 
-### Entry: 2015/02/16
+####Steps of today's process:####
+
+* committed old install files (those are very old changes, but couldn't be committed due to earlier space issues)
+* did a git remote update for origin
+* did a git merge origin/master into our local branch
+  * There were no conflicts, which is what I expected since nobody should be messing with the savio install files. 
+* checked savio's module availability:
+  * `module list` shows what is loaded
+  * `module avail` shows the available loadable modules
+     * in the case of python and intel, once one is loaded, executing `module avail` a second time will update the available modules that are dependent on python or intel. 
+  * The old modules we had in our bashrc do not exist anymore. I updated these in a new file that we can `source exnihilo_mods`. I put it in the top directory for exnihilo (e.g. `/global/home/groups/ac_nuclear/exnihilo/`, so any user should be able to source it if they need to.  
+* I cloned the developer scale from angband into a new folder called `$GRP_DIR/SCALE_dev`. I thought this would be useful if we want to assign it different group permissions that 6.2b. 
+  * I cloned this also from ornl-login1, so it won't get confusing if we need to update either package set. 
+* Rebuilt TPLS that were necessasry (pcre, swig, silo, and hdf5)
+  * modified base.sh to reflect the new TPL locations
+
+
+####Building with Savio compilers rather than my built TPLs:####
+* libraries exnihilo needs: 
+  * gcc -- in langs
+  * openmpi -- in intel/2015
+  * blas/lapack --- in intel/2015
+  * hdf5 -- parallel and static in intel/2015
+  * lava must build from source
+  * pcre -- **not available**???? 
+  * swig  -- **not available**???
+  * silo -- **not available**???m
+  * atlas -- in intel/2015
+  * qt -- in modfiles/tools
+* I changed the compilers from gcc, g++ and gfortran in the base.sh file to icc, icpc, and ifort. 
+
+
+####Building the TPLS again:####
+I made things simple. First i unloaded the default intel, then I loaded the new intel, the new openmpi, and the new gcc.
+Executing `module list` yeilds:
+
+```
+Currently Loaded Modulefiles:
+  1) intel/2015.6.233      2) openmpi/1.8.8-intel   3) gcc/4.8.5
+```
+
+Then I executed the following commands:
+* `./install.sh pcre`  -- had no issues
+* `./install.sh swig`  -- had no issues
+* `./install.sh silo`  -- had issue:
+   -- build failed. end of build printed this:
+   ```
+checking for ftell function pointer... yes
+checking for fwrite function pointer... yes
+checking for memmove... yes
+checking for fnmatch... yes
+checking for isnan... yes
+checking for fpclass... no
+checking for strerror... yes
+checking if setjmp and longjmp work... yes
+checking for cos in -lm... yes
+checking for szlib... suppressed
+checking for hdf5... configure: checking for hdf5 and supporting libraries...
+configure: error: problem with directory specified for hdf5 includes
+   ```
+   * Tried loading hdf5. 
+   ```
+   $ module list
+   Currently Loaded Modulefiles:
+  1) intel/2015.6.233      3) gcc/4.8.5             5) lapack/3.6.0-intel
+  2) openmpi/1.8.8-intel   4) atlas/3.10.2-intel    6) hdf5/1.8.16-intel-s
+   ```
+   got the same error. 
+   * checked $INCLUDE
+   ```
+   INCLUDE=/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-s/include:/global/software/sl-6.x86_64/modules/intel/2015.6.233/atlas/3.10.2-intel/include:/global/software/sl-6.x86_64/modules/langs/gcc/4.8.5/include:/global/software/sl-6.x86_64/modules/intel/2015.6.233/openmpi/1.8.8-intel/include:/global/software/sl-6.x86_64/modules/langs/intel/2015.6.233/compiler/include
+   ```
+   * Tried loading parallel hdf5:
+   ```
+   $ module list
+Currently Loaded Modulefiles:
+  1) intel/2015.6.233      3) gcc/4.8.5             5) lapack/3.6.0-intel
+  2) openmpi/1.8.8-intel   4) atlas/3.10.2-intel    6) hdf5/1.8.16-intel-p
+   $ echo $INCLUDE
+   global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/include:/global/software/sl-6.x86_64/modules/intel/2015.6.233/atlas/3.10.2-intel/include:/global/software/sl-6.x86_64/modules/langs/gcc/4.8.5/include:/global/software/sl-6.x86_64/modules/intel/2015.6.233/openmpi/1.8.8-intel/include:/global/software/sl-6.x86_64/modules/langs/intel/2015.6.233/compiler/include
+   ```
+   
+   got the same error. Ugh.
+   * Checked for `HDF5 base` string in base.sh file. Added a hardlink to the module folder, rather than letting it assume hdf5 is in my TPL folder. 
+   ```
+   # HDF5 base path (used by silo install script etc)
+export HDF5_BASE_DIR=/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p
+   ```
+   * ran `./install.sh silo` again
+     * Could be problematic. There were some errors at the end. But no failure in the build.
+     * Went to install dir for TPLS `$GRP_DIR/TPLs/build/packages_intel`, silo wasn't there. The install didn't work.
+     
+   * decided to build hdf5 from source too. 
+     * removed hardlink in base.sh to lib path for hdf5 module
+     * 
+     ```
+     ./install.sh hdf5
+     export PATH=/global/home/groups/ac_nuclear/TPLs/packages/hdf5/bin:$PATH
+     export LD_LIBRARY_PATH=/global/home/groups/ac_nuclear/TPLs/packages/hdf5/lib:$LD_LIBRARY_PATH
+     ```
+     * then ran `./install.sh silo`
+       * there were still some errors at the end of the build, but a folder with /include/ and /lib/ for /silo/ is made in packages_intel. 
+* `./install.sh lava` executed after all other TPLS built. A few errors came up, but it seems to have installed.
+```
+Building C object CMakeFiles/lava.dir/native/spfunc.c.o
+[ 78%] [ 78%] [ 80%] [ 80%] Building C object CMakeFiles/lava.dir/native/surface.c.o
+Building C object CMakeFiles/lava.dir/native/surfac.c.o
+[ 82%] Building C object CMakeFiles/lava.dir/native/torus.c.o
+Building C object CMakeFiles/lava.dir/native/track.c.o
+Building C object CMakeFiles/lava.dir/native/transform.c.o
+In file included from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/global.h(4),
+                 from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/newcel.c(5):
+/global/home/groups/ac_nuclear/ADVANTG/src/lava/include/lava.h(84): warning #3180: unrecognized OpenMP #pragma
+  #pragma omp threadprivate(lava_ErrId, lava_ErrMsg)
+          ^
+
+In file included from /global/home/groups/ac_nuclear/ADVANTG/src/lava/include/lava_mcnp5.h(5),
+                 from /global/home/groups/ac_nuclear/ADVANTG/src/lava/include/lava.h(117),
+                 from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/global.h(4),
+                 from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/newcel.c(5):
+/global/home/groups/ac_nuclear/ADVANTG/src/lava/include/lava.h(115): warning #3180: unrecognized OpenMP #pragma
+  #pragma omp threadprivate(lava_LCG)
+          ^
+
+[ 85%] In file included from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/global.h(4),
+                 from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/newcel.c(5):
+/global/home/groups/ac_nuclear/ADVANTG/src/lava/include/lava.h(129): warning #3180: unrecognized OpenMP #pragma
+  #pragma omp threadprivate(lava_State, lava_mState)
+          ^
+
+[ 87%] In file included from /global/home/groups/ac_nuclear/ADVANTG/src/lava/native/newcel.c(5):
+/global/home/groups/ac_nuclear/ADVANTG/src/lava/native/global.h(25): warning #3180: unrecognized OpenMP #pragma
+  #pragma omp threadprivate(lava7l_NeighborLists, lava7l_CellExpr)
+          ^
+
+Building C object CMakeFiles/lava.dir/native/uplev.c.o
+```
+
+
+####Configuring Exnihilo for the new build:####
+* I updated the `install/rc/savio/base.sh` and the `install/codes/Exnihilo/savio/base.cmake` files to not have paths to my old TPL builds
+* I added new symlinks to the `$GRP_DIR/SCALE_dev` folder for Exnihilo, Tribits and Trilinos
+* I updated the `base.sh` file to turn on static libraries (at Seth's instruction)
+* I coped the `scale-debug` and `debug_insilico.cmake` files into the `/codes/Exnihilo/savio/` folder. They both enable insilico; the former enables ALL of the denovo packages, the latter just enables insilico. 
+  * To build with one of these, we will execute `$ ./install.sh Exnihilo scale-debug` or `$ ./install.sh Exnihilo debug-insilico`
+  * Before I was building with `$ ./install.sh Exnihilo noscale`. This is not the case any more, so I needed to make sure the right variables were added to whatever variant we wanted to consider. 
+
+####Rebuilding Exnihilo with Insilico support:####
+
+**Attempt 1:**
+- `./install.sh Exnihilo insilico_debug`
+   * some interesting things that come up in early build steps:
+   ```
+   Explicitly enabled packages on input (by user):  Nemesis Robus Transcore Geometria Physica Denovo Shift Hyas Insilico Omnibus 10
+
+Explicitly enabled SE packages on input (by user):  Nemesis Robus Transcore Geometria Physica DenovoPyKBA Denovo Shift Hyas InsilicoDepletion Insilico Omnibus 12
+
+Explicitly disabled packages on input (by user or by default):  Sacado Zoltan Xpetra Domi Claps Galeri Pamgen SEACAS Trios Zoltan2 TriKota STK Phdmesh NOX MueLu Aristos ForTrilinos PyTrilinos WebTrilinos NewPackage Optika MeshingGenie Cobra GenData AFIDS GQuery MavricUtilities Poseidon 28
+
+Explicitly disabled SE packages on input (by user or by default):  KokkosExample Sacado Zoltan Xpetra Domi Claps Galeri Pamgen SEACAS Trioscommsplitter Triossupport Triosnnti Triosnssi Triosprograms Triosexamples Triostests Triosnetcdf-service Trios Zoltan2 ShyLUIChol ShyLUGTS TriKota IntrepidIntrepid2 STKExp STK Phdmesh NOX MueLu Aristos ForTrilinos PyTrilinos WebTrilinos NewPackage Optika MeshingGenie Cobra GenData AFIDS GQuery GeometriaDagMC GeometriaBRLCAD DenovoKBA_CUDA DenovoAMP_coupling ShiftMC_sensitivity MavricUtilities SequenceCoupleWrapper SequenceCsasShift SequenceOrsen Poseidon AmpxGNDEndf Ampxxsusa Ampxangular GuiOrigenGui 53
+   ```
+   * Build failed because it couldn't find BLAS libraries (I commented these out earlier because I figured the module system would update everything just fine)
+   * Remedy: Update BLAS and LAPACK libraries and specify them explicitly in base.cmake file 
+     * libblas.a and liblapack.a located at `/global/software/sl-6.x86_64/modules/intel/2015.6.233/lapack/3.6.0-intel/lib/`
+     * atlas perhaps also useful to link? 
+     
+**Attempt 2:**
+```
+CMake Error at cmake/FindMCNP.cmake:46 (message):
+  Couldn't run MCNP at /global/home/groups/ac_nuclear/bin/mcnp5_151.mpi to
+  determine version
+Call Stack (most recent call first):
+  Exnihilo/packages/Geometria/lava/CMakeLists.txt:17 (FIND_PACKAGE)
+
+
+CMake Error at /global/software/sl-6.x86_64/modules/tools/cmake/3.2.2/share/cmake-3.2/Modules/FindPackageHandleStandardArgs.cmake:138 (message):
+  Could NOT find MCNP (missing: MCNP_VERSION_STRING)
+Call Stack (most recent call first):
+  /global/software/sl-6.x86_64/modules/tools/cmake/3.2.2/share/cmake-3.2/Modules/FindPackageHandleStandardArgs.cmake:374 (_FPHSA_FAILURE_MESSAGE)
+  cmake/FindMCNP.cmake:60 (FIND_PACKAGE_HANDLE_STANDARD_ARGS)
+  Exnihilo/packages/Geometria/lava/CMakeLists.txt:17 (FIND_PACKAGE)
+```
+
+
+
+Other potential issues:
+
+**First:**
+a. When I load a module, if it is dependent on another module that module also gets added to my module list
+b. gcc 4.8.5 is on Savio. Yay! 
+c. My method depends on h5py; I'm not sure if it is required for other Denovo/exnihilo/advantg things
+d. When I go through and unload the default very old gcc, and then load the newer gcc 4.8.5 module, I found that if I loaded h5py, a different module of hdf5 was loaded than the one I load with the intel compilers. This hdf5 is actually located in the subfolder of the OLD gcc (4.4.something) module lists. As a result, all of the hdf5 commands that I execute thereafter are using this other version of hdf5, not the hdf5 built with either the gcc that I am using OR with the intel compilers I'm using. 
+
+
+So.  I don't know if Marissa's stuff uses any python interface, but do you think this is going to be an issue? it seems super weird, but I'm not surprised that some TPL dependency is getting wonky, because the admins didn't build anything new with this new gcc. My solution, I guess, if this is going to be a big problem, is to build a python version unique to my local user and use that for any and all python analysis pertaining to Exnihilo. 
+
+**Second:**
+
+All of the build stuff hardlinks to ac_nuclear rather than co_nuclear. This will have to be redone soon. 
+Not sure if we should be using -fpic if we are going to link to static libraries?
+
+
+
+### Entry: 2016/02/16
 
 Things we can get rid of on Savio:
 
