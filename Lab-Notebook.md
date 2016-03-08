@@ -17,6 +17,69 @@
 
 
 ***
+### Entry: 2016/03/07
+
+#### Build Notes: ####
+
+For some reason, I can't build on the head node anymore. Seth says that this is because rsync (what copies and pastes files) is disabled. 
+* This used to be enabled
+* It isn't available now
+* I am building on an interactive node by executing 
+```
+```
+  and then loading my environment file after logging in to the new node.
+* Savio's interactive nodes have $USER@n00%d-- so unless the install.sh file is edited, this won't build on the "savio" system, because the build script looks for a "ln00" system. 
+  * I modified the install.sh to inclue the interactive nodes too. 
+* I turned off lava, since explicit MCNP linking is called by Lava, so I could try to diagnose other errors without having the mcnp executable issues. 
+
+With shared libraries turned off, and building on an interactive node, i've been running into a few issues:
+* unless explicitly linking to a .a LAPACK or HDF5 library, the build stuff links to .so files
+  * The errors look like this:
+  ```
+  [ 14%] Building CXX object Trilinos/packages/thyra/core/src/CMakeFiles/thyracore.dir/support/operator_vector/adapter_support/Thyra_SpmdVectorDefaultBase.cpp.o
+[ 14%] Building CXX object Exnihilo/packages/Nemesis/utils/test/CMakeFiles/Nemesis_tstFlat_Table.dir/tstFlat_Table.cc.o
+ld: warning: libhdf5.so.10, needed by /global/home/groups/ac_nuclear/TPLs/packages_intel/silo/lib/libsiloh5.so, may conflict with libhdf5.so.10.1.0
+ld: warning: libhdf5.so.10, needed by /global/home/groups/ac_nuclear/TPLs/packages_intel/silo/lib/libsiloh5.so, may conflict with libhdf5.so.10.1.0
+Linking CXX executable Nemesis_tstAssocVector.exe
+[ 14%] Building CXX object Trilinos/packages/thyra/core/src/CMakeFiles/thyracore.dir/support/operator_vector/adapter_support/Thyra_SpmdVectorSpaceDefaultBase.cpp.o
+  ```
+* If I do explicitly link to the path of the those files, I get cmake errors:
+```
+Scanning dependencies of target Nemesis_tstHistogram
+[ 14%] Building CXX object Exnihilo/packages/Nemesis/utils/test/CMakeFiles/Nemesis_tstHistogram.dir/tstHistogram.cc.o
+/global/software/sl-6.x86_64/modules/intel/2015.6.233/lapack/3.6.0-intel/lib/libblas.a(xerbla.o): In function `xerbla':
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/BLAS/SRC/xerbla.f:80: undefined reference to `for_len_trim'
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/BLAS/SRC/xerbla.f:80: undefined reference to `for_write_seq_fmt'
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/BLAS/SRC/xerbla.f:80: undefined reference to `for_write_seq_fmt_xmit'
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/BLAS/SRC/xerbla.f:82: undefined reference to `for_stop_core'
+Linking CXX executable Nemesis_tstEnumerate.exe
+[ 14%] Built target Nemesis_tstCXX11_Types
+[ 14%] Building CXX object Trilinos/packages/thyra/core/src/CMakeFiles/thyracore.dir/interfaces/operator_solve/fundamental/Thyra_LinearOpWithSolveBase.cpp.o
+Scanning dependencies of target Nemesis_tstHyperslab_Vector
+[ 14%] Building CXX object Exnihilo/packages/Nemesis/utils/test/CMakeFiles/Nemesis_tstHyperslab_Vector.dir/tstHyperslab_Vector.cc.o
+Linking CXX executable Nemesis_tstContainer_Search.exe
+make[2]: *** [Exnihilo/packages/Nemesis/utils/test/Nemesis_tstBLAS.exe] Error 1
+make[1]: *** [Exnihilo/packages/Nemesis/utils/test/CMakeFiles/Nemesis_tstBLAS.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+Linking CXX executable Nemesis_tstGrid_Lookup.exe
+```
+* I went through several variations of library calls to try to debug the build today. It still dies at around 6%. Sigh. 
+
+Notes:
+* ADVANTG requires python wrappers to run. 
+  * I need shared libraries to have the python wrappers. 
+  * We can't build with the shared libraries with the savio configuration as it is. 
+  * Marissa can still do work without the python wrappers. 
+* Seth is working on the ADVANTG interface to be able to call and run advantg without these wrappers.
+  * It won't be ready for a few weeks.
+  * The workaround is to run advantg on a different system, then copy the denvo runs over to savio for a run. 
+  * This is not idea, obviously. 
+  * Or we can wait until Seth's thing is ready.  
+
+
+
+
+
 ### Entry: 2016/03/04
 
 ####Steps of today's process:####
