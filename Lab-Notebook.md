@@ -87,6 +87,7 @@ For some reason, I can't build on the head node anymore. Seth says that this is 
 * It isn't available now
 * I am building on an interactive node by executing 
 ```
+srun --pty --partition=savio --time=02:00:00 bash -i
 ```
   and then loading my environment file after logging in to the new node.
 * Savio's interactive nodes have $USER@n00%d-- so unless the install.sh file is edited, this won't build on the "savio" system, because the build script looks for a "ln00" system. 
