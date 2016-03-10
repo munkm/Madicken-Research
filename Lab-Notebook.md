@@ -1,6 +1,9 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2016/03/09](#entry-20160309)
+* [Entry: 2016/03/08](#entry-20160308)
+* [Entry: 2016/03/07](#entry-20160307)
 * [Entry: 2016/03/04](#entry-20160304)
 * [Entry: 2016/02/16](#entry-20160216)
 * [Entry: 2016/02/11](#entry-20160211)
@@ -17,6 +20,64 @@
 
 
 ***
+
+### Entry: 2015/03/09
+
+#### Static library stuff: ####
+
+Seth has recommended that exnihilo be built with static libraries
+
+There are a few ways we can do this: 
+* explicitly link to the .a lib files in the /codes/Exnihilo/savio/base.cmake file
+* SET(SHARED_LIBRARIES OFF CACHE BOOL)
+* I do both just to be redundant in the cmake file. 
+
+Before I was having issues with some linking of the static blas/lapack libraries. The error looked like this:
+```
+Trilinos/packages/thyra/core/src/CMakeFiles/thyracore.dir/support/nonlinear/model_evaluator/client_support/Thyra_DefaultFiniteDifferenceModelEvaluator.cpp.o
+Building CXX object Trilinos/packages/thyra/core/src/CMakeFiles/thyracore.dir/support/nonlinear/model_evaluator/client_support/Thyra_DirectionalFiniteDiffCalculator.cpp.o
+/global/software/sl-6.x86_64/modules/intel/2015.6.233/lapack/3.6.0-intel/lib/liblapack.a(ilaenv.o): In function `ilaenv':
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/SRC/ilaenv.f:204: undefined reference to `for_cpystr'
+/global/software/sl-6.x86_64/modules/intel/2015.6.233/lapack/3.6.0-intel/lib/liblapack.a(xerbla.o): In function `xerbla':
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/SRC/xerbla.f:90: undefined reference to `for_len_trim'
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/SRC/xerbla.f:90: undefined reference to `for_write_seq_fmt'
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/SRC/xerbla.f:90: undefined reference to `for_write_seq_fmt_xmit'
+/global/software/sl-6.x86_64/sources/lapack-3.6.0/SRC/xerbla.f:92: undefined reference to `for_stop_core'
+[ 15%] /global/software/sl-6.x86_64/modules/intel/2015.6.233/lapack/3.6.0-intel/lib/liblapack.a(iparmq.o): In function `iparmq':
+```
+
+Seth says:
+>It's because that BLAS version implicitly requires linking against a fortran library (typically libgfortran.a); but since it's not a shared library (which explicitly tells the linker what else to link against), and since it's being linked into C++ code (where libfortran isn't automatically linked), it's failing. (Notice how all the missing symbols start with "for_"?) So basically, you'll have to find the right libfortran and include it as a library alongside the blas library
+
+So to set the fortran library to be linked alongside the lapack library, you modify the base.cmake file's lib variable like this:
+`SET(TPL_BLAS_LIBRARIES "/global/software/sl-6.x86_64/modules/intel/2015.6.233/lapack/3.6.0-intel/lib/libblas.a;BLAHBLAH/libfortran.a" CACHE PATH "") `
+
+Seth said that the library should look like libgfortran.a, but I noticed that was the *gcc* version of the fortran library, not the intel version. 
+
+* Navigating around in the intel folder, i found a series of library files in `/global/software/sl-6.x86_64/modules/langs/intel/2015.6.233/bin/intel64/`
+* None of the intel .a files had fortran explicitly in it. So i looked up what the library files meant from this link:
+  * http://www2.units.it/divisioneisi/ci/tartaglia/intel/fce/main_for/mergedProjects/bldaps_for/files_32.htm
+  
+* Unfortunately, I've linked against every single one of these libraries and I am still getting compile issues. Sigh. 
+
+
+#### Building Silo with static libraries: ####
+
+When i build silo with the build scripts provided, a .a file is never created. 
+I got around this by making this loop in the install_silo.sh file in the install scripts:
+```
+if [ "${sys}" == "savio" ]; then
+  SHARED_ARGS="--disable-shared --enable-static"
+fi
+```
+
+
+### Entry: 2016/03/08
+
+* still debugging savio build. Having issues with static libraries. Silo isn't even building a static library. sigh. 
+
+
+
 ### Entry: 2016/03/07
 
 #### Build Notes: ####
