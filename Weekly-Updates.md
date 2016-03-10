@@ -1,4 +1,6 @@
 ### Update List
+* [Update: 2016/03/07](#update-20160307)
+* [Update: 2016/02/17](#update-20160217)
 * [Update: 2016/02/17](#update-20160217)
 * [Update: 2016/02/12](#update-20160212)
 * [Update: 2016/02/05](#update-20160205)
@@ -22,6 +24,45 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+
+### Update 2016/03/07
+
+Past while:
+* I worked on finishing up the tool to quantify anisotropy
+  * We can use that tool to plot data for the talk Rachel is giving in a few weeks. 
+* Testing phase space
+  * Need to refine how the scoping studies will be carried out (how we will compare sensitivity to XS libs, quadrature order, etc)
+  * Make slide on follow-up work to Rachel's work at bettis? 
+* Updating the gantt chart
+  * I want to update this once I finish my method implementation. I'd like to go 100% on that and finish it before I give myself new deadlines.
+* Productivity
+  * Bullet journaling
+* Savio intall
+  * Building with shared libraries off
+  * Building with intel, gcc, openmpi modules 
+  * Built our own versions of hdf5, silo, pcre
+  * Having issues with finding proper compiler libraries. Build fails with blas/lapack linking (sigh). 
+* Sample problems
+  * Garrett has been making good progress on the test problem cases
+  * I also assigned him the topic to think about which XS libraries will be good for scoping studies
+
+Next Week:
+* This friday I have the ORNL call; hopefully we will finish up the install on savio. 
+* I will be at beyond academia Mon-Tues
+* Hopefully finishing up the method v1; rest of unit tests after that
+
+Long term: 
+* Finish certification as SW carpentry instructor
+* Finish applying for postdocs (ANL, ORNL, LANL, INL, academic jobs)
+  * Ask about Rachel sending CV to contacts
+  
+Other things:
+* Can I put thesis data on github (.silo files)?
+  * Make new repo for this for reproducibility? 
+* I'm having an llvm issue on my laptop so building is sort of messed up right now (thanks to macports). 
+
+
+
 
 ### Update 2016/02/17
 
