@@ -1,6 +1,7 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2016/03/16](#entry-20160316)
 * [Entry: 2016/03/09](#entry-20160309)
 * [Entry: 2016/03/08](#entry-20160308)
 * [Entry: 2016/03/07](#entry-20160307)
@@ -21,7 +22,79 @@
 
 ***
 
-### Entry: 2015/03/09
+### Entry: 2016/03/16
+
+Step 1: comment out the hdf5 lib paths in rc/savio/base.cmake
+1a: also change HDF5 base dir path to the module path base location
+1b: change the base, prefix and build directory to the TPL builds
+Step 2: load all new modules and the savio hdf5
+Step 3: rebuild silo with this hdf5, rather than the one built by me.
+step 4: add hdf5 parallel to the module-list.sh file i made for module loading
+step 5: login to interactive node
+step 6: try to build exnihilo
+
+
+first i tried these steps, but first skipping step 3 and using the silo built with my version of hdf5, but using the savio pre-built hdf5 to install savio.
+
+```
+/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib/libhdf5_hl.a(H5LT.o): In function `H5LT_dtype_to_text':
+H5LT.c:(.text+0x4443): undefined reference to `H5Tget_member_value'
+H5LT.c:(.text+0x5089): undefined reference to `H5Tget_tag'
+H5LT.c:(.text+0x5186): undefined reference to `H5Tget_cset'
+H5LT.c:(.text+0x53fc): undefined reference to `H5Tset_cset'
+H5LT.c:(.text+0x5500): undefined reference to `H5Tset_cset'
+/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib/libhdf5_hl.a(H5LTparse.o): In function `H5LTyyparse':
+H5LTparse.c:(.text+0x190): undefined reference to `H5Tget_native_type'
+H5LTparse.c:(.text+0x25d): undefined reference to `H5Tenum_insert'
+H5LTparse.c:(.text+0x2e8): undefined reference to `H5Tenum_insert'
+H5LTparse.c:(.text+0x36b): undefined reference to `H5Tenum_insert'
+H5LTparse.c:(.text+0x3ee): undefined reference to `H5Tenum_insert'
+H5LTparse.c:(.text+0x46e): undefined reference to `H5Tenum_insert'
+H5LTparse.c:(.text+0x500): undefined reference to `H5Tenum_create'
+H5LTparse.c:(.text+0x652): undefined reference to `H5Tset_cset'
+H5LTparse.c:(.text+0x751): undefined reference to `H5Tset_tag'
+make[2]: *** [Exnihilo/packages/Nemesis/database/test/Nemesis_tstDB_HDF5.exe] Error 1
+make[1]: *** [Exnihilo/packages/Nemesis/database/test/CMakeFiles/Nemesis_tstDB_HDF5.dir/all] Error 2
+[ 16%] Built target Nemesis_tstDB2PL_Converter
+make: *** [all] Error 2
+```
+
+
+
+second i tried to build silo with savio's hdf5. this was my error:
+```
+mv -f .deps/silock.Tpo .deps/silock.Po
+/bin/sh ../../libtool --tag=CXX   --mode=link /global/software/sl-6.x86_64/modules/langs/intel/2015.6.233/bin/intel64/icpc  -fPIC  -L/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib  -Wl,-rpath -Wl,/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib -o silock silock.o ../../src/libsiloh5.la  -lhdf5  -lm
+libtool: link: /global/software/sl-6.x86_64/modules/langs/intel/2015.6.233/bin/intel64/icpc -fPIC -Wl,-rpath -Wl,/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib -o silock silock.o  -L/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib ../../src/.libs/libsiloh5.a /global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib/libhdf5.so -lz -ldl -lm -Wl,-rpath,/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib -Wl,-rpath,/global/software/sl-6.x86_64/modules/intel/2015.6.233/hdf5/1.8.16-intel-p/lib
+../../src/.libs/libsiloh5.a(silo_hdf5.o): In function `db_hdf5_Open':
+silo_hdf5.c:(.text+0x1011): undefined reference to `H5Pset_fapl_mpiposix'
+silo_hdf5.c:(.text+0x1ca1): undefined reference to `H5Pset_fapl_mpiposix'
+../../src/.libs/libsiloh5.a(silo_hdf5.o): In function `db_hdf5_process_file_options':
+silo_hdf5.c:(.text+0x238b): undefined reference to `H5Pset_fapl_mpiposix'
+silo_hdf5.c:(.text+0x264f): undefined reference to `H5Pset_fapl_mpiposix'
+../../src/.libs/libsiloh5.a(silo_hdf5.o): In function `db_hdf5_Create':
+silo_hdf5.c:(.text+0x2caa): undefined reference to `H5Pset_fapl_mpiposix'
+# User name
+../../src/.libs/libsiloh5.a(silo_hdf5.o):silo_hdf5.c:(.text+0x346e): more undefined references to `H5Pset_fapl_mpiposix' follow
+make[3]: *** [silock] Error 1
+make[3]: Leaving directory `/global/scratch/munkm/TPLbuilds/silo/tools/silock'
+make[2]: *** [all-recursive] Error 1
+make[2]: Leaving directory `/global/scratch/munkm/TPLbuilds/silo/tools'
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory `/global/scratch/munkm/TPLbuilds/silo'
+make: *** [all] Error 2
+``` 
+
+According to some of my googling, mpi posix was removed in hdf5 1.8.13, so i'm not sure how to deal with this. 
+References:
+* http://www.unidata.ucar.edu/mailing_lists/archives/netcdfgroup/2014/msg00188.html
+* https://www.hdfgroup.org/HDF5/doc/RM/RM_H5P.html#Property-SetFaplMpiPosix
+* https://github.com/Unidata/netcdf-c/issues/63
+* http://hdf-forum.184993.n3.nabble.com/Re-undefined-reference-to-H5Pset-fapl-mpiposix-td4027216.html
+
+what I find really weird is that the version of hdf5 that I build on my own is also 1.8.16, just like the one i'm trying to use that's pre-built on savio. I have no idea why this error would occur with savio's version, but not mine. 
+
+### Entry: 2016/03/09
 
 #### Static library stuff: ####
 

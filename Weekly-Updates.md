@@ -215,11 +215,6 @@ Upcoming Deadlines:
   * Theory section of Method I CADIS-OMEGA (week after next)
 
 
-
-
-
-
-
 ### Update: 2015/12/15
 
 * Updated the gantt chart, partially
