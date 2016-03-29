@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2016/03/29](#update-20160329)
 * [Update: 2016/03/07](#update-20160307)
 * [Update: 2016/02/17](#update-20160217)
 * [Update: 2016/02/17](#update-20160217)
@@ -24,6 +25,32 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+
+### Update 2016/03/29
+Last Week:
+
+* Still working on Savio install (sigh)
+  * Found two different versions of Lapack; not sure why some functions not in Lapack folder's version of liblapack.a and in Atlas' folder of liblacpack.a
+  * Not sure which Blas to link against with Atlas lapack lib
+  * Taking a break from Savio Installs
+  
+* Job Applications
+  * BIDS postdoc, IIASA fellowship, Nat'l Labs
+  * Writing statements and letters
+  * Updating github page to include more info. 
+  * Still need to complete SW Carpentry instructor training
+
+* PHYSOR
+  * Registered through Sara
+  * Reserved hotel room (has to be with my own money) 5/1-5/5
+  * Still need to do car/plane
+
+* Hybrid Method
+  * Added functions to Advantg driver function. 
+  * Still need to have MCNP output modification
+    * Right now I have both the old MCNP output and the new one written to output.
+    * This means timings will be irrelevant if we include writing times in runtime
+    * Luckily Advantg outputs both the Denovo transport time AND the writing times 
 
 ### Update 2016/03/07
 
