@@ -1,4 +1,5 @@
 ### Update List
+* [Update: 2016/04/19](#update-20160419)
 * [Update: 2016/03/29](#update-20160329)
 * [Update: 2016/03/07](#update-20160307)
 * [Update: 2016/02/17](#update-20160217)
@@ -25,6 +26,31 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+
+### Update 2016/04/19
+
+Updates:
+* Sent TPL wish list to Kelly / Savio
+* I will start working on the Savio install again later next week. 
+ 
+* Working on PHYSOR poster.
+  * General stuff: 
+    * Link [here](http://physor2016.org/includes/Speaker_PosterInstructions.pdf) for poster requirements
+    * Tall?
+    * Finish by Monday, 4/25 so it can be printed. 
+      * Printing service recommendations? I can front the cost since I'm submitting a reimbursement for the conference hotel anyways. 
+      * Poster tube availability? Who should I talk to? 
+  * Content:
+    * Including information actually in the paper
+    * Including results from group meeting 
+    * Advice: which way is best to present FOMs for these parametric studies? 
+      * Plot FOM/number of particles for different Cadis-Omega problems (multiple lines)?
+      * Plot the FOM **in each energy bin** vs. number of particles for one problem as a colorplot (one plot for each case)?
+      * Note: show examples of each of these to Rachel.  
+* Applications
+  * Talk about BIDS/ other places I'm applying so Rachel is expecting e-mails from these places. 
+
+* Method work: still in progress. 
 
 ### Update 2016/03/29
 Last Week:
