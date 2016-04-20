@@ -37,6 +37,7 @@ Updates:
   * General stuff: 
     * Link [here](http://physor2016.org/includes/Speaker_PosterInstructions.pdf) for poster requirements
     * Tall?
+    * Berkeley branding colors available at [berkeley branding webpage](http://www.berkeley.edu/brand/img/colors/WebColor_accessible_AA_swatches.pdf)
     * Finish by Monday, 4/25 so it can be printed. 
       * Printing service recommendations? I can front the cost since I'm submitting a reimbursement for the conference hotel anyways. 
       * Poster tube availability? Who should I talk to? 
@@ -45,10 +46,12 @@ Updates:
     * Including results from group meeting 
     * Advice: which way is best to present FOMs for these parametric studies? 
       * Plot FOM/number of particles for different Cadis-Omega problems (multiple lines)?
-      * Plot the FOM **in each energy bin** vs. number of particles for one problem as a colorplot (one plot for each case)?
-      * Note: show examples of each of these to Rachel.  
+      * Plot the FOM **in each energy bin** vs. number of particles for one problem as a colorplot (one plot for each case)? 
 * Applications
   * Talk about BIDS/ other places I'm applying so Rachel is expecting e-mails from these places. 
+
+* PHYSOR logistics
+  * Handout re: april 8 e-mail
 
 * Method work: still in progress. 
 
