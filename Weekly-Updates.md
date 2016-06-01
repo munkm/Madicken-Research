@@ -1,4 +1,9 @@
 ### Update List
+
+* [Update: 2016/06/01](#update-20160601)
+* [Update: 2016/05/24](#update-20160524)
+* [Update: 2016/05/24](#update-20160524)
+* [Update: 2016/05/09](#update-20160509)
 * [Update: 2016/04/19](#update-20160419)
 * [Update: 2016/03/29](#update-20160329)
 * [Update: 2016/03/07](#update-20160307)
@@ -26,6 +31,43 @@
 * [Update: 2014/10/01](#update-20141001)
 
 ***
+
+### Update 2016/06/01
+
+Updates:
+* Pushed the PHYSOR paper updates. Also uploaded it to my website (with poster)
+* Worked on method (this can be discussed in detail during our meeting)
+* applied to postdocs
+  * asked about start date flexibility.
+* Submitted physor reimbursement. Couldn't find the receipt for the poster, but I'm hoping that will be all right.
+* Didn't lose too much work after crash last week; all but 3 days were backed up (I didn't bring my external drive on my roadtrip with my parents).  
+
+Goals for the upcoming week:
+* Focus all time on implementation. I would really like to get an automated version running soon.
+* Fix computer so all dev tools are up to date (I lost most of these during last week's crash
+
+### Update 2016/05/24
+
+Updates: 
+* Not much since last time. Commencement and other stuff have prevented me from doing much research
+
+Goals for the upcoming week:
+* pushing updates to the PHYSOR paper (I didn't get a chance to do that at PHYSOR itself)
+* working on the FW-CADIS automation in ADVANTG
+* following-up on my postdoc interviews (my mic died for the BIDS interview. sigh.)
+* applying for the terrapower (job posting) and IIASA (job posting) positions
+* submitting PHYSOR reimbursement
+
+
+### Update 2016/05/09
+
+Updates:
+* Went to PHYSOR. Made a lot of good connections.
+
+Goals for the next few days.
+* Apply to ORNL postdoc positions
+* Interview for other postdocs
+* Working on implementation
 
 ### Update 2016/04/19
 
