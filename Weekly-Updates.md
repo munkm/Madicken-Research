@@ -35,7 +35,7 @@
 ### Update 2016/06/01
 
 Updates:
-* Pushed the PHYSOR paper updates. Also uploaded it to my website (with poster)
+* Pushed the PHYSOR paper updates to [website](http://munkm.github.io/posts/2016/06/01/publications.html) and [paper repo](https://github.com/munkm/Papers/tree/master/PHYSORPaper_2016/paper). Also kept old copy and poster on my personal page. 
 * Worked on method (this can be discussed in detail during our meeting)
 * applied to postdocs
   * asked about start date flexibility.
