@@ -1,5 +1,6 @@
 ### Update List
 
+* [Update: 2016/06/08](#update-20160608)
 * [Update: 2016/06/01](#update-20160601)
 * [Update: 2016/05/24](#update-20160524)
 * [Update: 2016/05/24](#update-20160524)
@@ -29,6 +30,45 @@
 * [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
+
+***
+
+### Update 2016/06/15
+
+Updates:
+
+* On Monday we met and talked about last week's python errors. We decided to rebuild all of the TPLs and see if something in Exnihilo is related. 
+  * Since then I've been working on the build
+* Found that if I change fwcadisangle method options to new names, fwcadis runs and gets to the same error it fails on master. 
+* fwcadis and fwcadisangle fail at different places, but both are related to the denovo solve option
+
+Goals for the next week:
+
+[**Carry Over**] * Remove python error from fwcadis and fwcadisangle
+[**Carry Over**] * Figure out why the python error is showing up with fwcadis method options, but not fwcadisangle method options.
+* Rebuild Exnihilo with no errors (and rerun all tests)
+* Figure out why Exnihilo build errors are occuring
+* Rebuild advantg with updated TPLs and python
+  * See if carryover python errors from last week are related
+
+***
+
+### Update 2016/06/08
+
+Updates:
+
+* HDF5 printing in the Advantg _angle methods are recognized
+  * Strange python from Denovo is appearing when I call them
+  * JSON files with denovo_hdf5_angles = True exist for these methods
+* When I try to run a normal fwcadis problem (no angle), the fwcadis method
+  options are not recognized. This must have something to do with inheritance. 
+  * Each method is imported as import .methods.cadis as CadisMethod, import 
+    .methods.fwcadis as FwCadisMethod, so the method options should not be overlapping
+
+Goals for the next week:
+
+* Figure out why the python error is showing up with fwcadis method options, but not fwcadisangle method options.
+* Remove python error from fwcadis and fwcadisangle
 
 ***
 
