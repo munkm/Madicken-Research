@@ -51,7 +51,7 @@ General updates:
 * Friday I successfully built Exnihilo and advantg
   * One of the advantg unittests failed, but I believe it is due to my own changes
 * Monday I discovered that advantg couldn't run the example problems due to lack of lava support
-  * Lava build / debug process is documented in my [Rasputin Lab Notebook](./Lab-Notebook-Rasputin)
+  * Lava build / debug process is documented in my [Rasputin Lab Notebook](./Lab-Notebook-Rasputin.md)
   * Spent some time getting lava support in Exnihilo (now not necessary)
   * Talked to Tara this morning and determined lava is NOT required for Exnihilo, but does
   need to be built for advantg. Remedied problem by making variant .cmake file for advantg 
