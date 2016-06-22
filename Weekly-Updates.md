@@ -1,5 +1,7 @@
 ### Update List
 
+* [Update: 2016/06/22](#update-20160622)
+* [Update: 2016/06/15](#update-20160615)
 * [Update: 2016/06/08](#update-20160608)
 * [Update: 2016/06/01](#update-20160601)
 * [Update: 2016/05/24](#update-20160524)
@@ -30,6 +32,47 @@
 * [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
+
+***
+
+### Update 2016/06/22
+
+Goals from last week:
+
+* **Completed** Rebuild Exnihilo with no errors (and rerun all tests)
+* **Completed** Figure out why Exnihilo build errors are occuring
+* **Completed** Rebuild advantg with updated TPLs and python
+  * **Completed** See if carryover python errors from last week are related
+* [**Carry Over**] Remove python error from fwcadis and fwcadisangle
+* [**Carry Over**] Figure out why the python error is showing up with fwcadis method options 
+
+General updates: 
+
+* Friday I successfully built Exnihilo and advantg
+  * One of the advantg unittests failed, but I believe it is due to my own changes
+* Monday I discovered that advantg couldn't run the example problems due to lack of lava support
+  * Lava build / debug process is documented in my [Rasputin Lab Notebook](./Lab-Notebook-Rasputin)
+  * Spent some time getting lava support in Exnihilo (now not necessary)
+  * Talked to Tara this morning and determined lava is NOT required for Exnihilo, but does
+  need to be built for advantg. Remedied problem by making variant .cmake file for advantg 
+  on Rasputin. 
+* Python error occurs in both "moments" and my method branch, so this means that the 
+error I was seeing a few weeks ago is related to incompatible Exnihilo and advantg stuff
+  * I've updated the exnihilo and advantg master branches and am pending merging master into 
+  my local branches (after I review and understand the code). 
+  
+* my method needs to be moved from pykba to a different module. 
+* Reschedule meeting for 7/6 and 7/13
+  * Seminar talk templates from Rachel? 
+
+Goals for the next week:
+
+* Move method to new logical Denovo module (pending code review) 
+* Merge current versions of advantg and exnihilo into my dev branches
+* [**Postponed**] Remove python error from fwcadis and fwcadisangle
+* [**Postponed**] Figure out why the python error is showing up with fwcadis method options 
+but not fwcadisangle method options.
+* Prep for interviews
 
 ***
 
