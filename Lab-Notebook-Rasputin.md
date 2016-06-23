@@ -2,8 +2,10 @@
 ### Entry Links: ###
 
 * [Entry: 2016/06/14](#entry-20160614)
+* [Entry: 2016/06/16](#entry-20160616)
 * [Entry: 2016/06/17](#entry-20160617)
-
+* [Entry: 2016/06/21](#entry-20160621)
+* [Entry: 2016/06/22](#entry-20160622)
 
 ***
 
@@ -128,7 +130,7 @@ Attempt #4:
 
 ***
 
-### Entry: 2016/06/17
+### Entry: 2016/06/16
 
 Ok, I tried several variants with using the macports toolchain and a clang build of the toolchain.
 I'm not going to include them all here because the errors are similar to what I've documented
@@ -224,6 +226,158 @@ This resulted in a successful clang build of hdf5, and of silo (which was failin
 due to the failed hdf5 build. 
 
 Exnihilo built with no problems
-advantg built with no problems, but it failed one input test thanks to my modifications so far. 
+advantg built with no problems, but it failed one input test thanks  (I think) to my 
+modifications for my method so far. 
 
+
+***
+
+### Entry: 2016/06/21
+
+Over the past day (and a half) I've been struggling with advantg some more. I got successful 
+builds on 
+Rasputin for hdf5, silo, openmpi, advantg, and Exnihilo. I also ran all of the unit tests,
+so I thought the builds were good. Yesterday when I was trying to determine the origin of 
+the error I had trying to run the example problems (jpdr, to be specific), I ended up 
+getting this output:
+
+```
+$ python jpdr.py
+Processing user input...
+INFO: Loading user input from 13 dictionary entries
+            ...finished processing user input
+INFO: Moved prior working directory 'output' to 'output_old_004'
+Traceback (most recent call last):
+  File "jpdr.py", line 39, in <module>
+    run(inp)
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/driver.py", line 236, in run
+    return run_from_ui(read_input(userdict, filename))
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/driver.py", line 151, in run_from_ui
+    model = McnpModel.from_ui(model_opts, working_dir)
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/models/mcnp/model_disabled.py", line 6, in from_ui
+    raise RuntimeError("MCNP support is disabled in this build because "
+RuntimeError: MCNP support is disabled in this build because Lava is not installed.
+```
+
+This is a bit odd, because (1) lava is explicitly turned off in my Exnihilo serial-debug.cmake
+file. I never rebuilt lava on Friday, so I could be having an issue with my old build. 
+
+I rebuild lava with the clang compilers and then tried to build Exnihilo. The exnihilo
+build died at ~60%. The build failure looked like this:
+```
+[ 63%] Building CXX object Exnihilo/packages/Geometria/lava/CMakeFiles/Geometria_lava.dir/Lava_Source_Attr.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/shapes/Prism_Shape.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/lava/CMakeFiles/Geometria_lava.dir/Lava_Surface_Group.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/shapes/Sphere_Shape.cc.o
+/Users/madicken/Software/Scale/Exnihilo/packages/Geometria/lava/Lava_Surface_Group.cc:171:9: error: use of undeclared identifier 'lava_ReInitSurface'; did you mean 'lava_GetSurfaceId'?
+        lava_ReInitSurface(surf_idx + 1);
+        ^~~~~~~~~~~~~~~~~~
+        lava_GetSurfaceId
+/Users/madicken/install/lava/include/lava.h:158:31: note: 'lava_GetSurfaceId' declared here
+LAVA_API_FUNC(int)            lava_GetSurfaceId(int);
+                              ^
+1 error generated.
+make[2]: *** [Exnihilo/packages/Geometria/lava/CMakeFiles/Geometria_lava.dir/Lava_Surface_Group.cc.o] Error 1
+make[1]: *** [Exnihilo/packages/Geometria/lava/CMakeFiles/Geometria_lava.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/Volumes.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/Utils.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/Universe.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/Universe_Completer.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/General_Universe.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/Builder.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/XML_Builder.cc.o
+[ 63%] Building CXX object Exnihilo/packages/Geometria/gg/CMakeFiles/Geometria_gg.dir/GG_Geometry.cc.o
+[ 63%] Linking CXX shared library libGeometria_gg.dylib
+[ 63%] Built target Geometria_gg
+make: *** [all] Error 2
+```
+
+I admit I wasn't watching the lava build properly, so I went back and looked at my lava build. 
+The lava build completed, but I got a few warnings. In particular I got this
+
+```
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/madicken/Install/lava/lib/liblava.a(parameters.f90.o) has no symbols
+```
+and this
+```
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: /Users/madicken/Install/lava/lib/liblava.a(reinit.c.o) has no symbols
+```
+I searched around on the internet and it seems like this type of error can happen if [libraries
+are compiled as static objects rather than shared](http://stackoverflow.com/questions/4929255/building-static-libraries-on-mac-using-cmake-and-gcc). 
+I'm wondering if that will make a difference
+but I don't want to rebuild all of the TPLS unless actually necessary.
+
+I also double checked that the built liblava.a didn't have these objects in the file using
+[the nm command](http://www.thegeekstuff.com/2012/03/linux-nm-command/). There are objects 
+in the file, just not the two that I got warnings about. 
+
+I asked seth a few related questions about this:
+* Do I actually need lava for Exnihilo? Previous builds with lava had it turned off, not on. 
+* Should I reclone lava?
+* Should I rebuild all of the TPLs as shared objects or as static?
+* Does pykba really need everything to be shared, or is -FPIC sufficient? 
+
+***
+
+### Entry: 2016/06/22
+
+Lots of new stuff today:
+* Lava should be disabled for Exnihilo, but can't be for advantg. I can turn lava OFF for
+my Exnihilo build, but I need an install for advantg to have MCNP support. 
+  * I rebuilt both Exnihilo and advantg with these specs
+* Advantg had trouble finding lava in the install
+
+```
+-- Found MCNP: /Users/madicken/Install/mcnp/bin/mcnp5
+-- MCNP version: mcnp     ver=5    , ld=10252010
+-- Could NOT find Lava (missing:  LAVA_CMAKE_FILE LAVA_INCLUDE_DIR)
+-- The Lava library was not found. The ADVANTG package cannot interpret MCNP without it. If Lava is installed on your system, add the Lava root directory to the CMAKE_PREFIX_PATH cache variable and re-run CMake.
+-- Found HDF5: /opt/local/lib/libhdf5.dylib;/opt/local/lib/libz.dylib;/usr/lib/libdl.dylib;/usr/lib/libm.dylib (found version "1.10.0")
+-- Found Silo: /Users/madicken/Install/silo/lib/libsiloh5.dylib
+-- Found MPI_CXX: /Users/madicken/Install/openmpi/lib/libmpi_cxx.dylib;/Users/madicken/Install/openmpi/lib/libmpi.dylib
+-- Found MPI_Fortran: /Users/madicken/Install/openmpi/lib/libmpi_usempif08.dylib;/Users/madicken/Install/openmpi/lib/libmpi_usempi_ignore_tkr.a;/Users/madicken/Install/openmpi/lib/libmpi_mpifh.dylib;/Users/madicken/Install/openmpi/lib/libmpi.dylib
+-- Found SWIG: /opt/local/bin/swig (found version "3.0.9")
+-- Found Doxygen: /opt/local/bin/doxygen (found version "1.8.10")
+-- Configuring done
+CMake Warning (dev) at test/mcnp/CMakeLists.txt:75 (add_dependencies):
+  Policy CMP0046 is not set: Error on non-existent dependency in
+  add_dependencies.  Run "cmake --help-policy CMP0046" for policy details.
+  Use the cmake_policy command to set the policy and suppress this warning.
+
+```
+  	* Note that Lava was not found at all, and HDF5 is the macports build, not my custom 
+  	build with clang. I'll need to define explicit paths to both lava and hdf5 to remedy 
+  	this issue and build advantg correctly. 
+  * I fixed this by making a Rasputin folder in `./codes/advantg/`, and adding a base.cmake
+  file to that folder. base.cmake files are read by default for cmake builds. A variant file
+  (like serial-debug.cmake) would require me to build advantg with the variant name 
+  (e.g. `./install.sh advantg serial-debug` rather than `./install.sh advantg`. The 
+  base.cmake file in that folder for my system reads as follows:
+  ```
+# HDF5 Paths
+SET(HDF5_INCLUDE_DIR "/Users/madicken/Install/hdf5/include"    CACHE PATH "")
+SET(HDF5_LIBRARY_DIR "/Users/madicken/Install/hdf5/lib" CACHE PATH "")
+
+# LAVA Paths
+SET(LAVA_LIBRARY_DIR "/Users/madicken/Install/lava/lib"     CACHE PATH "")
+SET(LAVA_INCLUDE_DIR "/Users/madicken/Install/lava/include" CACHE PATH "")
+
+INCLUDE(${CMAKE_CURRENT_LIST_DIR}/../base.cmake)
+
+  ```
+    * The last line `INCLUDE($...` sources the base.cmake file of the directory above my 
+    system variant directory. This way I don't have to mess with the advantg default build. 
+    If I wanted to ignore that I would just remove that last line.
+    * To define the directories for HDF5 and lava I used `LAVA_INCLUDE_DIR` and whatnot. 
+    This actually took some debugging. Originally I used `LAVA_INCLUDE_DIRS` (etc.) like
+    magneto, orthanc, and remus. I also tried `TPL_LAVA_INCLUDE_DIRS` like sethjmacpro, but
+    for whatever reason these definitions were not findable by cmake. The only really 
+    relevant link documenting the difference between `DIRS` and `DIR` was [this cmake forum
+    post](https://cmake.org/pipermail/cmake/2006-October/011502.html).
+* I also asked Tara about building Exnihilo and the TPLS as shared libraries rather than static
+  * She said it might make a difference, but the excerpt from yesterday (re: -FPIC and pykba
+  built with shared libraries) reminded her to tell me pykba no longer exists in Denovo. 
+  * Need to come up with action plan of where to put old integrator module. 
+  
 ***
