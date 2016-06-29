@@ -6,6 +6,7 @@
 * [Entry: 2016/06/17](#entry-20160617)
 * [Entry: 2016/06/21](#entry-20160621)
 * [Entry: 2016/06/22](#entry-20160622)
+* [Entry: 2016/06/28](#entry-20160628)
 
 ***
 
@@ -346,6 +347,7 @@ CMake Warning (dev) at test/mcnp/CMakeLists.txt:75 (add_dependencies):
   Use the cmake_policy command to set the policy and suppress this warning.
 
 ```
+
   	* Note that Lava was not found at all, and HDF5 is the macports build, not my custom 
   	build with clang. I'll need to define explicit paths to both lava and hdf5 to remedy 
   	this issue and build advantg correctly. 
@@ -354,6 +356,7 @@ CMake Warning (dev) at test/mcnp/CMakeLists.txt:75 (add_dependencies):
   (like serial-debug.cmake) would require me to build advantg with the variant name 
   (e.g. `./install.sh advantg serial-debug` rather than `./install.sh advantg`. The 
   base.cmake file in that folder for my system reads as follows:
+  
   ```
 # HDF5 Paths
 SET(HDF5_INCLUDE_DIR "/Users/madicken/Install/hdf5/include"    CACHE PATH "")
@@ -366,6 +369,7 @@ SET(LAVA_INCLUDE_DIR "/Users/madicken/Install/lava/include" CACHE PATH "")
 INCLUDE(${CMAKE_CURRENT_LIST_DIR}/../base.cmake)
 
   ```
+  
     * The last line `INCLUDE($...` sources the base.cmake file of the directory above my 
     system variant directory. This way I don't have to mess with the advantg default build. 
     If I wanted to ignore that I would just remove that last line.
@@ -380,4 +384,98 @@ INCLUDE(${CMAKE_CURRENT_LIST_DIR}/../base.cmake)
   built with shared libraries) reminded her to tell me pykba no longer exists in Denovo. 
   * Need to come up with action plan of where to put old integrator module. 
   
+***
+
+### Entry: 2016/06/28
+
+* Today I pulled updated versions of Exnihilo, lava, advantg, TriBITS and Trilinos. 
+  * I wasn't sure where skeleton-scale was located? I don't have it connected to a repo. 
+* I coped install files from ahm_sandbox (my local branch) to rebuild
+  * Didn't copy the variant copy of /codes/hdf5/base.cmake which had `CPP_LIB OFF`
+* Rebuilt the software
+  * Exnihilo
+  * lava
+  * advantg
+* Builds completed for everything
+* Ran test suites
+  * Exnihilo
+  
+  ```
+  99% tests passed, 8 tests failed out of 1042
+
+Label Time Summary:
+Denovo       = 146.31 sec (328 tests)
+Geometria    =  16.33 sec (101 tests)
+Nemesis      =  13.57 sec (154 tests)
+Omnibus      =   6.12 sec (29 tests)
+Physica      =   0.60 sec (12 tests)
+Robus        =   1.80 sec (25 tests)
+Shift        =  74.17 sec (129 tests)
+Transcore    =  17.77 sec (144 tests)
+
+Total Test time (real) = 715.52 sec
+
+The following tests FAILED:
+	  3 - Nemesis_tstVector_Lite_MPI_1 (Failed)
+	479 - PhysicaSCE_tstComp_Modifier_MPI_1 (Failed)
+	926 - ShiftMC_transport_tstKCode_Solver_MPI_1 (Failed)
+	928 - ShiftMC_transport_tstKCode_Solver_MPI_4 (Failed)
+	969 - OmnibusPython_test_parser_commands_MPI_1 (Failed)
+	993 - OmnibusPython_test_postprocess_tally_MPI_1 (Failed)
+	1003 - OmnibusPython_regress_denovo_MPI_1 (Failed)
+	1005 - OmnibusPython_regress_kcode_MPI_1 (Failed)
+Errors while running CTest
+make: *** [test] Error 8
+  ```
+  
+    * Some of these failures are concerning, like the Shift test failed because relative 
+    errors exceeded what were expected. However, some of the tests failed like my earlier
+    tests did -- because I don't have full Scale support. Here's a sample of a verbose
+    output from test 1003:
+    
+    ```
+    
+1003: ======================================================================
+1003: ERROR: test_regression (__main__.DenovoMlprecon)
+1003: ----------------------------------------------------------------------
+1003: Traceback (most recent call last):
+1003:   File "/Users/madicken/Builds/Exnihilo-serial-debug/Exnihilo/packages/Omnibus/python/omnibus/scripts/omnibus_pre.py", line 21, in run
+1003:     return OmniGenerator().run(inputs, outpath)
+1003:   File "/Users/madicken/Builds/Exnihilo-serial-debug/Exnihilo/packages/Omnibus/python/omnibus/generator.py", line 212, in run
+1003:     db.validate()
+1003:   File "/Users/madicken/Builds/Exnihilo-serial-debug/Exnihilo/packages/Omnibus/python/omnibus/omn/root.py", line 192, in validate
+1003:     Database.validate(self)
+1003:   File "/Users/madicken/Builds/Exnihilo-serial-debug/Exnihilo/packages/Omnibus/python/omnibus/parser/database.py", line 444, in validate
+1003:     function(stack)
+1003:   File "/Users/madicken/Builds/Exnihilo-serial-debug/Exnihilo/packages/Omnibus/python/omnibus/parser/database.py", line 500, in _apply_commands
+1003:     cmd.apply(value, self)
+1003:   File "/Users/madicken/Builds/Exnihilo-serial-debug/Exnihilo/packages/Omnibus/python/omnibus/parser/commands.py", line 254, in apply
+1003:     raise OmniRuntimeError(str(e), value)
+1003: OmniRuntimeError: At /Users/madicken/Software/Scale/Exnihilo/packages/Omnibus/driver/test/input/denovo_mlprecon.omn:12: The SCALE data directory "" is invalid.:
+1003:     test-8grp
+1003:
+1003: ----------------------------------------------------------------------
+1003: Ran 7 tests in 0.267s
+1003:
+    ```
+  
+  * advantg
+  
+  ```
+  95% tests passed, 3 tests failed out of 63
+
+Total Test time (real) =   4.14 sec
+
+The following tests FAILED:
+	  7 - test_FuncSpectrum (Failed)
+	 55 - py:test_models_sword (Failed)
+	 61 - py:test_input (Failed)
+Errors while running CTest
+make[3]: *** [CMakeFiles/check] Error 8
+make[2]: *** [CMakeFiles/check.dir/all] Error 2
+make[1]: *** [CMakeFiles/check.dir
+  ```
+     
+     * I'm trying to figure out the cause of these issues, but I'm not sure where they're coming from yet. TBD.
+     
 ***
