@@ -1,5 +1,7 @@
 ### Update List
 
+* [Update: 2016/07/13](#update-20160713)
+* [Update: 2016/06/29](#update-20160629)
 * [Update: 2016/06/22](#update-20160622)
 * [Update: 2016/06/15](#update-20160615)
 * [Update: 2016/06/08](#update-20160608)
@@ -35,6 +37,56 @@
 
 ***
 
+### Update 2016/07/13
+
+Goals for the trip:
+
+* **Not Completed** Work on writing some of my thesis 
+  * Note: I did actually work on writing, but I didn't get even close to the amount I was 
+  expecting to, so I don't consider this completed. To make up for the work I've missed, I plan 
+  on working on the weekend this coming weekend. 
+* **Attempted** Try and debug the rebuild, if possible. 
+
+Goals for the upcoming week:
+
+* Prepare for interviews 
+* Do a practice job talk w/ friends
+* Continue with rebuild w/Seth's e-mail advice
+* Move method to new logical Denovo module (pending code review) 
+* Merge current versions of advantg and exnihilo into my dev branches
+* Remove python error from fwcadis and fwcadisangle
+
+Postponed goals: 
+
+* Figure out why the python error is showing up with fwcadis method options 
+but not fwcadisangle method options.
+
+***
+
+### Update 2016/06/29
+
+Goals from last week:
+* [**Started Code review**]Move method to new logical Denovo module (pending code review) 
+* [**Not Completed**]Merge current versions of advantg and exnihilo into my dev branches
+* [**Not Completed**] Remove python error from fwcadis and fwcadisangle
+* [**Not Completed**] Figure out why the python error is showing up with fwcadis method options 
+but not fwcadisangle method options.
+* [**Completed**]Prep for interviews
+
+Goals for Work in India
+* Work on writing up more of background of thesis
+* Continue debugging the rebuild, if resources are available (I am not brining my RSA key, so
+any new pulls won't be possible while I'm on the trip)
+
+Postponed Goals 
+* Move method to new logical Denovo module (pending code review) 
+* Merge current versions of advantg and exnihilo into my dev branches
+* Remove python error from fwcadis and fwcadisangle
+* Figure out why the python error is showing up with fwcadis method options 
+but not fwcadisangle method options.
+
+***
+
 ### Update 2016/06/22
 
 Goals from last week:
@@ -64,6 +116,13 @@ error I was seeing a few weeks ago is related to incompatible Exnihilo and advan
 * my method needs to be moved from pykba to a different module. 
 * Reschedule meeting for 7/6 and 7/13
   * Seminar talk templates from Rachel? 
+    * 2014 france talk 
+    * 2015 davis talk
+    * 2015 mines
+    * 2015 UF
+    * 2015 ORNL 
+    * 2016 CoDA
+    * 2015 INL
 
 Goals for the next week:
 
