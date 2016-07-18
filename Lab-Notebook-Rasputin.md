@@ -647,7 +647,7 @@ The following tests FAILED:
 As far as I can tell, these are acceptable failures and I can still run with them. However,
 when I go to the /examples/ folder of advantg's install directory and try to `python jpdr.py` 
 or `python -v jpdr.py`, the example doesn't run. This is the output of the non-verbose
-option (note that cargo.py fails with the same error:
+option (note that cargo.py fails with the same error):
 
 ```
 Generating Denovo input files...
@@ -679,5 +679,6 @@ Traceback (most recent call last):
 subprocess.CalledProcessError: Command '/Users/madicken/Install/openmpi/bin/mpiexec -np 1 /opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python -m advantg.solvers.denovo.runner.__main__ denovo_db.json' returned non-zero exit status 1
 ```
 
+I e-mailed Seth about this error and am waiting on a response. 
 
 ***
