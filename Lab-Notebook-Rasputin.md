@@ -7,6 +7,7 @@
 * [Entry: 2016/06/21](#entry-20160621)
 * [Entry: 2016/06/22](#entry-20160622)
 * [Entry: 2016/06/28](#entry-20160628)
+* [Entry: 2016/07/17](#entry-20160717)
 
 ***
 
@@ -478,4 +479,205 @@ make[1]: *** [CMakeFiles/check.dir
      
      * I'm trying to figure out the cause of these issues, but I'm not sure where they're coming from yet. TBD.
      
+***
+
+### Entry: 2016/07/17
+
+I have a few days of test failures to document. Bear with me here.
+
+In my last entry, I couldn't figure out why the exnihilo and advantg tests weren't passing.
+After taking a second look, I determined that tests no. 55 and 61 in advantg were due to 
+a configuration error with advantg. Seth confirmed this. In my correspondence to Seth, this
+is what I wrote:
+
+>I've attached the outputs of the exnihilo test failures. It looks like text 61 
+> (the test_input python test) is failing because of some issue with my XS libraries, 
+> but the mglibs test (test 34) is passing. I also explicitly set the anisn path in my 
+> rc/ base.sh file, but I checked the cmakecache and this variable is blank:
+> 
+> //ANISN-format multigroup cross section library search path
+> ANISNLIB_SEARCH_PATH:STRING=.
+>
+> Would it help to set this variable explicitly in my advantg base.cmake file? 
+
+Excerpts from the errors in tests 55 and 61 are as follows:
+
+```
+55: Test command: /opt/local/bin/python "test_models_sword.py" "--verbose"
+55: Test timeout computed to be: 9.99988e+06
+55: Traceback (most recent call last):
+55:   File "test_models_sword.py", line 37, in <module>
+55:     mglib = get_mglib()
+55:   File "test_models_sword.py", line 18, in get_mglib
+55:     anisn_lib = ANISNLibrary.from_ui(mglib_opts)
+55:   File "/Users/madicken/Builds/advantg/python/tests/advantg/mglibs/anisn/library.py", line 57, in from_ui
+55:     return cls.from_path(name)
+55:   File "/Users/madicken/Builds/advantg/python/tests/advantg/mglibs/anisn/library.py", line 52, in from_path
+55:     str(name))
+55: advantg.mglibs.anisn.exception.ANISNIOError: ('Unable to find metadata (.info) file for name: 27n19g.', None)
+4/4 Test #55: py:test_models_sword .............***Failed    0.11 sec
+```
+
+```
+61: 
+61: ======================================================================
+61: ERROR: test_file2_dict2 (__main__.File2Tests)
+61: ----------------------------------------------------------------------
+61: Traceback (most recent call last):
+61:   File "test_input.py", line 290, in test_file2_dict2
+61:     uidict = read_input(userdict, testfile(2))
+61:   File "/Users/madicken/Builds/advantg/python/tests/advantg/utils.py", line 271, in time_this_wrapper
+61:     result = timed_function(*args, **kwargs)
+61:   File "/Users/madicken/Builds/advantg/python/tests/advantg/input.py", line 72, in read_input
+61:     uidict[key] = module.finalize(data, user_keys)
+61:   File "/Users/madicken/Builds/advantg/python/tests/advantg/input.py", line 39, in finalize
+61:     return self.module.finalize_ui_data(this_data, this_user_keys)
+61:   File "/Users/madicken/Builds/advantg/python/tests/advantg/mglibs/anisn/options.py", line 37, in finalize_ui_data
+61:     "name: %s." % name)
+61: UIError: Unable to find ANISN-format cross section library file for name: 27n19g.
+61: 
+61: ----------------------------------------------------------------------
+61: Ran 9 tests in 0.020s
+61: 
+61: FAILED (errors=6)
+1/1 Test #61: py:test_input ....................***Failed    0.16 sec
+```
+
+The other tests I wasn't sure about, so I e-mailed seth. The TL;DR of that is that
+* the kcode tests sometimes fail on different systems. 
+* failure of vector_lite, _postprocess, and _regress test failures are concerning 
+* comp_modifier was an error on their end. Seth pushed a fix 
+* FuncSpectrum has always failed in advantg
+* My suggestion of modifying the base.cmake for advantg to set the anisn path will fix 
+tests 55 and 61. 
+
+Quoted from Seth:
+> OK, next issue. No idea why vector_lite is failing: you'd better send me the output of 
+> that one. The Comp_Modifier test is one that I had missed on the configuration; it's fixed 
+> now. I've seen before failures in the kcode solver from compiler to compiler but it's a 
+> little strange that it should be failing on a fairly vanilla mac installation. The last 
+> three are also question marks -- you'd better send me all the failing tests. 
+> (ctest --output-on-failure is a useful option here).
+> 
+> The ADVANTG FuncSpectrum test I've seen fail since forever. I thought Scott had fixed 
+> the relative error failure that led to it, but I guess not. It looks like the last two 
+> tests are failing because of missing library paths as you suspected. I think the 
+> environment variable that controls the ADVANTG library paths might have changed since 
+> you added your RC file: it's now "anisn_path" (or you can set ANISNLIB_SEARCH_PATH in 
+> your base.cmake file).
+
+
+I re-pulled exnihilo. vector_lite and comp_modifier passed after Seth's pull. The other 
+tests failed again, but the tests have different numberings because new tests were added. 
+
+```
+The following tests FAILED:
+	924 - ShiftMC_transport_tstKCode_Solver_MPI_1 (Failed)
+	926 - ShiftMC_transport_tstKCode_Solver_MPI_4 (Failed)
+	968 - OmnibusPython_test_parser_commands_MPI_1 (Failed)
+	988 - OmnibusPython_test_postprocess_tally_MPI_1 (Failed)
+	1005 - OmnibusPython_regress_denovo_MPI_1 (Failed)
+	1007 - OmnibusPython_regress_kcode_MPI_1 (Failed)
+```
+
+I asked Seth to explain how he debugged these test failures, so I could learn. Seth's reply 
+for each of these is quoted below. 
+
+> No worries. First, the "how I know" is unfortunate experience -- for example with the 
+> Shift Kcode tests, I've seen numerous different passing and failing results on different 
+> platforms, and so it's not a surprise that yours is failing. Don't feel bad about asking.
+>
+> The Vector_Lite test is fixed on master; I suddenly saw the same thing too -- maybe 
+> due to a recent a change in SWIG or Python? I know that one's OK because I'm familiar 
+> with Python's integer system: it automatically switches from 'int' to 'long' on the 
+> python side, but integer types are fixed on the C side, so there's just something 
+> different about how SWIG is wrapping and returning integers.
+> 
+> test_parser_commands is failing because your SCALE data dir isn't set and I must not 
+> have ever tested a configuration like that. That's also why the regress_* are failing. 
+> I'm pushing a fix.
+>
+> The tally test is failing because you're in a different time zone than I am ^_^ 
+> that one surprised me the first time I caught it on vacation, haven't bothered to fix it.
+>
+> As to anisn_path: I forgot that at some point I changed the installation scripts so it 
+> doesn't look for an "anisn_path" environment variable; it only sees the cmake 
+> configuration variable. So that would've broken your script, sorry. The failing 
+> ADVANTG test is no big deal.
+>
+
+After pulling the exnihilo and advantg masters again (with the updates pushed by Seth
+in response to his most recent e-mail), 
+rebuilding the codes and running the tests, the following tests fail in advantg:
+
+```
+98% tests passed, 1 tests failed out of 63
+
+Total Test time (real) =   5.47 sec
+
+The following tests FAILED:
+	  7 - test_FuncSpectrum (Failed)
+```
+
+and the following tests fail in exnihilo:
+
+```
+
+99% tests passed, 4 tests failed out of 1044
+
+Label Time Summary:
+Denovo       = 174.19 sec (328 tests)
+Geometria    =  25.60 sec (100 tests)
+Nemesis      =  15.13 sec (154 tests)
+Omnibus      =   5.51 sec (29 tests)
+Physica      =   0.56 sec (11 tests)
+Robus        =   1.53 sec (25 tests)
+Shift        =  73.07 sec (129 tests)
+Transcore    =  20.30 sec (144 tests)
+
+Total Test time (real) = 804.33 sec
+
+The following tests FAILED:
+	924 - ShiftMC_transport_tstKCode_Solver_MPI_1 (Failed)
+	926 - ShiftMC_transport_tstKCode_Solver_MPI_4 (Failed)
+	988 - OmnibusPython_test_postprocess_tally_MPI_1 (Failed)
+	1007 - OmnibusPython_regress_kcode_MPI_1 (Failed)
+```
+
+As far as I can tell, these are acceptable failures and I can still run with them. However,
+when I go to the /examples/ folder of advantg's install directory and try to `python jpdr.py` 
+or `python -v jpdr.py`, the example doesn't run. This is the output of the non-verbose
+option (note that cargo.py fails with the same error:
+
+```
+Generating Denovo input files...
+INFO: Restricted group range to [0,46] due to problem mode
+Writing GIP library...
+            ...finished writing GIP library
+            ...finished generating Denovo input files in 1.2 seconds
+Executing Denovo...
+            ...failed while executing Denovo
+Traceback (most recent call last):
+  File "jpdr.py", line 39, in <module>
+    run(inp)
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/driver.py", line 218, in run
+    return run_from_ui(read_input(userdict, filename))
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/driver.py", line 178, in run_from_ui
+    solutions = method.run()
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/methods/fwcadis/method.py", line 60, in run
+    fwd_solution = self.solve_with_source(fwd_source, False, working_path)
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/methods/base.py", line 55, in solve_with_source
+    solver.solve()
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/solvers/denovo/solver.py", line 582, in solve
+    self.execute()
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/utils.py", line 271, in time_this_wrapper
+    result = timed_function(*args, **kwargs)
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/solvers/denovo/solver.py", line 477, in execute
+    for (stdout, stderr) in process:
+  File "/Users/madicken/Install/advantg/lib/python2.7/site-packages/advantg/utils.py", line 151, in open_teed_process
+    raise subprocess.CalledProcessError(process.returncode, " ".join(args))
+subprocess.CalledProcessError: Command '/Users/madicken/Install/openmpi/bin/mpiexec -np 1 /opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python -m advantg.solvers.denovo.runner.__main__ denovo_db.json' returned non-zero exit status 1
+```
+
+
 ***
