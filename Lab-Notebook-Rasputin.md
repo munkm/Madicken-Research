@@ -8,6 +8,7 @@
 * [Entry: 2016/06/22](#entry-20160622)
 * [Entry: 2016/06/28](#entry-20160628)
 * [Entry: 2016/07/17](#entry-20160717)
+* [Entry: 2016/07/17](#entry-20160718)
 
 ***
 
@@ -680,5 +681,150 @@ subprocess.CalledProcessError: Command '/Users/madicken/Install/openmpi/bin/mpie
 ```
 
 I e-mailed Seth about this error and am waiting on a response. 
+
+***
+
+### Entry: 2016/07/18
+
+Okay, so after Seth responded I realized that building master of advantg wasn't right. Seth
+did an overhaul of advantg a while ago to run through the frontend of exnihilo with the 
+Omnibus frontend. This feature has not been merged into master, so advantg's master won't run 
+properly with the updated version of exnihilo. (i.e. the current master branches of advantg
+and exnihilo are not compatible. I need to build the branch omni-denovo instead.
+
+Seth's response:
+> I'm guessing you didn't run the advantg regression tests... those are the ones that 
+> actually test the hookup between ADVANTG and Denovo. So if I understand, you're using 
+> a version of ADVANTG that you forked a year ago (or perhaps the master version), and 
+> you're using a pretty recent pull of Exnihilo (last couple of months)? If that's the 
+> case it won't work at all. I removed the old PyKBA from Exnihilo; the old ADVANTG 
+> relied on it. If you can fetch the ADVANTG repo at /repos/mirror/advantg.git ,  either 
+> check out the 'omni-denovo' branch or rebase your development on top of it.
+> 
+> BTW as to the particular failure message you got. I know it's the older version 
+> because it's executing another python instance 
+> ( mpiexec -np 1 /opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources
+> /Python.app/Contents/MacOS/Python -m advantg.solvers.denovo.runner.__main__ 
+> denovo_db.json ). And in that version the output doesn't get echoed to the log; you have
+>  to find the subdirectory in which it executes.
+
+Also, if I run the full test suite of advantg, you can see that the majority of the regression 
+tests 
+fail. Again, this is running `make test` rather than `make check`. If you want to run 
+only the regression tests then you can run `make test_regression` instead. 
+
+```
+The following tests FAILED:
+	  7 - test_FuncSpectrum (Failed)
+	 64 - regress_simple_sword (Failed)
+	 66 - regress_simple (Failed)
+	 67 - regress_simple_fwcadis (Failed)
+	 68 - regress_simple_mcvol (Failed)
+	 69 - regress_simple_pt (Failed)
+	 70 - regress_simple_pt_fwcadis (Failed)
+	 71 - regress_simple_upscatter (Failed)
+	 72 - regress_simple_ngamma (Failed)
+	 73 - regress_simple_reflect (Failed)
+	 74 - regress_sb_ww_match (Failed)
+	 75 - regress_multiple_density (Failed)
+	 76 - regress_mcnp_deck (Failed)
+	 77 - regress_source_weight (Failed)
+	 78 - regress_mesh_tally (Failed)
+	 79 - regress_collapsing (Failed)
+	 80 - regress_hpge_sword (Failed)
+	 81 - regress_simple_mpi (Failed) 
+```
+
+I've rebuilt advantg on the omni-denovo branch. I ran the regression tests and now
+tests 78 and 79 fail. The errors are:
+
+Test 78: 
+
+```
+WARNING: Nemesis timer level is set to 2. Performance may be degraded.
+INFO: Creating default boundary mesh from (-15 -15 0) to (15 15 180) for Mesh geometry
+INFO: Constructing Denovo state vector with 42 groups, 525 cells, 16 moments, 1 unknowns per cell
+CRITICAL: (node 0) Caught internal assertion:
+CRITICAL: (node 0) Assertion: state.next_dist >= 0., failed in /Users/madicken/Software/Scale/Exnihilo/packages/Geometria/mesh/rect/Mesh_Geometry.cc:308
+INFO: Writing XML output to omnibus.out.xml
+INFO: Omnibus run failed; printing log since the last successful status message
+*************************      OMNIBUS ERROR LOG       *************************
+::: Performing analytic first-collision source calculation on 1 sources
+!*!*! (node 0) Caught internal assertion:
+!*!*! (node 0) Assertion: state.next_dist >= 0., failed in /Users/madicken/Software/Scale/Exnihilo/packages/Geometria/mesh/rect/Mesh_Geometry.cc:308
+*************************        END ERROR LOG         *************************
+            ...failed while executing Denovo after 1.5 seconds
+ERROR in runner: Command '/Users/madicken/Install/openmpi/bin/mpiexec -np 1 /Users/madicken/Install/Exnihilo-serial-debug/bin/omnibus omnibus.inp.xml' returned non-zero exit status 1
+Traceback (most recent call last):
+.
+.
+skipping a few lines... 
+.
+.
+    s.process()
+  File "/Users/madicken/Install/Exnihilo-serial-debug/python/omnibus/teedprocess.py", line 68, in process
+    self.writelines(lines)
+  File "/Users/madicken/Install/Exnihilo-serial-debug/python/omnibus/teedprocess.py", line 72, in writelines
+    f.writelines(text)
+  File "/Users/madicken/Install/Exnihilo-serial-debug/python/omnibus/teedprocess.py", line 437, in writelines
+    self.function()
+  File "/Users/madicken/Install/Exnihilo-serial-debug/python/omnibus/omn/run.py", line 115, in abort_soon
+    teedproc.poll()
+  File "/Users/madicken/Install/Exnihilo-serial-debug/python/omnibus/teedprocess.py", line 260, in poll
+    raise subprocess.CalledProcessError(retcode, " ".join(self.args))
+CalledProcessError: Command '/Users/madicken/Install/openmpi/bin/mpiexec -np 1 /Users/madicken/Install/Exnihilo-serial-debug/bin/omnibus omnibus.inp.xml' returned non-zero exit status 1
+=== CollapsingProblem ===
+> A simple problem with RPPs and mixed cells
+Instantiating...
+Setting up...
+Working files already exist at /Users/madicken/Builds/advantg/python/tests/regression_run/CollapsingProblem
+...moved to /Users/madicken/Builds/advantg/python/tests/regression_run/CollapsingProblem_003
+Running in /Users/madicken/Builds/advantg/python/tests/regression_run/CollapsingProblem...
+error
+----------------------------------------------------------------------
+Passed:
+Failed:  CollapsingProblem
+ERROR
+
+      Start 79: regress_hpge_sword
+16/17 Test #79: regress_hpge_sword ...............***Failed   59.86 sec
+```
+
+Test 79
+
+```
+INFO: Writing silo file to 2 concurrent files using material volume fractions.
+CRITICAL: (node 0) Caught internal assertion:
+CRITICAL: (node 0) Assertion: angular_source_density >= 0, failed in /Users/madicken/Software/Scale/Exnihilo/packages/Denovo/kba_io/HDF5_Output.cc:475
+INFO: Writing XML output to omnibus.out.xml
+CRITICAL: (node 1) Caught internal assertion:
+CRITICAL: (node 1) Assertion: angular_source_density >= 0, failed in /Users/madicken/Software/Scale/Exnihilo/packages/Denovo/kba_io/HDF5_Output.cc:475
+WARNING: Omnibus encoutered a critical error; aborting in 5 seconds
+INFO: Omnibus run failed; printing log since the last successful status message
+*************************      OMNIBUS ERROR LOG       *************************
+WARNING: No output was found in omnibus.err
+*************************        END ERROR LOG         *************************
+            ...failed while executing Denovo after 34.4 seconds
+ERROR in runner: Critical error encountered in Omnibus executable. See log file for details.
+Traceback (most recent call last):
+  File "/Users/madicken/Builds/advantg/python/tests/advantg/testing/rharness/runner.py", line 59, in run_all
+    self.run_one(cls, args, kwargs, resume)
+```
+
+Note that the "see log file for details" message refers to the RegressionTests.log file. 
+For me this was in my top directory in /Build/advantg/
+I e-mailed seth about these errors and this was his response: 
+
+>> Ugh, you're right. I've apparently never run those inputs with DBC with denovo on. 
+>> Without DBC they pass.
+>> I'll look into it...
+> Yep, so one issue is a slightly too-restrictive DBC check: it's a tracking issue where 
+> the corner between two mesh cells is being hit.
+> 
+> The second issue is more serious; one of the spectra on the sword inputs has negative 
+> entries. So I've added validation for that; as to why it's making negative spectra 
+> I will have to check. But I'm going to rip out the SWORD stuff soon anyway :)
+
+Also, DBC refers to the flavor of assertions they're using. e.g. assert a == b. 
 
 ***
