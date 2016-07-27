@@ -1,5 +1,6 @@
 ### Update List
 
+* [Update: 2016/07/27](#update-20160727)
 * [Update: 2016/07/13](#update-20160713)
 * [Update: 2016/06/29](#update-20160629)
 * [Update: 2016/06/22](#update-20160622)
@@ -34,6 +35,34 @@
 * [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
+
+***
+
+### Update 2016/07/27
+
+Goals from last week:
+* **Completed** Prepare for interviews 
+* **Completed** Do a practice job talk w/ friends
+* **Completed** Continue with rebuild w/Seth's e-mail advice
+* **Started** Do a live build with Seth on Savio
+* **Completed** Document savio installation information
+* **Not Completed** Move method to new logical Denovo module (pending code review) 
+* **Not Completed** Merge current versions of advantg and exnihilo into my dev branches
+* **Not Completed** Remove python error from fwcadis and fwcadisangle
+
+Goals for the upcoming week:
+* Move method to new logical Denovo module (pending code review) 
+* Merge current versions of advantg and exnihilo into my dev branches
+* Remove python error from fwcadis and fwcadisangle
+* Get working version of Exnihilo on Savio
+* Get fully working version of Exnihilo on Rasputin
+* Continue documenting build process on both machines
+* Plan out writing schedule for the semester
+
+Postponed goals: 
+
+* Figure out why the python error is showing up with fwcadis method options 
+but not fwcadisangle method options.
 
 ***
 
