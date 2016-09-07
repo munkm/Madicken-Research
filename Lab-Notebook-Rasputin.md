@@ -8,7 +8,7 @@
 * [Entry: 2016/06/22](#entry-20160622)
 * [Entry: 2016/06/28](#entry-20160628)
 * [Entry: 2016/07/17](#entry-20160717)
-* [Entry: 2016/07/17](#entry-20160718)
+* [Entry: 2016/07/18](#entry-20160718)
 
 ***
 
@@ -826,5 +826,100 @@ I e-mailed seth about these errors and this was his response:
 > I will have to check. But I'm going to rip out the SWORD stuff soon anyway :)
 
 Also, DBC refers to the flavor of assertions they're using. e.g. assert a == b. 
+
+***
+
+### Entry: 2016/09/06
+
+** Updating Exnihilo branches** 
+
+I have been using a few different dev branches to implement my method in both Advantg and 
+Exnihilo. On Exnihilo I have the branch `angular_hybrid_method` and `ahm_sandbox`. The 
+sandbox branch was created originally as a branch to play around on, but then I ended up 
+developing a few tools on it. 
+
+To bring my original branch up to speed (with all of the install scripts that I used
+recently on master, I did the following commands.
+
+```
+$ git checkout angular_hybrid_method
+$ git merge ahm_sandbox
+
+$ git checkout master
+$ git pull 
+$ git checkout angular_hybrid_method
+$ git rebase master
+```
+at this point i dealt with merge conflicts and then completed the rebase. Just to make sure my 
+install scripts were up to date (and I moved all of the install scripts from master to 
+`angular_hybrid_method`) I did 
+
+```
+$ git diff master angular_hybrid_method --name-only
+```
+
+to see which files (listed by name only) were different between the two branches. Obviously
+all of the files in /denovo/ that I changed were different, so I was focused on the files 
+located in /install/  and cherry picked them back onto my branch if they were different.
+
+I merged ahm_sandbox into angular_hybrid_method since I wanted all of the commit messages 
+line up logically between the two branches. I rebased master onto angular_hybrid_method 
+because that is standard by the dev team. 
+
+At this point my branch `angular_hybrid_method` is up to date with master and has all
+of the feature commits from ahm_sandbox. I can't push to the remote server because the 
+rebase changed all of the commit hashes so the two branches look different. I did some 
+googling and it seems like --force-with-lease should work, but it isn't working for me.
+After talking to Tara she suggested that I delete the remote branch and then push my local 
+branch to a new remote. We'll see how that goes. 
+
+Force with lease references:
+https://github.com/thoughtbot/guides/pull/363
+https://developer.atlassian.com/blog/2015/04/force-with-lease/
+http://stackoverflow.com/questions/10510462/force-git-push-to-overwrite-remote-files
+
+
+** Updating Advantg branches** 
+
+Rebasing in advantg was a little more complicated. Seth had changed all of the interfacing
+with denovo to run through omnibus, but this wasn't incorporated into my dev branch of
+advantg. My dev branch is `MMM`, seth's feature branch is `omni_denovo`. To do this I
+ went to the advantg source directory and executed :
+
+```
+$ git checkout MMM
+$ git rebase master
+$ git rebase --onto omni-denovo master MMM
+
+```
+
+The second command rebases master onto MMM. The second command changes from what branch
+MMM looks like it was forked from. Rather than being forked from master, it now looks like
+MMM was forked from omni-denovo, including all of the features of omni-denovo onto MMM. 
+
+`omni_denovo` changed a few variables. The commit message relating to this says:
+
+```
+commit 69eac3def8e21e6c7208cab60265e38c59632572
+Author: Seth R Johnson <johnsonsr@ornl.gov>
+Date:   Tue Mar 22 12:41:41 2016 -0400
+
+    Rewrote Denovo solver to use Omnibus interface.
+
+    - Automatically detects MPI vs serial denovo installation
+    - Uses environment-set MPIEXEC flags; not set by ADVANTG
+    - Uses HDF5 interface for both input and output
+    - Some options have changed:
+      * ``denovo_quadrature`` no longer supports galerkin
+      * ``denovo_quad_file`` becomes ``denovo_quad_input``
+      * ``denovo_run_script`` is no longer applicable
+      * ``denovo_silo_mixed`` is no longer available
+      * ``denovo_silo_moments`` becomes ``denovo_write_moments``
+      * ``denovo_hdf5_angles`` becomes ``denovo_write_angular_flux``
+```
+
+Checking, I grepped hdf5_angles in the source dir that I was located in. Theoretically, if
+I rebased correctly no files with hdf5_angles should exsit in my source dir anymore. This 
+is indeed the case. 
 
 ***
