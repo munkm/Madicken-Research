@@ -82,6 +82,60 @@ If all of the TPLs are available, you can build exnihilo. Building exnihilo is d
 install scripts in the `/install/rc` and `install/codes/Exnihilo/` folders. Unlike the TPLS,
 Exnihilo builds can be done with many different customization options. 
 
+** On an interactive node: **
+
+On savio, you can't build using a logon node. You must use an interactive node because
+rsync (what copies the files in a build) is disabled. I
+detail my process figuring this out in my lab notebook, but I'll go through the
+quick-and-dirty way of doing that here. 
+
+Essentially, to do an interactive build you execute:
+```
+srun --pty --partition=savio --time=02:00:00 bash -i
+```
+
+* srun is the slurm command to run a program
+* --partition=savio tells slurm to use a compute note on savio
+* --pty gives you a pseudo-terminal that can run bash. If you don't use --pty you won't have
+access to things like vim or tab autocompletion, which can be *really* annoying. 
+* --time= is the time allotmnet that you're giving yourself for this process. 2 hours should
+be more than enough for a build, but if you're debugging this you might run out of time.
+* bash is the program that you're calling with srun
+* -i asks for an interactive node
+
+You can also add more flags to this command. For example:
+* -n number will request a specific number of tasks with which you can run. If you want 
+some parallelized features this might be relevant.
+
+Once you log on to an interactive node, source the relevant software to build exnihilo,
+then execute:
+
+```
+./install.sh Exnihilo VARIANT
+```
+Other relevant information:
+
+* Savio's interactive nodes have $USER@n00%d-- so unless the install.sh file is edited, 
+this won't build on the "savio" system, because the build script looks for a "ln00" system.
+I have edited the install.sh file on master to look for n and ln nodes (compute and logon
+ nodes), but if you branch from somewhere else this might not be in your build scripts. 
+
+
+Resources:
+https://yunmingzhang.wordpress.com/2015/06/29/how-to-use-srun-to-get-an-interactive-node/
+
+Note: the SLURM documentation changed between when I originally learned how to use
+interactive nodes. The first link includes the exact info I needed, but the resources below
+are the updated ones where this information isn't as clear. You can peruse them at your own
+leisure. 
+
+https://wiki.duke.edu/display/SCSC/SLURM+Queueing+System
+https://computing.llnl.gov/tutorials/linux_clusters/
+https://computing.llnl.gov/tutorials/linux_clusters/index.html#Starting
+https://computing.llnl.gov/linux/slurm/srun.html
+http://research-it.berkeley.edu/services/high-performance-computing/running-your-jobs
+
+
 
 ### Running Tests in Exnihilo [exnihilotest]###
 
