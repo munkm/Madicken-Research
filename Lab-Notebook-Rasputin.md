@@ -922,4 +922,15 @@ Checking, I grepped hdf5_angles in the source dir that I was located in. Theoret
 I rebased correctly no files with hdf5_angles should exsit in my source dir anymore. This 
 is indeed the case. 
 
+resources on rebasing using the --onto flag:
+https://git-scm.com/book/ch3-6.html
+https://git-scm.com/docs/git-rebase
+https://www.kernel.org/pub/software/scm/git/docs/git-rebase.html
+https://www.kernel.org/pub/software/scm/git/docs/git-rebase.html
+
+
+visualizing the graphs when rebasing:
+http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+
+
 ***
