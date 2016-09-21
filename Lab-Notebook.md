@@ -22,6 +22,51 @@
 
 ***
 
+### Entry: 2016/09/22
+
+Omnibus update:
+
+Commit from Seth
+
+>>    Merge branch 'omnibus-frontend'
+>>
+>>    This is a rewrite of the Omnibus input processing. It vastly improves
+>>    error reporting, inter-parameter dependency checking, and documentation.
+>>
+>>    Some defaults may have changed or no longer be present. Most notably are
+>>    that the PN order and number of MC particles (for fixed-source and
+>>    kcode) no longer have defaults. Default reporting is more consistent and
+>>    intelligent.
+>>
+>>    A few parameters, databases, and types have been renamed. The parameters
+>>    and databases use a new ``Deprecated`` entry to mark that they've
+>>    changed and report them to the user, allowing old inputs to run.
+>>
+>>    Another major change on the input is that inapplicable parameters are
+>>    now reported errors, with a detailed message about why they are not
+>>    applicable. This prevents users from unintentionally providing input
+>>    that isn't used (e.g. a ``[SOURCE]`` block in a kcode Denovo-only
+>>    problem). The applicability of parameters is now improved, particularly
+>>    for source options.
+>>
+>>    The ``[RUN=titan]`` mode is now ``[RUN=cray]`` to support execution of
+>>    Denovo on other Cray supercomputers that use aprun (namely the DOD
+>>    Excalibur cluster). The way defaults are chosen has changed for all the
+>>    PBS clusters, especially for Titan. I recommend
+>>
+>>    For developers, the biggest change is in defining new aspects to the
+>>    Omnibus input schema (parameters, defaults, etc.). Let's get together if
+>>    you want me to go over how these work. I have also added initial hooks for
+>>    postprocessing options.
+>>
+>>    The ASCII writer is currently offline due to the way the output is being
+>>    processed. When preprocessing you will find a '.inp.json' that contains
+>>    the processed options.
+
+My method is in omnibus, so this may cause some issues. 
+
+***
+
 ### Entry: 2016/03/16
 
 Step 1: comment out the hdf5 lib paths in rc/savio/base.cmake

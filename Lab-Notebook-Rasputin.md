@@ -932,5 +932,70 @@ https://www.kernel.org/pub/software/scm/git/docs/git-rebase.html
 visualizing the graphs when rebasing:
 http://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
 
+***
 
+### Entry: 2016/09/20
+
+I updated my Exnihilo dev branch to include the updated features in Omnibus. 
+
+A few new tests fail: 
+
+
+The following tests FAILED:
+       	829 - ShiftMC_sources_tstSurface_Input_Source_MPI_2 (Failed)
+       	830 - ShiftMC_sources_tstSurface_Input_Source_MPI_4 (Failed)
+       	910 - ShiftMC_transport_tstKCode_Solver_MPI_1 (Failed)
+       	912 - ShiftMC_transport_tstKCode_Solver_MPI_4 (Failed)
+       	994 - OmnibusPython_regress_kcode_MPI_1 (Failed)
+       	995 - OmnibusPython_regress_hybrid_MPI_1 (Failed)
+       	
+I'm most worried about the OmnibusPython errors, since that is what advantg is using to
+interface with Denovo now. 
+
+Update:
+
+All of the advantg regression tests fail with this build of exnihilo. My temporary solution 
+until I hear back from seth is:
+- rebuild Exnihilo on branch that tracks the (not rebased) remote branch. 
+```
+$ git checkout -b ahm_test origin/angular_hybrid_method
+$ ./install.sh Exnihilo serial-debug
+$ cd ../../../Builds/Exnihilo-serial-debug/
+$ sudo make install
+$ make test
+```
+
+the output of the tests on this new branch ahm_test has a few new failures:
+
+```
+The following tests FAILED:
+       	829 - ShiftMC_sources_tstSurface_Input_Source_MPI_2 (Failed)
+       	830 - ShiftMC_sources_tstSurface_Input_Source_MPI_4 (Failed)
+       	910 - ShiftMC_transport_tstKCode_Solver_MPI_1 (Failed)
+       	912 - ShiftMC_transport_tstKCode_Solver_MPI_4 (Failed)
+       	965 - OmnibusPython_test_gg_root_MPI_1 (Failed)
+       	992 - OmnibusPython_regress_fixedsrc_MPI_1 (Failed)
+       	993 - OmnibusPython_regress_kcode_MPI_1 (Failed)
+       	1007 - OmnibusDriver_tst_c5g7_gg_MPI_1 (Failed)
+       	1008 - OmnibusDriver_tst_c5g7_gg_MPI_2 (Failed)
+       	1009 - OmnibusDriver_tst_c5g7_gg_MPI_4 (Failed)
+       	1016 - OmnibusDriver_tst_denovo_kobayashi_MPI_4 (Failed)
+Errors while running CTest
+make: *** [test] Error 8
+```
+
+then i rebuilt the omni-denovo branch of advantg
+```
+$ ./install.sh advantg
+$ cd ~Builds/advantg/
+$ sudo make install
+$ make check
+$ make test
+
+```
+the test failures were the usual suspects:
+```
+The following tests FAILED:
+       	  7 - test_FuncSpectrum (Failed)
+```
 ***
