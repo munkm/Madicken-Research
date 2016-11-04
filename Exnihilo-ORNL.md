@@ -17,17 +17,20 @@
 
 
 Cloning:
-git clone ssh://angband/repos/mirror/advantg.git
-git clone ssh://angband/repos/git/Exnihilo.git
-git clone ssh://angband/repos/git/Exnihilo.git Exnihilo2
-git clone ssh://angband/repos/mirror/TriBITS.git
-git clone ssh://angband/repos/mirror/Trilinos.git
-git clone ssh://angband/repos/mirror/SCALE.git
-git clone ssh://angband/repos/mirror/lava.git
+* git clone ssh://angband/repos/mirror/advantg.git
+* git clone ssh://angband/repos/git/Exnihilo.git
+* git clone ssh://angband/repos/git/Exnihilo.git Exnihilo2
+* git clone ssh://angband/repos/mirror/TriBITS.git
+* git clone ssh://angband/repos/mirror/Trilinos.git
+* git clone ssh://angband/repos/mirror/SCALE.git
+* git clone ssh://angband/repos/mirror/lava.git
 
 1.) ssh ornl-login1 (login using pin+RSA key)
+
 2.) ssh remus (login using ucams password)
+
 3.) make sure .bashrc on user profile contains the following:
+
 ```
 # Sets up Exnihilo path configuration
 source /projects/exnihilo/rc
@@ -45,13 +48,16 @@ export PATH=/home/m15/install/advantg/bin:${PATH}
 export PYTHONPATH=/home/m15/install/advantg/lib/python2.7/site-packages:${PYTHONPATH}
 export LD_RUN_PATH=/home/m15/install/advantg/lib:${LD_RUN_PATH}
 ```
-4.) make the following directories:
+4.) submit an interactive job on Remus to start your build process. `qsub -IV -l nodes=1:ppn=8 -l walltime=08:00:00`
+
+5.) make the following directories after you've launched an interactive job (/tmp/ folders
+are only available on the node you make them on): 
 mkdir your_install_dir/advantg
 mkdir your_install_dir/Exnihilo
 mkdir tmp/${USER}/advantg
 mkdir tmp/${USER}/Exnihilo
 
-5.) execute the following: 
+6.) execute the following: 
 ```
 $ ./install.sh -c /home/m15/src/Scale/ -b /tmp/munk-build/Exnihilo -p 
 /home/m15/install/Exnihilo Exnihilo for-advantg
@@ -60,10 +66,10 @@ $ ./install.sh -c /home/m15/src/advantg -b /tmp/munk-build/advantg -p /home/m15/
 $
 ```
 
-6.) Navigate to the build directory. Then go to the exnihilo build directory and execute: `$ make test`
+7.) Navigate to the build directory. Then go to the exnihilo build directory and execute: `$ make test`
 Make sure all of the tests pass. 
 
-7.) Navigate to the advantg build directory. Execute `$ make check`, then execute `$ make test`.
+8.) Navigate to the advantg build directory. Execute `$ make check`, then execute `$ make test`.
 Make sure all tests pass. 
 
 
