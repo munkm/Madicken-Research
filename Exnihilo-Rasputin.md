@@ -84,6 +84,8 @@ Exnihilo builds can be done with many different customization options.
 
 ### Running Tests in Exnihilo [exnihilotest]###
 
+To run the tests in exnihilo, navigate to the build directory. 
+
 ### Full Explanation of base.cmake [cmakebase]###
 
 ### Full Explanation of base.sh [shellbase]###
