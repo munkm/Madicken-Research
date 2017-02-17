@@ -1,6 +1,8 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2017/02/16](#entry-20170216)
+* [Entry: 2017/02/09](#entry-20170209)
 * [Entry: 2016/03/16](#entry-20160316)
 * [Entry: 2016/03/09](#entry-20160309)
 * [Entry: 2016/03/08](#entry-20160308)
@@ -1231,3 +1233,32 @@ TL;DR summary: Don't let /tmp/ fill up or you won't be able to build exnihilo.
 
 
 ***
+
+### Entry: 2016/02/09
+
+To get timing data, run advantg with the debug log on. 
+
+advantg --log=DEBUG problem.py
+
+***
+
+### Entry: 2016/02/16
+
+Notes for the end of the day:
+* noticed that only ueki problems ended up with source biasing. Need to make sure that is right. 
+  * mcnp options detailed in sec 5.8.1 of advantg manual.
+* considering using violin plots in seaborn for anisotropy quantification:
+  * http://seaborn.pydata.org/examples/
+* beam problem has energy cutoff. Results in adj problem having only 5 energy groups but fwd still has 27. Can make WWs with differently sized things. Need to build in an exception to account for this. 
+* ueki problems have zero fluxes. need an exception error because divide by zeros end up w/ nasty shiz. 
+* used ornl ganglia page to view run memory usage. 
+
+To do list:
+  * get timing data for problems that ran
+  * write script to report varios FoM values
+  * write script to extract tally results
+  * write script to report which tally tests failed 
+  * get a few visuals of problems with interesting anisotropy data
+  * make script to plot distribution of WW bins 
+  * make a script to plot FoM by energy group 
+  * make a script to show FoM label over violin plot 
