@@ -1,6 +1,8 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2017/02/21](#entry-20170221)
+* [Entry: 2017/02/17](#entry-20170217)
 * [Entry: 2017/02/16](#entry-20170216)
 * [Entry: 2017/02/09](#entry-20170209)
 * [Entry: 2016/03/16](#entry-20160316)
@@ -1262,3 +1264,29 @@ To do list:
   * make script to plot distribution of WW bins 
   * make a script to plot FoM by energy group 
   * make a script to show FoM label over violin plot 
+
+***
+
+### Entry: 2016/02/17
+
+The http push/pull stuff was acting weird on remus/romulus and giving me a 403 error. 
+I got around this by editing the .ssh/config file *in the repository* to be 
+`munkm@github.com/munkm/repo.git` rather than `https://github.com/munkm/repo.git`. 
+That error was documented here:
+  * http://sharadchhetri.com/2014/08/16/error-requested-url-returned-error-403-forbidden-accessing-github-repo/
+
+***
+
+### Entry: 2016/02/21
+
+Weight window debugging log:
+* On 02/19 I discovered that the WW target value outputted by the automated method did not match that of the manually outputted WWS in prob_2. 
+  * The only difference between these inputs deterministically was the weight windows
+Tasks:
+  * See if manually generating WWs for new problem run generates the same target or if they do something different
+  * scp data from remus to get maze problem onto local machine
+  * compare the weight window exit values between automated version
+
+Results:
+  * ipython notebook for this purpose was made at:
+  * 
