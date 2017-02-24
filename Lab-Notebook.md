@@ -1238,7 +1238,7 @@ TL;DR summary: Don't let /tmp/ fill up or you won't be able to build exnihilo.
 
 ***
 
-### Entry: 2016/02/09
+### Entry: 2017/02/09
 
 To get timing data, run advantg with the debug log on. 
 
@@ -1246,7 +1246,7 @@ advantg --log=DEBUG problem.py
 
 ***
 
-### Entry: 2016/02/16
+### Entry: 2017/02/16
 
 Notes for the end of the day:
 * noticed that only ueki problems ended up with source biasing. Need to make sure that is right. 
@@ -1269,7 +1269,7 @@ To do list:
 
 ***
 
-### Entry: 2016/02/17
+### Entry: 2017/02/17
 
 The http push/pull stuff was acting weird on remus/romulus and giving me a 403 error. 
 I got around this by editing the .ssh/config file *in the repository* to be 
@@ -1279,7 +1279,7 @@ That error was documented here:
 
 ***
 
-### Entry: 2016/02/21
+### Entry: 2017/02/21
 
 Weight window debugging log:
 * On 02/19 I discovered that the WW target value outputted by the automated method did not match that of the manually outputted WWS in prob_2. 
@@ -1295,7 +1295,7 @@ Results:
 
 ***
 
-### Entry: 2016/02/22
+### Entry: 2017/02/22
 
 Debugging WW issue:
   * checked out to commit `#38a7748`, the commit build hash for the original PHYSOR problems; made new branch `ahm-test`
@@ -1321,7 +1321,7 @@ Next steps:
 
 ***
 
-### Entry: 2016/02/23
+### Entry: 2017/02/23
 
 * Seth told me he pushed an update to fix pn order 2 to master. 
   * decided to rebase current branch w/ master and rerun to see if the same output reults. 
