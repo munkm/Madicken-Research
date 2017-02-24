@@ -1317,6 +1317,7 @@ Debugging WW issue:
 Next steps:
 * make sure (adj,adj) outputs in the same exact matrix as the collapsed flux. 
 * add print statements to new function to see if the data changes unexpectedly at all
+* modify old version of integrator to read in new files or vice versa
 * talk to seth tomorrow. 
 
 ***
@@ -1389,5 +1390,33 @@ error: The following untracked working tree files would be overwritten by checko
 Please move or remove them before you can switch branches.
 Aborting
 ```
+* after doing the delete lfs, and `reset hard`, seth told me to do `git clean -fd`
+```
+madmunk@Rasputin:~/Software/Exnihilo(ahm-test) $ git status
+On branch ahm-test
+nothing to commit, working directory clean
+madmunk@Rasputin:~/Software/Exnihilo(ahm-test) $ git checkout angular_hybrid_method
+Switched to branch 'angular_hybrid_method'
+Your branch is ahead of 'origin/angular_hybrid_method' by 2 commits.
+  (use "git push" to publish your local commits)
+madmunk@Rasputin:~/Software/Exnihilo(angular_hybrid_method) $ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+```
+  HURRAYYYYYYYYY
+
+
+Tasks from yesterday:
+* **make sure (adj,adj) outputs in the same exact matrix as the collapsed flux.**
+
+* **add print statements to new function to see if the data changes unexpectedly at all**
+
+* **modify old version of integrator to read in new files or vice versa**
+
+* **talk to seth tomorrow.** 
+
+
+
+
 * considering next steps....
 
