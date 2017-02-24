@@ -1,6 +1,8 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2017/02/23](#entry-20170223)
+* [Entry: 2017/02/22](#entry-20170222)
 * [Entry: 2017/02/21](#entry-20170221)
 * [Entry: 2017/02/17](#entry-20170217)
 * [Entry: 2017/02/16](#entry-20170216)
@@ -1288,5 +1290,104 @@ Tasks:
   * compare the weight window exit values between automated version
 
 Results:
-  * ipython notebook for this purpose was made at:
+  * ipython notebook for this purpose was made at: `~/Documents/ORNL/old-files/WWgenerator-sandbox.ipynb`
   * 
+
+***
+
+### Entry: 2016/02/22
+
+Debugging WW issue:
+  * checked out to commit `#38a7748`, the commit build hash for the original PHYSOR problems; made new branch `ahm-test`
+  * ran the exact PHYSOR variant (except changed pn order from 2 to 3) on Remus
+    * manually calculated the `w_norm` value from PHYSOR run. Resulted in same value in automated current script. 
+    * data pulled from remus onto local machine. Located at `Documents/ww-debug/test`
+  * pulled in PHYSOR data, manually calculated w_norm. Value still matches the data from PHYSOR. 
+    * Data located at: `/Siberia/Physor_problems/maze2_test_vacuum/`
+  * Tried using data from Remus run to calculate w_norm for jsut the cadis run. Results in a different number. Used `Inegrator(adj,adj)`, which should collapse to the same adj fluxes
+    * This could be due to the quadrature weight issue that I talked about with Tom a while ago. 
+  * checked to see if sb_generator class and mcnp output classes have changed significantly from that commit hash to now. 
+    * nothing in `SBGenerator.cpp` or `.hpp` changed in the calculation of `w_norm`
+    * `advantg/outputs/mcnp` has both `outputs.py` and `deck.py` changed. 
+  * checked that no matter what type of source biasing, w_norm is the same. 
+    * space, energy = same
+    * space only = same
+    * none = same
+
+Next steps:
+* make sure (adj,adj) outputs in the same exact matrix as the collapsed flux. 
+* add print statements to new function to see if the data changes unexpectedly at all
+* talk to seth tomorrow. 
+
+***
+
+### Entry: 2016/02/23
+
+* Seth told me he pushed an update to fix pn order 2 to master. 
+  * decided to rebase current branch w/ master and rerun to see if the same output reults. 
+  * tried to check out `angular_hybrid_method`
+```
+$ git checkout angular_hybrid_method
+Downloading environment/latex/NsedTitle.pdf (8.25 MB)
+Error downloading object: environment/latex/NsedTitle.pdf (9eb869fb712e17efdd7d5a4c3ee257063475b2b46af86dd09845318692e0801c)
+
+Errors logged to /Users/madicken/Software/Exnihilo/.git/lfs/objects/logs/20170223T130046.198839791.log
+Use `git lfs logs last` to view the log.
+error: external filter git-lfs smudge -- %f failed 2
+error: external filter git-lfs smudge -- %f failed
+fatal: environment/latex/NsedTitle.pdf: smudge filter lfs failed 
+```   
+  * tried commenting out lfs commands in `~/.gitconfig`
+```
+$ git checkout angular_hybrid_method
+error: Your local changes to the following files would be overwritten by checkout:
+    .gitattributes
+    Version.cmake
+    environment/README.rst
+    environment/emacs/nemesis-functions.el
+    environment/emacs/nemesis-modes.el
+    environment/emacs/nemesis.el
+    environment/emacs/omnibus-mode.el
+    environment/etc/templates/CMakeLists.txt
+    environment/etc/templates/template.cu
+    environment/etc/templates/template.cuh
+    environment/etc/templates/template.hh 
+Please, commit your changes or stash them before you can switch branches.
+error: The following untracked working tree files would be overwritten by checkout:
+...
+... 
+ Please move or remove them before you can switch branches.
+Aborting
+```
+  * tried putting git lfs commands back in .gitconfig. Same error as immediately above responds.
+  * tried `git reflog` and resetting to the state before these errors arose. No change. (note that the changes were not with reset hard) 
+
+  * tried uninstalling the port for git lfs, commenting out the lfs lines in .gitconfig, and deleting the lfs hook in .git/hooks/. 
+    * grepped in /hooks/ to see which hooks pertained to git lfs. 
+    ```$ grep -r 'lfs' .
+./pre-push:command -v git-lfs >/dev/null 2>&1 || { echo >&2 "\nThis repository is configured for Git LFS but 'git-lfs' was not found on your path. If you no longer wish to use Git LFS, remove this hook by deleting .git/hooks/pre-push.\n"; exit 2; }
+./pre-push:git lfs pre-push "$@" ```
+     * deleted pre-push
+     * perfomed a `git reset --hard ` to the commit before everything got messed up. 
+     * tried checking out again:
+```
+$ git checkout angular_hybrid_method
+error: The following untracked working tree files would be overwritten by checkout:
+    README.md
+    environment/etc/templates/template.c
+    environment/etc/templates/template.gg.omn
+    environment/etc/templates/template.h
+    environment/etc/templates/template.i.cuh
+    environment/etc/templates/template.raytrace.ipynb
+    environment/etc/templates/template.technote.tex
+    environment/git/format_commit_messages.py
+    environment/git/post-receive
+    environment/git/pre-receive
+    environment/git/pre-receive-denovo
+    environment/git/pre-receive-locked
+    environment/git/pre-receive-reasonable.sh
+Please move or remove them before you can switch branches.
+Aborting
+```
+* considering next steps....
+
