@@ -1,6 +1,7 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2017/02/25](#entry-20170225)
 * [Entry: 2017/02/24](#entry-20170224)
 * [Entry: 2017/02/23](#entry-20170223)
 * [Entry: 2017/02/22](#entry-20170222)
@@ -1455,7 +1456,7 @@ Notes:
   * Modify code to be the same as the /denovo/solver.py in terms of checks for group bounds
   * Try hardcoding in the number of groups and see if it changes the number. 
   * could it be the mesh? 
-
+* built modified version of advantg on node 22 of remus. Rebuild there. 
 
 Tasks from two days ago:
 * **make sure (adj,adj) outputs in the same exact matrix as the collapsed flux.**
@@ -1469,3 +1470,10 @@ Tasks from two days ago:
 To do list:
 * Build in python assertions everywhere in advantg and in exnihilo. 
 
+***
+
+### Entry: 2017/02/25
+
+* discussion with trisha: consider if angular flux data is not centered around the average (max-skewed or min-skewed), neither max/min or max/average capture that well. The ratio between the two values might be valuable in this case. 
+* also consider mean vs. median
+* quantifying variance? 
