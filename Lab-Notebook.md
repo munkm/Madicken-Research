@@ -1542,4 +1542,7 @@ To do list:
 * check to see if solvers have same defaults
 * check to see if adjoint matrix is now rotated maybe?
 
+From patricia talk:
+* taking difference of mean-median will result different values depending on range
+  * take difference as a percentage of the range
 
