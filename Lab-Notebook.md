@@ -1477,3 +1477,69 @@ To do list:
 * discussion with trisha: consider if angular flux data is not centered around the average (max-skewed or min-skewed), neither max/min or max/average capture that well. The ratio between the two values might be valuable in this case. 
 * also consider mean vs. median
 * quantifying variance? 
+
+
+***
+
+### Entry: 2017/02/27
+
+* try 1: in `/Users/madicken/Documents/WW_debug/test/` read in adj
+  * (adj, adj) using new script, pn2 compatible = 7.61486845621e-05
+    * note: this is branch angular_hybrid_method w/o BC on old hdf5 files
+  * standard cadis = 2.676207683e-05
+    * in `~/munk_analysis/demonstration/cadisangle2/testcadis/output`
+* try 2: in same folder, read in adj and fwd
+  * (fwd, adj) using new script, = 7.185880146e-10
+    * note: this is branch angular_hybrid_method w/o BC on old hdf5 files
+  * automated method = 7.18588014571e-10
+    * in `/munk_analysis/demonstration/cadisangle2/testanglecadis/output`
+* try 3: in same folder, read in adj and fwd
+  * (adj, fwd) using new script = 6.61553483984e-11
+    * note: this is branch angular_hybrid_method w/o BC on old hdf5 files
+* try 4: in `/Volumes/Siberia/Gulag/PHYSOR_problems/maze2_test_vacuum/`
+  * (fwd, adj) pn order 2 using old script = 1.15962549904e-06
+    * note: this script is not fwd compatible with new hdf5 files
+  * automated method on pn order 2 = 1.416035067e-09 
+    * data for this is located at: `~/munk_analysis/demonstration/wwdebug/PHYSOR/testangle/output`
+* try 5: in `/Volumes/Siberia/Gulag/PHYSOR_problems/maze2_test_vacuum/`
+  * (fwd, adj) pn order 2 using new script with old ff BC = 1.15962549904e-06 
+    * note this is the updated integrator but without forwards compatability w/ new format
+* try 6: run pn order 2 on local machine over again
+  * automated result: 1.416035067e-09
+* try 7: read in data from pn order 2 with updated script
+  * (fwd, adj) pn order 2 using new script 1.41603506711e-09 
+
+
+* try 1-3 was data from pn order 3 runs, try 4-7 is pn order 2 runs.
+  * 4-5 are old pn order 2 runs run at Exnihilo commit #38a77488, advantg commit #3ad1078a
+  * 6-7 are new pn order 2 runs run at Exnihilo commit #91fa625e, advantg commit #d593cb0d
+
+* moved `~/Documents/WW_debug/` to `~/Volumes/Siberia/Gulag/WW-debug/` because the files were big. 
+
+* Observations: because the automated and manual match for the same dataset, something has happened with the output of the hdf5 files. need to compare pn order 2 at `/Volumes/Siberia/Gulag/PHYSOR_problems/maze2_test_vacuum/` to `/Volumes/Siberia/Gulag/WW-debug/pn2`
+   * diff the two files:
+```
+$ diff maze2.py  ~/Documents/pn2/maze2.py
+4c4
+<     "method":                    "cadis",
+---
+>     "method":                 "cadisangle",
+15,18c15,17
+<     "denovo_hdf5_angles":        True,
+< #     "denovo_x_blocks":           2,
+< #     "denovo_y_blocks":           2,
+< #     "denovo_z_blocks":           3,
+---
+>     "denovo_x_blocks":             2,
+>     "denovo_y_blocks":             2,
+>     "denovo_z_blocks":             2,
+```
+
+To do list:
+* compare forward and adjoint hdf5 files between old and new versions
+  * old: /Volumes/Siberia/Gulag/PHYSOR_problems/maze2_test_vacuum/
+  * new: ~/Documents/pn2/ 
+* check to see if solvers have same defaults
+* check to see if adjoint matrix is now rotated maybe?
+
+
