@@ -1546,3 +1546,50 @@ From patricia talk:
 * taking difference of mean-median will result different values depending on range
   * take difference as a percentage of the range
 
+***
+
+### Entry: 2017/02/28
+
+* Made a notebok in `~/Documents/ORNL/old_files/HDF5-comparison.ipynb`
+* load in old and new fwd and adj datasets
+* Compared the files from then to now:
+  * compared angles, mesh_g, _y, _x, and quadrature_weights 
+    * fwd and fwd are identical
+    * adj and adj are identical
+    * This leads me to believe that the **structure** of each matrix has remained the same between then and now. 
+  * compared the angular flux values between then and now
+    * fwd and fwd
+      * [1,1,1,1] difference between the two of them on the order of 10e-08 to 10e-12
+      * found the mean value of each matrix, subtracted the difference:
+        ```
+            A=new_angular_flux.mean()
+            B=old_angular_flux.mean()
+            print(A, B, A-B)
+        ``` 
+        result:
+        ```
+        (0.00033741054301550025, 3.8351647233030862e-08, 0.00033737219136826722)
+        ```
+    * adj and adj
+      * [1,1,1,1] difference between the two of them on the order of 10e-28
+      * found the mean value of each matrix, subtracted the difference:
+        ```
+            A=new_angular_flux.mean()
+            B=old_angular_flux.mean()
+            print(A, B, A-B)
+        ``` 
+        result:
+        ```
+        (0.00032693007657824815, 0.0003269300765782481, 5.4210108624275222e-20)
+        ```
+     * **This leads me to believe that the fowrard problem that was solved is significantly different between then and now. Let us try to figure out why.** 
+  * FUTURE NOTE: Put histograms of fwd distributions that you generated here. 
+
+To do when getting home:
+  * compare fields.silo from old vs. new data
+  * compare mcnp inputs from old vs. new data
+  * check that fields.silo and denovo_output.silo in old matches (only read in one energy group to be sure.
+  * check that fields.silo and denovo_outputs.silo in new matches (only read in one energy group to be sure. 
+  * die. 
+
+
