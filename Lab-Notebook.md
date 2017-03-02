@@ -1,6 +1,9 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2017/03/01](#entry-20170301)
+* [Entry: 2017/02/28](#entry-20170228)
+* [Entry: 2017/02/27](#entry-20170227)
 * [Entry: 2017/02/25](#entry-20170225)
 * [Entry: 2017/02/24](#entry-20170224)
 * [Entry: 2017/02/23](#entry-20170223)
@@ -1593,3 +1596,124 @@ To do when getting home:
   * die. 
 
 
+***
+
+### Entry: 2017/03/01
+
+Man, this is frustrating. 
+* I posted the histograms from the angular flux data in slack yesterday. Here is that conversation:
+Me:
+> Hey @tme, @sethrj  tells me that the uncollided flux stuff was rewritten somewhat recently. Is that update compatible with the angular hdf5 output?
+Tom:
+> Yes, it should be  
+> Its been several months (Spring 2016)
+Me:
+> Yeah, I'm comparing files that were generated from winter 2016. The adjoint angular fluxes match fairly closely from then to now(~e-20), but the forward fluxes are far different(e-08 to e-04). I'll have to investigate some more, but these should be for the same problem. I just want to make sure that that there's a reasonable explanation for the difference.
+Tom:
+> Ok.  If you are looking at the uncollided flux and comparing old vs new method, the new method is *much*  more accurate in the cells close to the point source. The old method was basically crap there.
+> So if you may see a big difference, but it probably is only in the cell where the point source is located
+> Cells away from the source will be very close, if not identical
+> To within numerical precision  
+> This shouldn’t affect your biasing much at all because you don’t need to bias things much close to the forward source
+Me: 
+> I was curious if it was a local issue, so I decided to find the mean angular flux for the entire problem and compare the difference from then to now. In the adjoint solution the difference between the old and new mean value of the angular flux is ~e-20. In the forward solution the mean angular flux value difference is ~e-04
+Tom:
+> The adjoint uses FW cadis, which doesn’t run a point source.  You only run the point source in the forward.  So those would be different
+Me:
+> Right. I was taking the difference between the two forward files and got e-04
+Tom:
+> That makes sense.  It probably is driven by the cell where the point source is
+Me:
+> Ok, so out of curiosity I plotted a histogram of the difference between the forward angular fluxes in these two different versions. I don't see a localized effect dominating the average.
+
+[Pasted histogram of psi_new-psi_old]
+
+Tom:
+> No that doesn’t look correct.
+> Do you have a simple problem from before that does not have a point source?
+
+
+As a result today I've focused on a few things:
+1) Try to compare scalar fluxes in output files to see if the problem is localized to the angular fluxes
+2) Generate forward information for problem identical to maze2 but with a volumetric source
+3) Compare run parameters from old point source parametres
+4) Plot source distributions with Visit for old and new problems. 
+5) compare mcnp inputs from old vs. new data
+6) check that fields.silo and denovo_output.silo in old matches (only read in one energy group to be sure.
+7) check that fields.silo and denovo_outputs.silo in new matches (only read in one energy group to be sure. 
+
+
+1) ** comparing scalar fluxes in output files**
+  * this wasn't as straightforward because the output fields.silo are not straight-in-readable
+  * I made a notebook at `Documents/ORNL/old_files/SILO-comparison.ipynb` and read in the fields.silo files from each dataset:
+    * `/Volumes/Siberia/Gulag/PHYSOR_problems/maze2_test_vacuum/fwd/output/fields.silo`
+    * `/Users/madicken/Documents/pn2/output/fields.silo`
+  * Read in the data by group and made the same two types of histograms as yesterday:
+    * PUT HISTOGRAM DATA HERE FOR SCALAR FLUXES CALCULATED TODAY. 
+
+2) ** Generate forward info for volumetric source maze2 variant **
+  * Grepped in old pn2 directory to get commit hash and branches of old data
+    * 
+
+```./config.json: "version": "3.0.0b2 (branch 'moments' #3ad1078a on 2015OCT19)"
+./status.log:INFO       at 2016-04-19 17:01:00,936: Executing Denovo version 5.4 (branch 'ahm_sandbox' #38a77488 on 2015OCT25) [debug] [DBC=7] ```
+
+    * built old advantg and exnihilo based on that:
+      * advantg = advantg-old (@commit #3ad107a), branch avantg-old
+      * Exnihilo = exnihilo-serial-debug (commit #90e2aab6) branch ahm-test
+    * generated a new sourcedef for maze 2: from 
+```
+sdef POS -75.0 0.0 50.0 PAR=1 ERG=10.0
+```
+to
+```
+sdef POS -75.0 0.0 50.0 X=d1 Y=d2 z=d3 PAR=1 ERG=10.0
+SI1 -77.5 -72.5
+SP1 0 1
+SI2 -2.5 2.5
+SP2 0 1
+SI3 47.5 52.5
+SP3 0 1
+```
+     * reran problems. Data saved at: `/Volumes/Siberia/Gulag/WW_debug/volsrc`
+       * current build has automated omega method in `volsrc/new`
+       * old build executed in `volsrc/old/fwd` and `volsrc/old/cadis`
+  * **OBSERVATIONS**
+    * w_norm in `volsrc/new` is `1.388903966e-09`, for point source it is `1.416035067e-09`
+    * w_norm in `volsrc/old` is ``, for point source it is `1.15962549904e-06`
+    * INSERT HISTOGRAMS OF ANGULAR FLUXES FOR NEW DATA HERE
+    * `(0.00033741054301550025, 1.2628955919469845e-07, 0.00033728425345630556)` = new flux mean, old flux mean, difference
+    * It is terrible to rerun the old data because the build is serial. Each run takes ~40 minutes, which is annoying AF.
+    
+3) Compare run parameters from old point source parametres
+   * aside from the source being analytic in the new `pn2/fwd_solution/omnibus.inp.omn` and it not in the `maze2_test_vacuum/fwd_solution/denovo_db.json`, these aappear to be the same. 
+     * transport correction = diagonal
+     * verbosity = high (old) medium (new)
+     * within group solver = gmres
+     * boundary = vacuum
+     * downscatter = true
+     * 0,26 = first and last groups
+     * ignore upscatter = true
+     * downscatter = true
+     * pn order = 2
+     * sn order = 10
+     * quad type = qr 
+       * construction = levelsym (only defined in new)
+     * tolerance = 0.001
+
+4) Plot source distributions with Visit for old and new problems. 
+
+5) compare mcnp inputs from old vs. new data
+   * done. they match exactly and are identical.
+
+6) check that fields.silo and denovo_output.silo in old matches (only read in one energy group to be sure.
+
+7) check that fields.silo and denovo_outputs.silo in new matches (only read in one energy group to be sure. 
+
+8) Run the forward calculation manually with the new build. Plot histograms comparing w/ new data from new build of old branch and see if there's an effect of manual vs. automated
+  * Ran automated at `Volumes/Siberia/Gulag/WW_debug/volsrc/manual_new/fwd`
+  * Executed in jupyter notebook 
+  * `(1.2628955919469845e-07, 1.2628955919469845e-07, 0.0)` = new, old, diff
+
+
+YESSSSSSSS I KNOW IT HAS TO DO WITH AUTOMATION!!!!!!! 
