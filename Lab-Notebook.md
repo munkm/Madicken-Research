@@ -1,6 +1,8 @@
 ### Entry List
 ### Entry Links: ###
 
+* [Entry: 2017/03/03](#entry-20170303)
+* [Entry: 2017/03/02](#entry-20170302)
 * [Entry: 2017/03/01](#entry-20170301)
 * [Entry: 2017/02/28](#entry-20170228)
 * [Entry: 2017/02/27](#entry-20170227)
@@ -1603,32 +1605,48 @@ To do when getting home:
 Man, this is frustrating. 
 * I posted the histograms from the angular flux data in slack yesterday. Here is that conversation:
 Me:
+
 > Hey @tme, @sethrj  tells me that the uncollided flux stuff was rewritten somewhat recently. Is that update compatible with the angular hdf5 output?
 Tom:
+
 > Yes, it should be  
 > Its been several months (Spring 2016)
+
 Me:
+
 > Yeah, I'm comparing files that were generated from winter 2016. The adjoint angular fluxes match fairly closely from then to now(~e-20), but the forward fluxes are far different(e-08 to e-04). I'll have to investigate some more, but these should be for the same problem. I just want to make sure that that there's a reasonable explanation for the difference.
+
 Tom:
+
 > Ok.  If you are looking at the uncollided flux and comparing old vs new method, the new method is *much*  more accurate in the cells close to the point source. The old method was basically crap there.
 > So if you may see a big difference, but it probably is only in the cell where the point source is located
 > Cells away from the source will be very close, if not identical
 > To within numerical precision  
 > This shouldn’t affect your biasing much at all because you don’t need to bias things much close to the forward source
+
 Me: 
+
 > I was curious if it was a local issue, so I decided to find the mean angular flux for the entire problem and compare the difference from then to now. In the adjoint solution the difference between the old and new mean value of the angular flux is ~e-20. In the forward solution the mean angular flux value difference is ~e-04
+
 Tom:
+
 > The adjoint uses FW cadis, which doesn’t run a point source.  You only run the point source in the forward.  So those would be different
+
 Me:
+
 > Right. I was taking the difference between the two forward files and got e-04
+
 Tom:
+
 > That makes sense.  It probably is driven by the cell where the point source is
+
 Me:
 > Ok, so out of curiosity I plotted a histogram of the difference between the forward angular fluxes in these two different versions. I don't see a localized effect dominating the average.
 
 [Pasted histogram of psi_new-psi_old]
 
 Tom:
+
 > No that doesn’t look correct.
 > Do you have a simple problem from before that does not have a point source?
 
@@ -1716,4 +1734,95 @@ SP3 0 1
   * `(1.2628955919469845e-07, 1.2628955919469845e-07, 0.0)` = new, old, diff
 
 
-YESSSSSSSS I KNOW IT HAS TO DO WITH AUTOMATION!!!!!!! 
+YESSSSSSSS I KNOW IT HAS TO DO WITH AUTOMATION!!!!!!!
+
+***
+
+### Entry: 2017/03/02
+
+The notes that I'm going to write for this day are a day old, so they're not going to be as detailed as the posts imediately preceeding this one. 
+
+* I read in `fields.silo` from the `/output/` directory to a new Visit file
+  * fields.silo has the forward scalar fluxes, the adjoint scalar fluxes, and the omega scalar fluxes so it will be useful for visualization of everything
+  * plotted slices of the `adj group 000`, `adj group 026`, `fwd group 000`, and the `fwd group 026` at the midplane of the problem (in XY).
+  * The fwd problem has the source set at the location of the detector, meaning somehow I am setting up the forward source incorrectly.
+* Returned to code to inspect how the source could be configured incorrectly.
+  * Finally discovered in `/methods/cadisangle/method.py` that I set up the forward problem like this:
+```
+        working_path = init_working_dir("fwd_solution",
+                rename_if_exists=(not site['resume']))
+        fwd_source = self.model.map_responses()
+        fwd_solution = self.solve_with_source(fwd_source, False, working_path)
+
+```   
+    when in fact it should be like this:
+```
+        working_path = init_working_dir("fwd_solution",
+                rename_if_exists=(not site['resume']))
+        fwd_source = self.model.map_sources()
+        fwd_solution = self.solve_with_source(fwd_source, False, working_path)
+```
+
+I changed this and reran the problem with the update. 
+* w_norm is `1.069557257e-06`
+* Recall that in the old script it is: `1.15962549904e-06`
+
+In addition to finding the bug and fixing it I:
+* rebuilt advantg:MMM and exnihilo:angular_hybrid_method on both my local machine and remus
+  * I updated advantg origin to be at advantg:m15/advantg, upstream to advantg's base directory on code-int
+  * I updated `origin/master` on both `exnihilo` and `advantg` from `upstream/master` 
+  * I rebased both `advantg:MMM` and `exnihilo:angular_hybrid_method` with current versions of `upstream/master`
+  * I `git push -f origin branchname` up to origin for both
+  * I deleted source directories from remus and recloned `origin` for both advantg and exnihilo.
+  * Rebuilt on both machines. Remus passed all tests. 
+* I reran the problems on remus
+  * I moved the `analog` `cadis` `cadisangle` and `cadisangle2` folders to `~/munk_analysis/demonstration/old-data`
+  * I reran the mcnp problems in `~/munk_analysis/demonstration/analog`
+  * I reran the cadis and mcnp updated problems in `~/munk_analysis/demonstration/cadis`
+  * I reran the cadisomega and mcnp problems in `~/munk_analysis/demonstration/cadisangle`
+
+* After rerunning these problems I noticed that the FOM goes down from what I expected. On the PHYSOR poster I said for Pn order 3
+  * Analog FOM: 523.0
+  * CADIS FOM: 5.1
+  * CADIS-Omega FOM: 145.0
+
+For the updated problems they are:
+  * Analog FOM: 17
+  * CADIS FOM: 18
+  * CADIS-Omega FOM: 2.2 
+
+
+***
+
+### Entry: 2017/03/03
+
+To do list:
+* meet w/ rachel
+* On local machine:
+  * rerun .h5 files w/ adj=false and see if running those mcnp affect the runtime drastically
+  * diff mcnp inputs between savio maze2_update folder and pnforsavio folder
+  * get pnforsavio and maze2_update folders from savio
+  * Visualize fields.silo and see if they make sense. Speifically see if maze2 matches PHYSOR data
+  * check that fields.silo and omega.silo match (JIC). This could be done in a notebook.
+* On remus
+  * rerun *angle methods with reflecting boundary conditions
+    * compare w/ savio maze2_update results
+    * compare w/ savio pnforsavio results
+  * pull .h5 file for maze2 from remus
+    * check if adj=false
+    * check if numbers line up with savio
+
+Brainstorming:
+* this could have something to do with reflecting BCS. It might be worth seeing if reflecting BCS fix the problem
+* Rachel suggests putting concrete at the cell boundaries. This may be more realistic anyways. 
+* figure out which savio data has adj=true and which have adj=false
+
+Other notes:
+* p_n order data from PHYSOR poster and from job talk slides is located at `~/savio:pnforsavio/pnorder/*/outq` and are now copied at at `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2/pnforsavio/pnorder/three`
+ * this data has reflecting BCs
+* updated method is close to `savio:~/maze2_update/two/inp`, 
+  * w_norm in updated script at `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2_update/outq` is  `1.069557257e-06`
+  * on savio it is: `1.15962549904e-06`
+  * w_norm for `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2/pnforsavio/pnorder/three/cadom/outq` is `3.57286832225e-06`; this corresponds to the FOM of 145.0
+
+ 
