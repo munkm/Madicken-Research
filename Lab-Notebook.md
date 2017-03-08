@@ -1826,3 +1826,95 @@ Other notes:
   * w_norm for `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2/pnforsavio/pnorder/three/cadom/outq` is `3.57286832225e-06`; this corresponds to the FOM of 145.0
 
  
+### Entry: 2017/03/07
+
+Checklist:
+
+* check that the omega- fluxes look natural coming out of maze2_udpate
+  * opened group 26 and group 00 of `~/Documents/pn2_update_reflecting/output/fields.silo`
+    * by inspection, they look as expected.
+    * scaled the axes to match those from earlier runs
+      * group 26 looks pretty much the same as the original when plotted on the same axes. 
+      * group 00 looks different, especially near the forward source. I am going to attribute this to the improved quality of the solver. 
+* reran maze2 w/ reflecting BCS on remus
+  * ran at `~/munk_analysis/demonstration/wwdebug/PHYSOR-reflecting/`
+    * CADIS 
+      * ran for 10000000 particles
+      * w_norm is 2.672032757e-05
+      * runtime is 1974.13 minutes
+      * FOM is .059
+      * last line wwinp: `1.44557e+02  1.80697e+02  2.42269e+02  3.34192e+02  4.45506e+02  5.37110e+02`
+    * cadisanlge 
+      * ran for 1000000 particles (takes too long otherwise to run)
+      * w_norm is 1.069557257e-06
+      * runtime is 248 minutes
+      * FOM is 14
+      * last line wwinp: `1.00482e+07  1.30289e+07  1.76803e+07  2.50398e+07  3.89651e+07  9.90957e+07`
+  * stats:
+    * pn order 2. quadrature order 10. reflecting BCS.
+* compare with PHYSOR runs off of savio:
+  * compared files at: `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2/pnforsavio/pnorder/two`
+    * CADIS 
+      * ran for 10000000 particles
+      * w_norm is 2.672032757e-05
+      * runtime is 409.68 minutes
+      * FOM is 12
+      * last line wwinp: `1.44557e+02  1.80697e+02  2.42269e+02  3.34192e+02  4.45506e+02  5.37110e+02`
+    * cadisangle
+      * ran for 10000000 particles
+      * w_norm is 4.37495848664e-06
+      * runtime is 326.17 minutes
+      * FOM is 138
+      * last line wwinp: `1.09880e+03  1.08984e+03  1.08392e+03  1.07876e+03  1.07377e+03  1.06846e+03`
+  * compare w/ cadisangle at `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2_update/two`
+    * cadisangle 
+      * ran for 10000000 particles
+      * w_norm is 1.15962549904e-06
+      * runtime is 1326.82 minutes
+      * FOM is 41
+      * last line wwinp: `1.01421e+07  1.31321e+07  1.78597e+07  2.53423e+07  3.93731e+07  1.00010e+08`
+
+** remus runs were done with mcnp version 1.6; runs on savio were done with mcnp version 1.51 **
+
+Uploaded a few files to remus for a quick test:
+
+* In `~/munk_analysis/demonstration/wwdebug/savio`
+  * `pn2_cadis` <- `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2/       pnforsavio/pnorder/two/cadis` 
+  * `pn2_cadom` <- `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2/            pnforsavio/pnorder/two/cadom`
+  * `pn2_cadisangle` <- `/Volumes/Siberia/Gulag/PHYSOR_problems/from_savio/maze2_update/two`
+* The runtimes compared:
+  * pn2_cadis
+    * savio: 409.68 minutes
+    * remus: 
+  * pn2_cadom
+    * savio: 326.17 minutes
+    * remus: 
+  * pn2_cadisangle
+    * savio: 1326.82 minutes 
+    * remus: 
+
+Tried setting adj=False using new data:
+
+* from `~/Documents/pn2_update_reflecting`
+  * calculated w_norm manally w/ this data in WWgenerator-sandbox.ipynb
+  * w_norm = `3.85268273086e-06`
+  * wwinp last line = `1.08813e+03  1.07895e+03  1.07313e+03  1.06853e+03  1.06439e+03  1.05995e+03`
+    * this seems within the realm of possibility for the previous pn_2 run with a FOM of 138. 
+  * generated ww file for this w_norm in `~/Documents/pn2_update_reflecting/mcnp/`
+    * scp'd these inp files to `~/munk_analysis/demonstration/wwdebug/savio/pn2_cadisangle_falseadj`
+    * ran the files
+      * FOM = 
+      * computer time = 
+  * comparing runtimes, (new cadis / this runtime) should be proportional to the times in ( pn2_cadis / pn2_cadom ), since cadom had the wws generated this way too. 
+
+Tried comparing therapy problem .silo files (because why not try a different problem). 
+* cloned data from remus to `/Volumes/Siberia/Gulag/WW_debug/therapy/`
+  * `/cadis/` folder has fields.silo
+  * `/cadisangle/` folder has fields.silo and denovo_omega_output.silo
+* read in data for cadisangle and compared omega and compare omega flux maps. 
+  * if they don't match then clone the adj and forward files from remus too. 
+
+
+
+
+
