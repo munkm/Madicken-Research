@@ -1828,6 +1828,9 @@ Other notes:
  
 ### Entry: 2017/03/07
 
+
+** this entry also covers 03/08 because the analysis was intertwined and I didn't feel like rewriting a bunch of data for 3/8. 
+
 Checklist:
 
 * check that the omega- fluxes look natural coming out of maze2_udpate
@@ -1885,13 +1888,19 @@ Uploaded a few files to remus for a quick test:
 * The runtimes compared:
   * pn2_cadis
     * savio: 409.68 minutes
-    * remus: 
+        FOM: 12
+    * remus: 3187.26 minutes 
+        FOM: .054 
   * pn2_cadom
     * savio: 326.17 minutes
-    * remus: 
+        FOM: 138
+    * remus: 888.50 min
+        FOM: 142
   * pn2_cadisangle
     * savio: 1326.82 minutes 
-    * remus: 
+        FOM: 41
+    * remus: 3568.62 minutes
+        FOM: 13
 
 Tried setting adj=False using new data:
 
@@ -1903,10 +1912,30 @@ Tried setting adj=False using new data:
   * generated ww file for this w_norm in `~/Documents/pn2_update_reflecting/mcnp/`
     * scp'd these inp files to `~/munk_analysis/demonstration/wwdebug/savio/pn2_cadisangle_falseadj`
     * ran the files
-      * FOM = 
-      * computer time = 
+      * FOM = 75
+      * computer time = 1118.49 minutes
   * comparing runtimes, (new cadis / this runtime) should be proportional to the times in ( pn2_cadis / pn2_cadom ), since cadom had the wws generated this way too. 
-
+    * cadisangle/cadis 
+      * FOM ratio:
+        * from remus: 240.74
+        * from savio original runs: 3
+      * timing ratio:
+        * from remus: 1.12
+        * from savio original runs: 3.24 
+    * cadomega/cadis 
+      * FOM ratio:
+        * from remus: 2629.7
+        * from savio: 11
+      * timing ratio:
+        * from remus: 0.27
+        * from savio: 0.79
+  * with new runs of cadis/cadisangle/cadom
+    * cadisangle/cadis
+      * FOM ratio: 237.3
+      * timing ratio: 1.25
+    * cadomega/cadis
+      * FOM ratio: 1271.2
+      * timing ratio: 0.56
 Tried comparing therapy problem .silo files (because why not try a different problem). 
 * cloned data from remus to `/Volumes/Siberia/Gulag/WW_debug/therapy/`
   * `/cadis/` folder has fields.silo
@@ -1915,6 +1944,27 @@ Tried comparing therapy problem .silo files (because why not try a different pro
   * if they don't match then clone the adj and forward files from remus too. 
 
 
+* visualized the data from therapy. 
+  * the omega maps look better for the problem than the standard adjoint. 
+  * the max flux in group 006 differs by a factor of about 16 between adj and omega
+    * in group 26 it is about 12
+  * data saved at `/Volumes/Siberia/Gulag/WWdebug/`
+
+Set up a few more simulations:
+* copied all of the cadis/ and anglecadis/ data from remus:~/munk_analysis/demonstration/ to pn2_cadis and pn2_anglecadis
+  * ran all of the simulations with pn order 2
+
+* set up two maze2 variants in ~/munk_analysis/demonstration/wwdebug/maze2/
+  * one with no source biasing, but reflective BCs (very similar to wwdebug/PHYSOR-reflecting)
+  * one with source biasing but vacuum BCS (linked from `~/munk_analysis/demonstration/pn2*`
+  * one with no source biasing, but vacuum BCS
+  * one with source biasing, but reflective BCS
+  * had to remove fm44 multiplier from tally to make sure no issues were arising from that 
+
+* set up therapy simulation with wall thicknesses added
+  * double thickness (from 30 to 60cm thick)
+  * triple thickness (90cm thick)
+  * quadruple thickness (120 cm thick)
 
 
 
