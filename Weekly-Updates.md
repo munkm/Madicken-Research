@@ -1,5 +1,6 @@
 ### Update List
 
+* [Update: 2017/03/22](#update-20170322)
 * [Update: 2016/07/27](#update-20160727)
 * [Update: 2016/07/13](#update-20160713)
 * [Update: 2016/06/29](#update-20160629)
@@ -35,6 +36,50 @@
 * [Update: 2014/10/15](#update-20141015)
 * [Update: 2014/10/08](#update-20141008)
 * [Update: 2014/10/01](#update-20141001)
+
+***
+
+### Update 2017/03/22
+
+Since I'm starting over with these updates (I'll upload them around our meeting 
+times on Wednesdays), I'm just going to say what I did over the past week.
+
+* After reviewing the method from the basics, I convinced myself that we were missing 
+  a factor of 4pi in the omega flux calculation.
+  * I had a conversation with Steven about it. Steven talked to Tom and we agreed. 
+* I took a break on rerunning analysis for a bit and went back to my analysis suite. 
+  * Finished tools ready to analyze the anisotropies in a better way than before
+    * Violin plots added
+    * Strip Plots added
+    * Better histogram plots
+  * Finished an hdf5 reading tool to read in chunks of data, rather than the entire 
+    anisotropy dataset at once.
+    * load in all anisotropy types by a particular energy group
+    * load in all energy groups for a particular anisotropy metric
+  * Finished mcnp track length tally reader
+    * pyne doesn't seem to have a tally reader for anything other than a meshtally (in the 
+      future this will be useful, but not for the CADIS runs), I made a tool to read in the
+      following data from a given output
+      * tally bins, output and relative error
+      * fom convergence by energy type
+      * timing data from mcnp script 
+  * Working on tool to automate the analysis of a single run. In the future I'd like this
+    to be callable from a loop that goes over all of my run directories. 
+
+This coming week:
+* Modify omega- flux in denovo to have factor of 4pi
+* Rebuild my software on local machine and on Remus
+* Get python analysis suite on remus and callable from a script
+* Document how to use analysis suite tools in notebooks (also in github repo), this can
+  be more sophisticated later, but it'll be satisfactory for the meantime.
+* Analysis tools:
+  * tool to read in the timing data from denovo and output a dict of all four FoM types mentioned in
+    analysis section of dissertation. 
+  * finish tool to automate analysis of single run
+* Go back to figuring out problems and why they're still not running quite right. 
+  * Make a surface plot of therapy room wall thickness vs. mesh size (and surface plot color 
+    corresponding to FoM)   
+
 
 ***
 
