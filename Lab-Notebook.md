@@ -1280,7 +1280,7 @@ To do list:
 
 The http push/pull stuff was acting weird on remus/romulus and giving me a 403 error. 
 I got around this by editing the .ssh/config file *in the repository* to be 
-`munkm@github.com/munkm/repo.git` rather than `https://github.com/munkm/repo.git`. 
+`https://munkm@github.com/munkm/repo.git` rather than `https://github.com/munkm/repo.git`. 
 That error was documented here:
   * http://sharadchhetri.com/2014/08/16/error-requested-url-returned-error-403-forbidden-accessing-github-repo/
 
